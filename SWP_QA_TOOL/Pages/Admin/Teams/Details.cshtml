@@ -1,0 +1,79 @@
+@page
+@model SWP_QA_TOOL.Pages_Admin_Teams.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Team</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team.TeamName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team.TeamName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team.TeamCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team.TeamCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team.ProjectName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team.ProjectName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team.Semester)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team.Semester)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team.IsActive)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team.IsActive)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team.CreatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team.CreatedAt)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team.UpdatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team.UpdatedAt)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team.Leader)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team.Leader.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Team.Mentor)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Team.Mentor.Email)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Team.TeamId">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

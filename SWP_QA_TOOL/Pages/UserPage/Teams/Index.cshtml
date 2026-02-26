@@ -1,0 +1,172 @@
+@page
+@model SWP_QA_TOOL.Pages.UserPage.Teams.IndexModel
+@{
+    ViewData["Title"] = "My Teams";
+}
+
+<div class="page-header">
+    <h2>My Teams</h2>
+    <button class="btn btn-ask-question" data-bs-toggle="modal" data-bs-target="#createTeamModal">
+        <i class="fas fa-plus me-1"></i> Create Team
+    </button>
+</div>
+
+<!-- Teams Grid -->
+<div class="row">
+    <!-- Team Card 1 -->
+    <div class="col-lg-6 mb-4">
+        <div class="qa-widget h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <h5 class="mb-1">Team Alpha</h5>
+                    <span class="tag-badge">SWP391</span>
+                </div>
+                <span class="badge bg-success">Active</span>
+            </div>
+            <p class="text-muted small mb-3">
+                A team focused on developing the Q&A tool for software project management.
+            </p>
+            <div class="d-flex gap-4 mb-3 small text-muted">
+                <span><i class="fas fa-users me-1"></i> 5 members</span>
+                <span><i class="fas fa-question me-1"></i> 23 questions</span>
+                <span><i class="fas fa-calendar me-1"></i> 3 meetings</span>
+            </div>
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex">
+                    <img src="https://ui-avatars.com/api/?name=John+Doe&background=random&size=32" 
+                         class="rounded-circle" width="32" height="32" style="margin-right: -8px; border: 2px solid #fff;" />
+                    <img src="https://ui-avatars.com/api/?name=Jane+Smith&background=random&size=32" 
+                         class="rounded-circle" width="32" height="32" style="margin-right: -8px; border: 2px solid #fff;" />
+                    <img src="https://ui-avatars.com/api/?name=Bob+Wilson&background=random&size=32" 
+                         class="rounded-circle" width="32" height="32" style="margin-right: -8px; border: 2px solid #fff;" />
+                    <span class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white small" 
+                          style="width: 32px; height: 32px; border: 2px solid #fff;">+2</span>
+                </div>
+                <a href="#" class="btn btn-outline-primary btn-sm">View Team</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Card 2 -->
+    <div class="col-lg-6 mb-4">
+        <div class="qa-widget h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <h5 class="mb-1">Team Beta</h5>
+                    <span class="tag-badge">PRN222</span>
+                </div>
+                <span class="badge bg-success">Active</span>
+            </div>
+            <p class="text-muted small mb-3">
+                Working on a web development project using ASP.NET Core Razor Pages.
+            </p>
+            <div class="d-flex gap-4 mb-3 small text-muted">
+                <span><i class="fas fa-users me-1"></i> 4 members</span>
+                <span><i class="fas fa-question me-1"></i> 15 questions</span>
+                <span><i class="fas fa-calendar me-1"></i> 5 meetings</span>
+            </div>
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex">
+                    <img src="https://ui-avatars.com/api/?name=Alice+Brown&background=random&size=32" 
+                         class="rounded-circle" width="32" height="32" style="margin-right: -8px; border: 2px solid #fff;" />
+                    <img src="https://ui-avatars.com/api/?name=Charlie+Davis&background=random&size=32" 
+                         class="rounded-circle" width="32" height="32" style="margin-right: -8px; border: 2px solid #fff;" />
+                    <img src="https://ui-avatars.com/api/?name=Emma+Lee&background=random&size=32" 
+                         class="rounded-circle" width="32" height="32" style="margin-right: -8px; border: 2px solid #fff;" />
+                    <span class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white small" 
+                          style="width: 32px; height: 32px; border: 2px solid #fff;">+1</span>
+                </div>
+                <a href="#" class="btn btn-outline-primary btn-sm">View Team</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Team Card 3 -->
+    <div class="col-lg-6 mb-4">
+        <div class="qa-widget h-100">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <h5 class="mb-1">Team Gamma</h5>
+                    <span class="tag-badge">DBD211</span>
+                </div>
+                <span class="badge bg-warning text-dark">Pending</span>
+            </div>
+            <p class="text-muted small mb-3">
+                Database design and implementation project team.
+            </p>
+            <div class="d-flex gap-4 mb-3 small text-muted">
+                <span><i class="fas fa-users me-1"></i> 3 members</span>
+                <span><i class="fas fa-question me-1"></i> 8 questions</span>
+                <span><i class="fas fa-calendar me-1"></i> 1 meeting</span>
+            </div>
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex">
+                    <img src="https://ui-avatars.com/api/?name=David+Miller&background=random&size=32" 
+                         class="rounded-circle" width="32" height="32" style="margin-right: -8px; border: 2px solid #fff;" />
+                    <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=random&size=32" 
+                         class="rounded-circle" width="32" height="32" style="border: 2px solid #fff;" />
+                </div>
+                <a href="#" class="btn btn-outline-primary btn-sm">View Team</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upcoming Meetings Section -->
+<h4 class="mt-4 mb-3">Upcoming Meetings</h4>
+<div class="qa-widget">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Meeting</th>
+                    <th>Team</th>
+                    <th>Date & Time</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <strong>Sprint Planning</strong>
+                        <div class="small text-muted">Discuss tasks for Sprint 3</div>
+                    </td>
+                    <td><span class="tag-badge">Team Alpha</span></td>
+                    <td>
+                        <i class="far fa-calendar me-1"></i> Feb 27, 2026
+                        <div class="small text-muted">10:00 AM - 11:30 AM</div>
+                    </td>
+                    <td><span class="badge bg-primary">Online</span></td>
+                    <td><a href="#" class="btn btn-sm btn-outline-primary">Join</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Code Review</strong>
+                        <div class="small text-muted">Review pull requests</div>
+                    </td>
+                    <td><span class="tag-badge">Team Beta</span></td>
+                    <td>
+                        <i class="far fa-calendar me-1"></i> Feb 28, 2026
+                        <div class="small text-muted">2:00 PM - 3:00 PM</div>
+                    </td>
+                    <td><span class="badge bg-success">In-person</span></td>
+                    <td><a href="#" class="btn btn-sm btn-outline-secondary">Details</a></td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Database Design Review</strong>
+                        <div class="small text-muted">Finalize ER Diagram</div>
+                    </td>
+                    <td><span class="tag-badge">Team Gamma</span></td>
+                    <td>
+                        <i class="far fa-calendar me-1"></i> Mar 1, 2026
+                        <div class="small text-muted">9:00 AM - 10:00 AM</div>
+                    </td>
+                    <td><span class="badge bg-primary">Online</span></td>
+                    <td><a href="#" class="btn btn-sm btn-outline-primary">Join</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

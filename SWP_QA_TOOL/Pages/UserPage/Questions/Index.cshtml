@@ -1,0 +1,146 @@
+@page
+@model SWP_QA_TOOL.Pages.UserPage.Questions.IndexModel
+@{
+    ViewData["Title"] = "All Questions";
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <h2>All Questions</h2>
+    <a asp-page="/UserPage/Questions/Ask" class="btn btn-ask-question">
+        <i class="fas fa-plus me-1"></i> Ask Question
+    </a>
+</div>
+
+<!-- Questions List -->
+<div class="question-list">
+    <div class="question-list-header">
+        <h4>1,234 questions</h4>
+        <div class="question-filters">
+            <button class="filter-btn active">Newest</button>
+            <button class="filter-btn">Active</button>
+            <button class="filter-btn">Unanswered</button>
+            <button class="filter-btn">Most Voted</button>
+        </div>
+    </div>
+
+    <!-- Question Items - Static for now -->
+    <div class="question-item">
+        <div class="question-stats">
+            <div class="stat-box votes">
+                <span class="stat-number">15</span>
+                <span class="stat-text">votes</span>
+            </div>
+            <div class="stat-box answers has-accepted">
+                <span class="stat-number">3</span>
+                <span class="stat-text">answers</span>
+            </div>
+            <div class="stat-box views">
+                <span class="stat-number">234</span>
+                <span class="stat-text">views</span>
+            </div>
+        </div>
+        <div class="question-summary">
+            <h3 class="question-title">
+                <a asp-page="/UserPage/Questions/Details" asp-route-id="1">How to implement Repository Pattern with Entity Framework Core?</a>
+            </h3>
+            <p class="question-excerpt">
+                I'm trying to implement the repository pattern in my ASP.NET Core application using Entity Framework Core...
+            </p>
+            <div class="question-meta">
+                <div class="question-tags">
+                    <a href="#" class="tag-badge">c#</a>
+                    <a href="#" class="tag-badge">asp.net-core</a>
+                    <a href="#" class="tag-badge">entity-framework</a>
+                </div>
+                <div class="question-user-info">
+                    <a href="#">John Doe</a> asked 2 hours ago
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="question-item">
+        <div class="question-stats">
+            <div class="stat-box votes">
+                <span class="stat-number">8</span>
+                <span class="stat-text">votes</span>
+            </div>
+            <div class="stat-box answers has-answers">
+                <span class="stat-number">2</span>
+                <span class="stat-text">answers</span>
+            </div>
+            <div class="stat-box views">
+                <span class="stat-number">156</span>
+                <span class="stat-text">views</span>
+            </div>
+        </div>
+        <div class="question-summary">
+            <h3 class="question-title">
+                <a asp-page="/UserPage/Questions/Details" asp-route-id="2">IEnumerable vs IQueryable - When to use which?</a>
+            </h3>
+            <p class="question-excerpt">
+                I've been using both IEnumerable and IQueryable in my LINQ queries but I'm not entirely sure when to use which...
+            </p>
+            <div class="question-meta">
+                <div class="question-tags">
+                    <a href="#" class="tag-badge">c#</a>
+                    <a href="#" class="tag-badge">linq</a>
+                </div>
+                <div class="question-user-info">
+                    <a href="#">Jane Smith</a> asked 5 hours ago
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="question-item">
+        <div class="question-stats">
+            <div class="stat-box votes">
+                <span class="stat-number">3</span>
+                <span class="stat-text">votes</span>
+            </div>
+            <div class="stat-box answers">
+                <span class="stat-number">0</span>
+                <span class="stat-text">answers</span>
+            </div>
+            <div class="stat-box views">
+                <span class="stat-number">45</span>
+                <span class="stat-text">views</span>
+            </div>
+        </div>
+        <div class="question-summary">
+            <h3 class="question-title">
+                <a asp-page="/UserPage/Questions/Details" asp-route-id="3">How to configure AutoMapper in ASP.NET Core 8?</a>
+            </h3>
+            <p class="question-excerpt">
+                I'm migrating my application to .NET 8 and I'm having trouble configuring AutoMapper...
+            </p>
+            <div class="question-meta">
+                <div class="question-tags">
+                    <a href="#" class="tag-badge">c#</a>
+                    <a href="#" class="tag-badge">automapper</a>
+                    <a href="#" class="tag-badge">.net-8</a>
+                </div>
+                <div class="question-user-info">
+                    <a href="#">Bob Wilson</a> asked yesterday
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+<nav aria-label="Questions pagination" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+        </li>
+    </ul>
+</nav>

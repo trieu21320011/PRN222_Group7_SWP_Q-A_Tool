@@ -1,0 +1,177 @@
+@page
+@model SWP_QA_TOOL.Pages.UserPage.Meetings.IndexModel
+@{
+    ViewData["Title"] = "Meetings";
+}
+
+<div class="page-header">
+    <h2>Meetings</h2>
+    <button class="btn btn-ask-question" data-bs-toggle="modal" data-bs-target="#scheduleMeetingModal">
+        <i class="fas fa-plus me-1"></i> Schedule Meeting
+    </button>
+</div>
+
+<!-- Calendar View Toggle -->
+<div class="qa-form-card mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="btn-group">
+            <button class="filter-btn active">Upcoming</button>
+            <button class="filter-btn">Past</button>
+            <button class="filter-btn">All</button>
+        </div>
+        <div class="btn-group">
+            <button class="filter-btn active"><i class="fas fa-list"></i> List</button>
+            <button class="filter-btn"><i class="fas fa-calendar"></i> Calendar</button>
+        </div>
+    </div>
+</div>
+
+<!-- Upcoming Meetings -->
+<h5 class="mb-3">Today - February 26, 2026</h5>
+<div class="qa-widget mb-4">
+    <div class="d-flex align-items-center p-3 border-bottom">
+        <div class="text-center me-4" style="min-width: 60px;">
+            <div class="fw-bold text-primary" style="font-size: 1.5rem;">10:00</div>
+            <div class="small text-muted">AM</div>
+        </div>
+        <div class="flex-grow-1">
+            <h6 class="mb-1">Daily Standup</h6>
+            <p class="mb-1 small text-muted">Quick sync with the team about progress and blockers</p>
+            <div class="d-flex gap-3 small">
+                <span><i class="fas fa-users me-1"></i> Team Alpha</span>
+                <span><i class="fas fa-video me-1"></i> Online</span>
+                <span><i class="fas fa-clock me-1"></i> 30 min</span>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="btn btn-primary btn-sm">
+                <i class="fas fa-video me-1"></i> Join Now
+            </a>
+        </div>
+    </div>
+    <div class="d-flex align-items-center p-3">
+        <div class="text-center me-4" style="min-width: 60px;">
+            <div class="fw-bold text-primary" style="font-size: 1.5rem;">2:00</div>
+            <div class="small text-muted">PM</div>
+        </div>
+        <div class="flex-grow-1">
+            <h6 class="mb-1">Code Review Session</h6>
+            <p class="mb-1 small text-muted">Review pull requests for the authentication module</p>
+            <div class="d-flex gap-3 small">
+                <span><i class="fas fa-users me-1"></i> Team Alpha</span>
+                <span><i class="fas fa-map-marker-alt me-1"></i> Room A102</span>
+                <span><i class="fas fa-clock me-1"></i> 1 hour</span>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-info-circle me-1"></i> Details
+            </a>
+        </div>
+    </div>
+</div>
+
+<h5 class="mb-3">Tomorrow - February 27, 2026</h5>
+<div class="qa-widget mb-4">
+    <div class="d-flex align-items-center p-3 border-bottom">
+        <div class="text-center me-4" style="min-width: 60px;">
+            <div class="fw-bold text-primary" style="font-size: 1.5rem;">10:00</div>
+            <div class="small text-muted">AM</div>
+        </div>
+        <div class="flex-grow-1">
+            <h6 class="mb-1">Sprint Planning</h6>
+            <p class="mb-1 small text-muted">Plan tasks and user stories for Sprint 3</p>
+            <div class="d-flex gap-3 small">
+                <span><i class="fas fa-users me-1"></i> Team Alpha</span>
+                <span><i class="fas fa-video me-1"></i> Online (Google Meet)</span>
+                <span><i class="fas fa-clock me-1"></i> 1.5 hours</span>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-info-circle me-1"></i> Details
+            </a>
+        </div>
+    </div>
+    <div class="d-flex align-items-center p-3">
+        <div class="text-center me-4" style="min-width: 60px;">
+            <div class="fw-bold text-warning" style="font-size: 1.5rem;">3:30</div>
+            <div class="small text-muted">PM</div>
+        </div>
+        <div class="flex-grow-1">
+            <h6 class="mb-1">Mentor Session</h6>
+            <p class="mb-1 small text-muted">Weekly check-in with project mentor</p>
+            <div class="d-flex gap-3 small">
+                <span><i class="fas fa-user-tie me-1"></i> Dr. Smith (Mentor)</span>
+                <span><i class="fas fa-video me-1"></i> Online</span>
+                <span><i class="fas fa-clock me-1"></i> 45 min</span>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-info-circle me-1"></i> Details
+            </a>
+        </div>
+    </div>
+</div>
+
+<h5 class="mb-3">This Week</h5>
+<div class="qa-widget">
+    <div class="d-flex align-items-center p-3 border-bottom">
+        <div class="text-center me-4" style="min-width: 60px;">
+            <div class="small text-muted">Feb 28</div>
+            <div class="fw-bold text-primary">2:00 PM</div>
+        </div>
+        <div class="flex-grow-1">
+            <h6 class="mb-1">Database Design Review</h6>
+            <p class="mb-1 small text-muted">Finalize ER Diagram and table structures</p>
+            <div class="d-flex gap-3 small">
+                <span><i class="fas fa-users me-1"></i> Team Gamma</span>
+                <span><i class="fas fa-video me-1"></i> Online</span>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-info-circle me-1"></i> Details
+            </a>
+        </div>
+    </div>
+    <div class="d-flex align-items-center p-3 border-bottom">
+        <div class="text-center me-4" style="min-width: 60px;">
+            <div class="small text-muted">Mar 1</div>
+            <div class="fw-bold text-primary">9:00 AM</div>
+        </div>
+        <div class="flex-grow-1">
+            <h6 class="mb-1">Sprint Demo</h6>
+            <p class="mb-1 small text-muted">Demonstrate completed features to stakeholders</p>
+            <div class="d-flex gap-3 small">
+                <span><i class="fas fa-users me-1"></i> Team Alpha</span>
+                <span><i class="fas fa-map-marker-alt me-1"></i> Conference Room B</span>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-info-circle me-1"></i> Details
+            </a>
+        </div>
+    </div>
+    <div class="d-flex align-items-center p-3">
+        <div class="text-center me-4" style="min-width: 60px;">
+            <div class="small text-muted">Mar 1</div>
+            <div class="fw-bold text-primary">4:00 PM</div>
+        </div>
+        <div class="flex-grow-1">
+            <h6 class="mb-1">Retrospective</h6>
+            <p class="mb-1 small text-muted">Reflect on Sprint 2 and identify improvements</p>
+            <div class="d-flex gap-3 small">
+                <span><i class="fas fa-users me-1"></i> Team Alpha</span>
+                <span><i class="fas fa-video me-1"></i> Online</span>
+            </div>
+        </div>
+        <div>
+            <a href="#" class="btn btn-outline-secondary btn-sm">
+                <i class="fas fa-info-circle me-1"></i> Details
+            </a>
+        </div>
+    </div>
+</div>

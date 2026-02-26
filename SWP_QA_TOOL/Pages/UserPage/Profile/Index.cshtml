@@ -1,0 +1,194 @@
+@page
+@model SWP_QA_TOOL.Pages.UserPage.Profile.IndexModel
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="row">
+    <!-- Profile Header -->
+    <div class="col-12 mb-4">
+        <div class="qa-widget">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <img src="https://ui-avatars.com/api/?name=John+Doe&background=0a95ff&color=fff&size=120" 
+                         alt="Profile" class="rounded-circle" width="120" height="120" />
+                </div>
+                <div class="col">
+                    <h2 class="mb-1">John Doe</h2>
+                    <p class="text-muted mb-2">
+                        <i class="fas fa-envelope me-2"></i>john.doe@example.com
+                        <span class="mx-2">|</span>
+                        <i class="fas fa-id-card me-2"></i>SE12345
+                    </p>
+                    <p class="mb-2">Software Developer passionate about building great applications.</p>
+                    <div class="d-flex gap-4">
+                        <span><strong class="text-primary">5,432</strong> reputation</span>
+                        <div class="reputation-badges">
+                            <span class="badge-gold"><i class="fas fa-circle"></i> 8</span>
+                            <span class="badge-silver"><i class="fas fa-circle"></i> 45</span>
+                            <span class="badge-bronze"><i class="fas fa-circle"></i> 123</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <a href="#" class="btn btn-outline-primary">
+                        <i class="fas fa-edit me-1"></i> Edit Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Stats Cards -->
+    <div class="col-md-3 mb-3">
+        <div class="qa-widget text-center">
+            <i class="fas fa-question-circle fa-2x text-primary mb-2"></i>
+            <h3 class="mb-0">45</h3>
+            <span class="text-muted">Questions</span>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="qa-widget text-center">
+            <i class="fas fa-reply fa-2x text-success mb-2"></i>
+            <h3 class="mb-0">128</h3>
+            <span class="text-muted">Answers</span>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="qa-widget text-center">
+            <i class="fas fa-check-circle fa-2x text-warning mb-2"></i>
+            <h3 class="mb-0">23</h3>
+            <span class="text-muted">Accepted</span>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="qa-widget text-center">
+            <i class="fas fa-users fa-2x text-info mb-2"></i>
+            <h3 class="mb-0">3</h3>
+            <span class="text-muted">Teams</span>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs -->
+<ul class="nav nav-tabs mb-3">
+    <li class="nav-item">
+        <a class="nav-link active" href="#">Summary</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-page="/UserPage/Profile/MyQuestions">Questions</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-page="/UserPage/Profile/MyAnswers">Answers</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Tags</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Badges</a>
+    </li>
+</ul>
+
+<div class="row">
+    <!-- Recent Activity -->
+    <div class="col-lg-8 mb-4">
+        <div class="qa-widget">
+            <h5 class="widget-title">Recent Activity</h5>
+            <div class="activity-list">
+                <div class="d-flex align-items-start py-2 border-bottom">
+                    <span class="badge bg-success me-3" style="min-width: 70px;">answered</span>
+                    <div>
+                        <a href="#" class="text-decoration-none">How to implement Repository Pattern with Entity Framework Core?</a>
+                        <div class="small text-muted">2 hours ago</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start py-2 border-bottom">
+                    <span class="badge bg-primary me-3" style="min-width: 70px;">asked</span>
+                    <div>
+                        <a href="#" class="text-decoration-none">Best practices for handling exceptions in Razor Pages</a>
+                        <div class="small text-muted">1 day ago</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start py-2 border-bottom">
+                    <span class="badge bg-warning text-dark me-3" style="min-width: 70px;">comment</span>
+                    <div>
+                        <a href="#" class="text-decoration-none">Difference between IEnumerable and IQueryable</a>
+                        <div class="small text-muted">2 days ago</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start py-2 border-bottom">
+                    <span class="badge bg-info me-3" style="min-width: 70px;">accepted</span>
+                    <div>
+                        <a href="#" class="text-decoration-none">How to configure AutoMapper in ASP.NET Core 8?</a>
+                        <div class="small text-muted">3 days ago</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start py-2">
+                    <span class="badge bg-success me-3" style="min-width: 70px;">answered</span>
+                    <div>
+                        <a href="#" class="text-decoration-none">SignalR real-time notifications setup</a>
+                        <div class="small text-muted">5 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Tags & Badges -->
+    <div class="col-lg-4">
+        <div class="qa-widget mb-3">
+            <h5 class="widget-title">Top Tags</h5>
+            <div class="tags-cloud">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <a href="#" class="tag-badge">c#</a>
+                    <span class="small text-muted">45 posts</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <a href="#" class="tag-badge">asp.net-core</a>
+                    <span class="small text-muted">38 posts</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <a href="#" class="tag-badge">entity-framework</a>
+                    <span class="small text-muted">25 posts</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <a href="#" class="tag-badge">razor-pages</a>
+                    <span class="small text-muted">18 posts</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="#" class="tag-badge">sql</a>
+                    <span class="small text-muted">12 posts</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="qa-widget">
+            <h5 class="widget-title">Recent Badges</h5>
+            <div class="badge-list">
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge-gold me-2"><i class="fas fa-medal fa-lg"></i></span>
+                    <div>
+                        <strong>Great Answer</strong>
+                        <div class="small text-muted">Answer score of 100 or more</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <span class="badge-silver me-2"><i class="fas fa-medal fa-lg"></i></span>
+                    <div>
+                        <strong>Good Answer</strong>
+                        <div class="small text-muted">Answer score of 25 or more</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <span class="badge-bronze me-2"><i class="fas fa-medal fa-lg"></i></span>
+                    <div>
+                        <strong>Nice Question</strong>
+                        <div class="small text-muted">Question score of 10 or more</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

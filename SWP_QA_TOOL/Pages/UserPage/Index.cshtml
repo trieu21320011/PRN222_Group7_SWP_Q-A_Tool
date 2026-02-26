@@ -1,0 +1,231 @@
+@page
+@model SWP_QA_TOOL.Pages.UserPage.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <h2>All Questions</h2>
+    <a asp-page="/UserPage/Questions/Ask" class="btn btn-ask-question">
+        <i class="fas fa-plus me-1"></i> Ask Question
+    </a>
+</div>
+
+<!-- Questions List -->
+<div class="question-list">
+    <div class="question-list-header">
+        <h4>1,234 questions</h4>
+        <div class="question-filters">
+            <button class="filter-btn active">Newest</button>
+            <button class="filter-btn">Active</button>
+            <button class="filter-btn">Unanswered</button>
+            <button class="filter-btn">Most Voted</button>
+        </div>
+    </div>
+
+    <!-- Question Item 1 -->
+    <div class="question-item">
+        <div class="question-stats">
+            <div class="stat-box votes">
+                <span class="stat-number">15</span>
+                <span class="stat-text">votes</span>
+            </div>
+            <div class="stat-box answers has-accepted">
+                <span class="stat-number">3</span>
+                <span class="stat-text">answers</span>
+            </div>
+            <div class="stat-box views">
+                <span class="stat-number">234</span>
+                <span class="stat-text">views</span>
+            </div>
+        </div>
+        <div class="question-summary">
+            <h3 class="question-title">
+                <a href="#">How to implement Repository Pattern with Entity Framework Core in ASP.NET?</a>
+            </h3>
+            <p class="question-excerpt">
+                I'm trying to implement the repository pattern in my ASP.NET Core application using Entity Framework Core. 
+                I've seen multiple approaches online but I'm not sure which one is the best practice...
+            </p>
+            <div class="question-meta">
+                <div class="question-tags">
+                    <a href="#" class="tag-badge">c#</a>
+                    <a href="#" class="tag-badge">asp.net-core</a>
+                    <a href="#" class="tag-badge">entity-framework</a>
+                    <a href="#" class="tag-badge">repository-pattern</a>
+                </div>
+                <div class="question-user-info">
+                    <a href="#">John Doe</a> asked 2 hours ago
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Item 2 -->
+    <div class="question-item">
+        <div class="question-stats">
+            <div class="stat-box votes">
+                <span class="stat-number">8</span>
+                <span class="stat-text">votes</span>
+            </div>
+            <div class="stat-box answers has-answers">
+                <span class="stat-number">2</span>
+                <span class="stat-text">answers</span>
+            </div>
+            <div class="stat-box views">
+                <span class="stat-number">156</span>
+                <span class="stat-text">views</span>
+            </div>
+        </div>
+        <div class="question-summary">
+            <h3 class="question-title">
+                <a href="#">What is the difference between IEnumerable and IQueryable in C#?</a>
+            </h3>
+            <p class="question-excerpt">
+                I've been using both IEnumerable and IQueryable in my LINQ queries but I'm not entirely sure 
+                when to use which. Can someone explain the key differences and performance implications...
+            </p>
+            <div class="question-meta">
+                <div class="question-tags">
+                    <a href="#" class="tag-badge">c#</a>
+                    <a href="#" class="tag-badge">linq</a>
+                    <a href="#" class="tag-badge">ienumerable</a>
+                </div>
+                <div class="question-user-info">
+                    <a href="#">Jane Smith</a> asked 5 hours ago
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Item 3 -->
+    <div class="question-item">
+        <div class="question-stats">
+            <div class="stat-box votes">
+                <span class="stat-number">3</span>
+                <span class="stat-text">votes</span>
+            </div>
+            <div class="stat-box answers">
+                <span class="stat-number">0</span>
+                <span class="stat-text">answers</span>
+            </div>
+            <div class="stat-box views">
+                <span class="stat-number">45</span>
+                <span class="stat-text">views</span>
+            </div>
+        </div>
+        <div class="question-summary">
+            <h3 class="question-title">
+                <a href="#">How to configure AutoMapper in ASP.NET Core 8?</a>
+            </h3>
+            <p class="question-excerpt">
+                I'm migrating my application to .NET 8 and I'm having trouble configuring AutoMapper. 
+                The old way of adding it in Startup.cs no longer works...
+            </p>
+            <div class="question-meta">
+                <div class="question-tags">
+                    <a href="#" class="tag-badge">c#</a>
+                    <a href="#" class="tag-badge">asp.net-core</a>
+                    <a href="#" class="tag-badge">automapper</a>
+                    <a href="#" class="tag-badge">.net-8</a>
+                </div>
+                <div class="question-user-info">
+                    <a href="#">Bob Wilson</a> asked yesterday
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Item 4 -->
+    <div class="question-item">
+        <div class="question-stats">
+            <div class="stat-box votes">
+                <span class="stat-number">12</span>
+                <span class="stat-text">votes</span>
+            </div>
+            <div class="stat-box answers has-accepted">
+                <span class="stat-number">5</span>
+                <span class="stat-text">answers</span>
+            </div>
+            <div class="stat-box views">
+                <span class="stat-number">512</span>
+                <span class="stat-text">views</span>
+            </div>
+        </div>
+        <div class="question-summary">
+            <h3 class="question-title">
+                <a href="#">Best practices for handling exceptions in Razor Pages</a>
+            </h3>
+            <p class="question-excerpt">
+                I want to implement a proper exception handling strategy in my Razor Pages application. 
+                Should I use middleware, filters, or handle exceptions in each page model individually?
+            </p>
+            <div class="question-meta">
+                <div class="question-tags">
+                    <a href="#" class="tag-badge">asp.net-core</a>
+                    <a href="#" class="tag-badge">razor-pages</a>
+                    <a href="#" class="tag-badge">exception-handling</a>
+                </div>
+                <div class="question-user-info">
+                    <a href="#">Alice Brown</a> asked 2 days ago
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Item 5 -->
+    <div class="question-item">
+        <div class="question-stats">
+            <div class="stat-box votes">
+                <span class="stat-number">6</span>
+                <span class="stat-text">votes</span>
+            </div>
+            <div class="stat-box answers has-answers">
+                <span class="stat-number">1</span>
+                <span class="stat-text">answers</span>
+            </div>
+            <div class="stat-box views">
+                <span class="stat-number">89</span>
+                <span class="stat-text">views</span>
+            </div>
+        </div>
+        <div class="question-summary">
+            <h3 class="question-title">
+                <a href="#">How to implement real-time notifications using SignalR in ASP.NET Core?</a>
+            </h3>
+            <p class="question-excerpt">
+                I need to add real-time notification functionality to my web application. 
+                I've heard SignalR is good for this but I'm not sure how to set it up properly...
+            </p>
+            <div class="question-meta">
+                <div class="question-tags">
+                    <a href="#" class="tag-badge">c#</a>
+                    <a href="#" class="tag-badge">signalr</a>
+                    <a href="#" class="tag-badge">real-time</a>
+                    <a href="#" class="tag-badge">notifications</a>
+                </div>
+                <div class="question-user-info">
+                    <a href="#">Charlie Davis</a> asked 3 days ago
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+<nav aria-label="Questions pagination" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">4</a></li>
+        <li class="page-item"><a class="page-link" href="#">5</a></li>
+        <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+        </li>
+    </ul>
+</nav>

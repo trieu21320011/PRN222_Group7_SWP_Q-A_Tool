@@ -1,0 +1,162 @@
+@page
+@model SWP_QA_TOOL.Pages_Admin_Questions.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].Body)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].Excerpt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].Difficulty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].ViewCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].AnswerCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].CommentCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].UpvoteCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].DownvoteCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].AcceptedAnswerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].IsPinned)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].IsClosed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].ClosedReason)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].ClosedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].LastActivityAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].UpdatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].ClosedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question[0].Team)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Question) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Body)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Excerpt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Difficulty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ViewCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnswerCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CommentCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpvoteCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DownvoteCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AcceptedAnswerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPinned)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsClosed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClosedReason)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClosedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastActivityAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClosedBy.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Team.TeamCode)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.QuestionId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.QuestionId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.QuestionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

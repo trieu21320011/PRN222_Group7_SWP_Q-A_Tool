@@ -1,0 +1,279 @@
+@page "{id:int?}"
+@model SWP_QA_TOOL.Pages.UserPage.Questions.DetailsModel
+@{
+    ViewData["Title"] = "Question Details";
+}
+
+<!-- Question Detail -->
+<div class="question-detail">
+    <div class="question-header">
+        <h1>How to implement Repository Pattern with Entity Framework Core in ASP.NET?</h1>
+        <div class="question-header-meta">
+            <span><i class="far fa-clock"></i> Asked 2 hours ago</span>
+            <span><i class="far fa-eye"></i> Viewed 234 times</span>
+            <span><i class="far fa-edit"></i> Modified today</span>
+        </div>
+    </div>
+
+    <div class="question-body">
+        <div class="vote-controls">
+            <button class="vote-btn" title="This question is useful">
+                <i class="fas fa-caret-up"></i>
+            </button>
+            <span class="vote-count">15</span>
+            <button class="vote-btn" title="This question is not useful">
+                <i class="fas fa-caret-down"></i>
+            </button>
+            <i class="far fa-bookmark bookmark-btn" title="Save this question"></i>
+            <i class="fas fa-history" style="color: var(--qa-text-muted); font-size: 0.9rem;" title="Show activity"></i>
+        </div>
+        <div class="question-content">
+            <div class="body-text">
+                <p>
+                    I'm trying to implement the repository pattern in my ASP.NET Core application using Entity Framework Core. 
+                    I've seen multiple approaches online but I'm not sure which one is the best practice.
+                </p>
+                <p>
+                    Here's my current setup:
+                </p>
+                <pre><code>public interface IGenericRepository&lt;T&gt; where T : class
+{
+    Task&lt;IEnumerable&lt;T&gt;&gt; GetAllAsync();
+    Task&lt;T?&gt; GetByIdAsync(int id);
+    Task AddAsync(T entity);
+    void Update(T entity);
+    void Delete(T entity);
+}</code></pre>
+                <p>
+                    My questions are:
+                </p>
+                <ol>
+                    <li>Should I include the DbContext in the repository or use Unit of Work pattern?</li>
+                    <li>How should I handle transactions across multiple repositories?</li>
+                    <li>Is it okay to expose IQueryable from the repository?</li>
+                </ol>
+                <p>
+                    Any guidance would be appreciated. I'm using .NET 8 with Entity Framework Core 8.
+                </p>
+            </div>
+
+            <div class="question-meta mt-4">
+                <div class="question-tags mb-3">
+                    <a href="#" class="tag-badge">c#</a>
+                    <a href="#" class="tag-badge">asp.net-core</a>
+                    <a href="#" class="tag-badge">entity-framework-core</a>
+                    <a href="#" class="tag-badge">repository-pattern</a>
+                    <a href="#" class="tag-badge">unit-of-work</a>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-start mt-3">
+                <div class="post-actions">
+                    <a href="#" class="text-muted me-3"><small>Share</small></a>
+                    <a href="#" class="text-muted me-3"><small>Edit</small></a>
+                    <a href="#" class="text-muted me-3"><small>Follow</small></a>
+                </div>
+                <div class="user-card">
+                    <img src="https://ui-avatars.com/api/?name=John+Doe&background=random" alt="John Doe" />
+                    <div class="user-card-info">
+                        <span style="font-size: 0.75rem; color: var(--qa-text-muted);">asked 2 hours ago</span>
+                        <a href="#" class="user-card-name">John Doe</a>
+                        <div class="user-card-rep">
+                            <strong>1,234</strong>
+                            <div class="reputation-badges">
+                                <span class="badge-gold"><i class="fas fa-circle"></i> 3</span>
+                                <span class="badge-silver"><i class="fas fa-circle"></i> 15</span>
+                                <span class="badge-bronze"><i class="fas fa-circle"></i> 42</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Answers Section -->
+<div class="answers-section">
+    <div class="answers-header">
+        <h4>3 Answers</h4>
+        <select class="form-select form-select-sm" style="width: auto;">
+            <option>Highest score (default)</option>
+            <option>Date modified (newest first)</option>
+            <option>Date created (oldest first)</option>
+        </select>
+    </div>
+
+    <!-- Accepted Answer -->
+    <div class="answer-item accepted">
+        <div class="vote-controls">
+            <button class="vote-btn" title="This answer is useful">
+                <i class="fas fa-caret-up"></i>
+            </button>
+            <span class="vote-count">23</span>
+            <button class="vote-btn" title="This answer is not useful">
+                <i class="fas fa-caret-down"></i>
+            </button>
+            <i class="fas fa-check-circle accepted-badge" title="Accepted answer"></i>
+            <i class="far fa-bookmark bookmark-btn mt-2" title="Save this answer"></i>
+        </div>
+        <div class="question-content">
+            <div class="body-text">
+                <p>
+                    Great questions! Here's a comprehensive approach to implementing the Repository and Unit of Work patterns:
+                </p>
+                <h5>1. Unit of Work is recommended</h5>
+                <p>
+                    Yes, you should use the Unit of Work pattern to coordinate changes across multiple repositories.
+                    Here's how you can implement it:
+                </p>
+                <pre><code>public interface IUnitOfWork
+{
+    IUserRepository Users { get; }
+    IQuestionRepository Questions { get; }
+    IAnswerRepository Answers { get; }
+    Task&lt;int&gt; SaveChangesAsync();
+}
+
+public class UnitOfWork : IUnitOfWork
+{
+    private readonly DbContext _context;
+    
+    public UnitOfWork(DbContext context)
+    {
+        _context = context;
+        Users = new UserRepository(_context);
+        Questions = new QuestionRepository(_context);
+        Answers = new AnswerRepository(_context);
+    }
+    
+    public IUserRepository Users { get; }
+    public IQuestionRepository Questions { get; }
+    public IAnswerRepository Answers { get; }
+    
+    public async Task&lt;int&gt; SaveChangesAsync()
+    {
+        return await _context.SaveChangesAsync();
+    }
+}</code></pre>
+                <h5>2. Transaction handling</h5>
+                <p>
+                    With the Unit of Work pattern, all changes are tracked by the same DbContext instance.
+                    Calling <code>SaveChangesAsync()</code> will commit all changes in a single transaction.
+                </p>
+                <h5>3. Exposing IQueryable</h5>
+                <p>
+                    It's generally <strong>not recommended</strong> to expose IQueryable from repositories as it:
+                </p>
+                <ul>
+                    <li>Leaks persistence concerns to upper layers</li>
+                    <li>Makes it harder to test</li>
+                    <li>Can lead to N+1 query problems</li>
+                </ul>
+                <p>
+                    Instead, create specific methods for common queries.
+                </p>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-start mt-3">
+                <div class="post-actions">
+                    <a href="#" class="text-muted me-3"><small>Share</small></a>
+                    <a href="#" class="text-muted me-3"><small>Edit</small></a>
+                    <a href="#" class="text-muted me-3"><small>Follow</small></a>
+                </div>
+                <div class="user-card">
+                    <img src="https://ui-avatars.com/api/?name=Jane+Smith&background=random" alt="Jane Smith" />
+                    <div class="user-card-info">
+                        <span style="font-size: 0.75rem; color: var(--qa-text-muted);">answered 1 hour ago</span>
+                        <a href="#" class="user-card-name">Jane Smith</a>
+                        <div class="user-card-rep">
+                            <strong>5,432</strong>
+                            <div class="reputation-badges">
+                                <span class="badge-gold"><i class="fas fa-circle"></i> 8</span>
+                                <span class="badge-silver"><i class="fas fa-circle"></i> 45</span>
+                                <span class="badge-bronze"><i class="fas fa-circle"></i> 123</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Another Answer -->
+    <div class="answer-item">
+        <div class="vote-controls">
+            <button class="vote-btn" title="This answer is useful">
+                <i class="fas fa-caret-up"></i>
+            </button>
+            <span class="vote-count">7</span>
+            <button class="vote-btn" title="This answer is not useful">
+                <i class="fas fa-caret-down"></i>
+            </button>
+            <i class="far fa-bookmark bookmark-btn mt-2" title="Save this answer"></i>
+        </div>
+        <div class="question-content">
+            <div class="body-text">
+                <p>
+                    Just to add to the accepted answer - if you're using EF Core, you might want to consider
+                    whether you even need the repository pattern at all.
+                </p>
+                <p>
+                    EF Core's DbContext already implements both the Repository pattern (DbSet) and Unit of Work
+                    pattern (SaveChanges). Adding another layer might be unnecessary abstraction.
+                </p>
+                <p>
+                    However, if you need to:
+                </p>
+                <ul>
+                    <li>Abstract away the data access for easier testing</li>
+                    <li>Support multiple data sources</li>
+                    <li>Add caching layers</li>
+                </ul>
+                <p>
+                    Then the repository pattern makes sense.
+                </p>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-start mt-3">
+                <div class="post-actions">
+                    <a href="#" class="text-muted me-3"><small>Share</small></a>
+                    <a href="#" class="text-muted me-3"><small>Edit</small></a>
+                    <a href="#" class="text-muted me-3"><small>Follow</small></a>
+                </div>
+                <div class="user-card">
+                    <img src="https://ui-avatars.com/api/?name=Bob+Wilson&background=random" alt="Bob Wilson" />
+                    <div class="user-card-info">
+                        <span style="font-size: 0.75rem; color: var(--qa-text-muted);">answered 45 minutes ago</span>
+                        <a href="#" class="user-card-name">Bob Wilson</a>
+                        <div class="user-card-rep">
+                            <strong>3,876</strong>
+                            <div class="reputation-badges">
+                                <span class="badge-gold"><i class="fas fa-circle"></i> 5</span>
+                                <span class="badge-silver"><i class="fas fa-circle"></i> 28</span>
+                                <span class="badge-bronze"><i class="fas fa-circle"></i> 67</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Answer Section -->
+<div class="qa-form-card mt-4">
+    <h4 class="mb-3">Your Answer</h4>
+    <form method="post">
+        <div class="qa-form-group">
+            <textarea class="qa-form-control" rows="10" placeholder="Write your answer here..."></textarea>
+            <div class="form-text">
+                <i class="fas fa-info-circle me-1"></i>
+                Use Markdown for formatting. Preview will be shown as you type.
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane me-1"></i> Post Your Answer
+        </button>
+    </form>
+</div>

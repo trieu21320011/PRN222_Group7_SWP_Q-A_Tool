@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SWP Q&A</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/user.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SWP_QA_TOOL.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="qa-header">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center" asp-page="/UserPage/Index">
+                    <i class="fas fa-comments me-2"></i>
+                    <span class="fw-bold">SWP Q&A</span>
+                </a>
+
+                <!-- Search Bar -->
+                <div class="qa-search-container flex-grow-1 mx-4">
+                    <div class="input-group">
+                        <span class="input-group-text bg-transparent border-end-0">
+                            <i class="fas fa-search text-muted"></i>
+                        </span>
+                        <input type="text" class="form-control border-start-0 qa-search-input" 
+                               placeholder="Search questions, tags, users..." />
+                    </div>
+                </div>
+
+                <!-- Toggle Button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#navbarContent" aria-controls="navbarContent" 
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Nav Items -->
+                <div class="collapse navbar-collapse flex-grow-0" id="navbarContent">
+                    <ul class="navbar-nav align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/UserPage/Index">
+                                <i class="fas fa-home me-1"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/UserPage/Questions/Index">
+                                <i class="fas fa-question-circle me-1"></i> Questions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/UserPage/Tags/Index">
+                                <i class="fas fa-tags me-1"></i> Tags
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/UserPage/Users/Index">
+                                <i class="fas fa-users me-1"></i> Users
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" 
+                               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-bell"></i>
+                                <span class="badge bg-danger notification-badge">3</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end notification-dropdown" 
+                                aria-labelledby="notifDropdown">
+                                <li class="dropdown-header">Notifications</li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item notification-item" href="#">
+                                        <div class="d-flex">
+                                            <div class="notification-icon bg-success">
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <div class="notification-content">
+                                                <p class="mb-0">Your answer was accepted</p>
+                                                <small class="text-muted">2 minutes ago</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item notification-item" href="#">
+                                        <div class="d-flex">
+                                            <div class="notification-icon bg-primary">
+                                                <i class="fas fa-comment"></i>
+                                            </div>
+                                            <div class="notification-content">
+                                                <p class="mb-0">New comment on your question</p>
+                                                <small class="text-muted">1 hour ago</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-center" href="#">View all notifications</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown ms-2">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" 
+                               id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://ui-avatars.com/api/?name=User&background=random" 
+                                     alt="User" class="rounded-circle me-2" width="32" height="32" />
+                                <span class="d-none d-lg-inline">Username</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li>
+                                    <a class="dropdown-item" asp-page="/UserPage/Profile/Index">
+                                        <i class="fas fa-user me-2"></i> My Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-page="/UserPage/Profile/MyQuestions">
+                                        <i class="fas fa-question me-2"></i> My Questions
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-page="/UserPage/Profile/MyAnswers">
+                                        <i class="fas fa-reply me-2"></i> My Answers
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-page="/UserPage/Profile/Settings">
+                                        <i class="fas fa-cog me-2"></i> Settings
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="#">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item ms-3">
+                            <a class="btn btn-ask-question" asp-page="/UserPage/Questions/Ask">
+                                <i class="fas fa-plus me-1"></i> Ask Question
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="qa-main-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Left Sidebar -->
+                <aside class="col-lg-2 qa-sidebar d-none d-lg-block">
+                    <nav class="sidebar-nav">
+                        <ul class="nav flex-column">
+                            <li class="nav-item sidebar-section-header">
+                                <span>Main</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/UserPage/Index">
+                                    <i class="fas fa-home"></i>
+                                    <span>Home</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/UserPage/Questions/Index">
+                                    <i class="fas fa-globe"></i>
+                                    <span>All Questions</span>
+                                </a>
+                            </li>
+                            <li class="nav-item sidebar-section-header mt-3">
+                                <span>Categories</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-fire text-danger"></i>
+                                    <span>Hot Questions</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-clock text-warning"></i>
+                                    <span>Unanswered</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="fas fa-star text-success"></i>
+                                    <span>Featured</span>
+                                </a>
+                            </li>
+                            <li class="nav-item sidebar-section-header mt-3">
+                                <span>My Teams</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/UserPage/Teams/Index">
+                                    <i class="fas fa-users"></i>
+                                    <span>My Teams</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-page="/UserPage/Meetings/Index">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>Meetings</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <!-- Main Content -->
+                <main class="col-lg-7 col-md-8 qa-content">
+                    @RenderBody()
+                </main>
+
+                <!-- Right Sidebar -->
+                <aside class="col-lg-3 col-md-4 qa-right-sidebar d-none d-md-block">
+                    <!-- Stats Widget -->
+                    <div class="qa-widget">
+                        <h5 class="widget-title">Community Stats</h5>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-value">1,234</span>
+                                <span class="stat-label">Questions</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">5,678</span>
+                                <span class="stat-label">Answers</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">890</span>
+                                <span class="stat-label">Users</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">156</span>
+                                <span class="stat-label">Tags</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Popular Tags Widget -->
+                    <div class="qa-widget">
+                        <h5 class="widget-title">Popular Tags</h5>
+                        <div class="tags-cloud">
+                            <a href="#" class="tag-badge">c#</a>
+                            <a href="#" class="tag-badge">asp.net</a>
+                            <a href="#" class="tag-badge">javascript</a>
+                            <a href="#" class="tag-badge">sql</a>
+                            <a href="#" class="tag-badge">entity-framework</a>
+                            <a href="#" class="tag-badge">html</a>
+                            <a href="#" class="tag-badge">css</a>
+                            <a href="#" class="tag-badge">razor</a>
+                        </div>
+                    </div>
+
+                    <!-- Top Users Widget -->
+                    <div class="qa-widget">
+                        <h5 class="widget-title">Top Contributors</h5>
+                        <ul class="top-users-list">
+                            <li class="top-user-item">
+                                <img src="https://ui-avatars.com/api/?name=John+Doe&background=random" 
+                                     alt="User" class="rounded-circle" width="36" height="36" />
+                                <div class="user-info">
+                                    <span class="user-name">John Doe</span>
+                                    <span class="user-rep">5,432 rep</span>
+                                </div>
+                                <span class="badge bg-warning text-dark">
+                                    <i class="fas fa-crown"></i>
+                                </span>
+                            </li>
+                            <li class="top-user-item">
+                                <img src="https://ui-avatars.com/api/?name=Jane+Smith&background=random" 
+                                     alt="User" class="rounded-circle" width="36" height="36" />
+                                <div class="user-info">
+                                    <span class="user-name">Jane Smith</span>
+                                    <span class="user-rep">4,210 rep</span>
+                                </div>
+                            </li>
+                            <li class="top-user-item">
+                                <img src="https://ui-avatars.com/api/?name=Bob+Wilson&background=random" 
+                                     alt="User" class="rounded-circle" width="36" height="36" />
+                                <div class="user-info">
+                                    <span class="user-name">Bob Wilson</span>
+                                    <span class="user-rep">3,876 rep</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="qa-footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>SWP Q&A</h6>
+                    <p class="text-muted small">A community-driven Q&A platform for software project teams.</p>
+                </div>
+                <div class="col-md-4">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#">Questions</a></li>
+                        <li><a href="#">Tags</a></li>
+                        <li><a href="#">Users</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Connect</h6>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="text-center small text-muted">
+                &copy; 2026 SWP Q&A Tool - All rights reserved
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,138 @@
+@page
+@model SWP_QA_TOOL.Pages_Admin_Meetings.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].MeetingType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].MeetingUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].EndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].TimeZone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].MaxParticipants)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].CurrentParticipants)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].IsRecurring)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].RecurrencePattern)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].Color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].UpdatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].Organizer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Meeting[0].Team)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Meeting) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MeetingUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeZone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxParticipants)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentParticipants)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRecurring)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecurrencePattern)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Color)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Organizer.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Team.TeamCode)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.MeetingId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.MeetingId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.MeetingId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

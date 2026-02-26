@@ -1,0 +1,177 @@
+@page
+@model SWP_QA_TOOL.Pages.UserPage.Tags.IndexModel
+@{
+    ViewData["Title"] = "Tags";
+}
+
+<div class="page-header">
+    <h2>Tags</h2>
+</div>
+
+<p class="text-muted mb-4">
+    A tag is a keyword or label that categorizes your question with other, similar questions. 
+    Using the right tags makes it easier for others to find and answer your question.
+</p>
+
+<!-- Search and Filter -->
+<div class="qa-form-card mb-4">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <div class="input-group">
+                <span class="input-group-text bg-white">
+                    <i class="fas fa-search text-muted"></i>
+                </span>
+                <input type="text" class="form-control border-start-0" placeholder="Filter by tag name...">
+            </div>
+        </div>
+        <div class="col-md-6 text-md-end mt-3 mt-md-0">
+            <div class="btn-group">
+                <button class="filter-btn active">Popular</button>
+                <button class="filter-btn">Name</button>
+                <button class="filter-btn">New</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tags Grid -->
+<div class="row">
+    <!-- Tag Card 1 -->
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+        <div class="qa-widget h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <a href="#" class="tag-badge" style="font-size: 0.9rem;">c#</a>
+            </div>
+            <p class="small text-muted mb-2" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                C# is a multi-paradigm programming language developed by Microsoft as part of .NET initiative.
+            </p>
+            <div class="d-flex justify-content-between small text-muted">
+                <span>1,234 questions</span>
+                <span>456 followers</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tag Card 2 -->
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+        <div class="qa-widget h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <a href="#" class="tag-badge" style="font-size: 0.9rem;">asp.net-core</a>
+            </div>
+            <p class="small text-muted mb-2" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                ASP.NET Core is a cross-platform framework for building web applications, APIs, and microservices.
+            </p>
+            <div class="d-flex justify-content-between small text-muted">
+                <span>987 questions</span>
+                <span>321 followers</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tag Card 3 -->
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+        <div class="qa-widget h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <a href="#" class="tag-badge" style="font-size: 0.9rem;">entity-framework</a>
+            </div>
+            <p class="small text-muted mb-2" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                Entity Framework is an ORM framework for .NET applications that enables developers to work with data using objects.
+            </p>
+            <div class="d-flex justify-content-between small text-muted">
+                <span>654 questions</span>
+                <span>234 followers</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tag Card 4 -->
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+        <div class="qa-widget h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <a href="#" class="tag-badge" style="font-size: 0.9rem;">javascript</a>
+            </div>
+            <p class="small text-muted mb-2" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                JavaScript is a dynamic programming language commonly used for client-side web development.
+            </p>
+            <div class="d-flex justify-content-between small text-muted">
+                <span>876 questions</span>
+                <span>345 followers</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tag Card 5 -->
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+        <div class="qa-widget h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <a href="#" class="tag-badge" style="font-size: 0.9rem;">sql</a>
+            </div>
+            <p class="small text-muted mb-2" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                SQL is a standard language for managing and manipulating databases.
+            </p>
+            <div class="d-flex justify-content-between small text-muted">
+                <span>543 questions</span>
+                <span>198 followers</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tag Card 6 -->
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+        <div class="qa-widget h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <a href="#" class="tag-badge" style="font-size: 0.9rem;">razor-pages</a>
+            </div>
+            <p class="small text-muted mb-2" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                Razor Pages is a page-based programming model in ASP.NET Core that makes building web UI easier.
+            </p>
+            <div class="d-flex justify-content-between small text-muted">
+                <span>321 questions</span>
+                <span>123 followers</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tag Card 7 -->
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+        <div class="qa-widget h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <a href="#" class="tag-badge" style="font-size: 0.9rem;">html</a>
+            </div>
+            <p class="small text-muted mb-2" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                HTML is the standard markup language for creating web pages and web applications.
+            </p>
+            <div class="d-flex justify-content-between small text-muted">
+                <span>432 questions</span>
+                <span>156 followers</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tag Card 8 -->
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+        <div class="qa-widget h-100">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <a href="#" class="tag-badge" style="font-size: 0.9rem;">css</a>
+            </div>
+            <p class="small text-muted mb-2" style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                CSS is a stylesheet language used for describing the presentation of a document written in HTML.
+            </p>
+            <div class="d-flex justify-content-between small text-muted">
+                <span>298 questions</span>
+                <span>134 followers</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pagination -->
+<nav aria-label="Tags pagination" class="mt-4">
+    <ul class="pagination justify-content-center">
+        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
