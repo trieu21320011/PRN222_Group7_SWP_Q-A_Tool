@@ -17,7 +17,6 @@ namespace BussinessLayer.ViewModels.UserDTOs
         public string? StudentId { get; set; }
         public int RoleId { get; set; }
         public string? RoleName { get; set; }
-        public int? ReputationPoints { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsEmailVerified { get; set; }
         public DateTime? LastLoginAt { get; set; }
@@ -62,7 +61,6 @@ namespace BussinessLayer.ViewModels.UserDTOs
         public string? Bio { get; set; }
         public string? StudentId { get; set; }
         public string? RoleName { get; set; }
-        public int? ReputationPoints { get; set; }
         public bool? IsActive { get; set; }
         public DateTime? LastLoginAt { get; set; }
         public DateTime? CreatedAt { get; set; }

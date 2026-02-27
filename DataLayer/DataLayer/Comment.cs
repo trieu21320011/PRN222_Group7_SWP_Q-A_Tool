@@ -17,8 +17,6 @@ public partial class Comment
 
     public int? ParentCommentId { get; set; }
 
-    public int? UpvoteCount { get; set; }
-
     public bool? IsEdited { get; set; }
 
     public DateTime? CreatedAt { get; set; }
@@ -28,8 +26,6 @@ public partial class Comment
     public virtual Answer? Answer { get; set; }
 
     public virtual User Author { get; set; } = null!;
-
-    public virtual ICollection<CommentVote> CommentVotes { get; set; } = new List<CommentVote>();
 
     public virtual ICollection<Comment> InverseParentComment { get; set; } = new List<Comment>();
 

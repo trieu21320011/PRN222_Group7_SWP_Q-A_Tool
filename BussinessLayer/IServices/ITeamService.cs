@@ -18,6 +18,8 @@ namespace BussinessLayer.IServices
         Task<IEnumerable<GetTeamDTO>> GetTeamsByLeaderAsync(int leaderId);
         Task<IEnumerable<GetTeamDTO>> GetTeamsByMentorAsync(int mentorId);
         Task<IEnumerable<GetTeamDTO>> GetActiveTeamsAsync();
-        Task<IEnumerable<GetTeamDTO>> GetTeamsBySemesterAsync(string semester);
+        Task<IEnumerable<GetTeamDTO>> GetTeamsBySemesterAsync(int semesterId);
+        Task<IEnumerable<GetTeamDTO>> GetTeamsByCoreAsync(int coreId);
+        Task<IEnumerable<GetTeamDTO>> GetTeamsByTopicAsync(int topicId);
     }
 }

@@ -16,8 +16,11 @@ namespace BussinessLayer.IServices
         Task<bool> DeleteQuestionAsync(int id);
         Task<IEnumerable<GetQuestionDTO>> GetQuestionsByAuthorAsync(int authorId);
         Task<IEnumerable<GetQuestionDTO>> GetQuestionsByTeamAsync(int teamId);
-        Task<IEnumerable<GetQuestionDTO>> GetQuestionsByTagAsync(int tagId);
+        Task<IEnumerable<GetQuestionDTO>> GetQuestionsByTopicAsync(int topicId);
+        Task<IEnumerable<GetQuestionDTO>> GetQuestionsByCoreAsync(int coreId);
+        Task<IEnumerable<GetQuestionDTO>> GetQuestionsByCategoryAsync(string category);
         Task<IEnumerable<GetQuestionDTO>> GetPinnedQuestionsAsync();
         Task<IEnumerable<GetQuestionDTO>> GetRecentQuestionsAsync(int count);
+        Task<IEnumerable<GetQuestionDTO>> GetOpenQuestionsAsync();
     }
 }

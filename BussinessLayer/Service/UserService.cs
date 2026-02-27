@@ -74,7 +74,6 @@ namespace BussinessLayer.Service
             {
                 var user = _mapper.Map<User>(createUserDTO);
                 user.CreatedAt = DateTime.UtcNow;
-                user.ReputationPoints = 0;
                 user.IsActive = createUserDTO.IsActive ?? true;
                 user.IsEmailVerified = createUserDTO.IsEmailVerified ?? false;
 

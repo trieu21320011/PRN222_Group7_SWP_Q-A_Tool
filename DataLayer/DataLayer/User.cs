@@ -23,8 +23,6 @@ public partial class User
 
     public int RoleId { get; set; }
 
-    public int? ReputationPoints { get; set; }
-
     public bool? IsActive { get; set; }
 
     public bool? IsEmailVerified { get; set; }
@@ -35,25 +33,21 @@ public partial class User
 
     public DateTime? UpdatedAt { get; set; }
 
-    public virtual ICollection<AnswerVote> AnswerVotes { get; set; } = new List<AnswerVote>();
-
     public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();
 
     public virtual ICollection<ChatMessage> ChatMessages { get; set; } = new List<ChatMessage>();
 
     public virtual ICollection<ChatRoom> ChatRooms { get; set; } = new List<ChatRoom>();
 
-    public virtual ICollection<CommentVote> CommentVotes { get; set; } = new List<CommentVote>();
-
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-    public virtual ICollection<MeetingParticipant> MeetingParticipants { get; set; } = new List<MeetingParticipant>();
-
-    public virtual ICollection<Meeting> Meetings { get; set; } = new List<Meeting>();
+    public virtual ICollection<Core> Cores { get; set; } = new List<Core>();
 
     public virtual ICollection<NotificationRecipient> NotificationRecipients { get; set; } = new List<NotificationRecipient>();
 
     public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+
+    public virtual ICollection<Question> QuestionAssignedInstructors { get; set; } = new List<Question>();
 
     public virtual ICollection<Question> QuestionAuthors { get; set; } = new List<Question>();
 
@@ -61,11 +55,9 @@ public partial class User
 
     public virtual ICollection<QuestionFollower> QuestionFollowers { get; set; } = new List<QuestionFollower>();
 
-    public virtual ICollection<QuestionVote> QuestionVotes { get; set; } = new List<QuestionVote>();
-
     public virtual Role Role { get; set; } = null!;
 
-    public virtual ICollection<TagFollower> TagFollowers { get; set; } = new List<TagFollower>();
+    public virtual ICollection<SystemInstructor> SystemInstructors { get; set; } = new List<SystemInstructor>();
 
     public virtual ICollection<Team> TeamLeaders { get; set; } = new List<Team>();
 

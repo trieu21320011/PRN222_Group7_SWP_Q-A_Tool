@@ -12,8 +12,11 @@ namespace BussinessLayer.IRepositories
         Task<Question?> GetQuestionWithDetailsAsync(int questionId);
         Task<IEnumerable<Question>> GetQuestionsByAuthorAsync(int authorId);
         Task<IEnumerable<Question>> GetQuestionsByTeamAsync(int teamId);
-        Task<IEnumerable<Question>> GetQuestionsByTagAsync(int tagId);
+        Task<IEnumerable<Question>> GetQuestionsByTopicAsync(int topicId);
+        Task<IEnumerable<Question>> GetQuestionsByCoreAsync(int coreId);
+        Task<IEnumerable<Question>> GetQuestionsByCategoryAsync(string category);
         Task<IEnumerable<Question>> GetPinnedQuestionsAsync();
         Task<IEnumerable<Question>> GetRecentQuestionsAsync(int count);
+        Task<IEnumerable<Question>> GetOpenQuestionsAsync();
     }
 }

@@ -29,10 +29,6 @@ public partial class Question
 
     public int? CommentCount { get; set; }
 
-    public int? UpvoteCount { get; set; }
-
-    public int? DownvoteCount { get; set; }
-
     public int? AcceptedAnswerId { get; set; }
 
     public bool? IsPinned { get; set; }
@@ -51,7 +47,17 @@ public partial class Question
 
     public DateTime? UpdatedAt { get; set; }
 
+    public int? CoreId { get; set; }
+
+    public int? AssignedInstructorId { get; set; }
+
+    public bool? IsPrivate { get; set; }
+
+    public int? TopicId { get; set; }
+
     public virtual ICollection<Answer> Answers { get; set; } = new List<Answer>();
+
+    public virtual User? AssignedInstructor { get; set; }
 
     public virtual User Author { get; set; } = null!;
 
@@ -59,11 +65,11 @@ public partial class Question
 
     public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
+    public virtual Core? Core { get; set; }
+
     public virtual ICollection<QuestionFollower> QuestionFollowers { get; set; } = new List<QuestionFollower>();
 
-    public virtual ICollection<QuestionTag> QuestionTags { get; set; } = new List<QuestionTag>();
-
-    public virtual ICollection<QuestionVote> QuestionVotes { get; set; } = new List<QuestionVote>();
-
     public virtual Team? Team { get; set; }
+
+    public virtual Topic? Topic { get; set; }
 }

@@ -17,19 +17,13 @@ public partial class SWP391QAContext : DbContext
 
     public virtual DbSet<Answer> Answers { get; set; }
 
-    public virtual DbSet<AnswerVote> AnswerVotes { get; set; }
-
     public virtual DbSet<ChatMessage> ChatMessages { get; set; }
 
     public virtual DbSet<ChatRoom> ChatRooms { get; set; }
 
     public virtual DbSet<Comment> Comments { get; set; }
 
-    public virtual DbSet<CommentVote> CommentVotes { get; set; }
-
-    public virtual DbSet<Meeting> Meetings { get; set; }
-
-    public virtual DbSet<MeetingParticipant> MeetingParticipants { get; set; }
+    public virtual DbSet<Core> Cores { get; set; }
 
     public virtual DbSet<Notification> Notifications { get; set; }
 
@@ -39,25 +33,23 @@ public partial class SWP391QAContext : DbContext
 
     public virtual DbSet<QuestionFollower> QuestionFollowers { get; set; }
 
-    public virtual DbSet<QuestionTag> QuestionTags { get; set; }
-
-    public virtual DbSet<QuestionVote> QuestionVotes { get; set; }
-
     public virtual DbSet<Role> Roles { get; set; }
 
-    public virtual DbSet<Tag> Tags { get; set; }
+    public virtual DbSet<Semester> Semesters { get; set; }
 
-    public virtual DbSet<TagFollower> TagFollowers { get; set; }
+    public virtual DbSet<SystemInstructor> SystemInstructors { get; set; }
 
     public virtual DbSet<Team> Teams { get; set; }
 
     public virtual DbSet<TeamMember> TeamMembers { get; set; }
 
+    public virtual DbSet<Topic> Topics { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-8O97R1M;Database=SWP391_QA;Trusted_Connection=True;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=localhost;Database=SWP391_QA;Trusted_Connection=True;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -73,14 +65,9 @@ public partial class SWP391QAContext : DbContext
 
             entity.Property(e => e.CommentCount).HasDefaultValue(0);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.DownvoteCount).HasDefaultValue(0);
             entity.Property(e => e.IsAccepted).HasDefaultValue(false);
-            entity.Property(e => e.IsAigenerated)
-                .HasDefaultValue(false)
-                .HasColumnName("IsAIGenerated");
             entity.Property(e => e.IsMentorAnswer).HasDefaultValue(false);
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.UpvoteCount).HasDefaultValue(0);
 
             entity.HasOne(d => d.Author).WithMany(p => p.Answers)
                 .HasForeignKey(d => d.AuthorId)
@@ -90,24 +77,6 @@ public partial class SWP391QAContext : DbContext
             entity.HasOne(d => d.Question).WithMany(p => p.Answers)
                 .HasForeignKey(d => d.QuestionId)
                 .HasConstraintName("FK_Answers_Question");
-        });
-
-        modelBuilder.Entity<AnswerVote>(entity =>
-        {
-            entity.HasKey(e => e.AnswerVoteId).HasName("PK__AnswerVo__DC313A2F5CA0CAC6");
-
-            entity.HasIndex(e => new { e.AnswerId, e.UserId }, "UQ_AnswerVotes").IsUnique();
-
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-
-            entity.HasOne(d => d.Answer).WithMany(p => p.AnswerVotes)
-                .HasForeignKey(d => d.AnswerId)
-                .HasConstraintName("FK_AnswerVotes_Answer");
-
-            entity.HasOne(d => d.User).WithMany(p => p.AnswerVotes)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_AnswerVotes_User");
         });
 
         modelBuilder.Entity<ChatMessage>(entity =>
@@ -175,7 +144,6 @@ public partial class SWP391QAContext : DbContext
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.IsEdited).HasDefaultValue(false);
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.UpvoteCount).HasDefaultValue(0);
 
             entity.HasOne(d => d.Answer).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.AnswerId)
@@ -195,84 +163,35 @@ public partial class SWP391QAContext : DbContext
                 .HasConstraintName("FK_Comments_Question");
         });
 
-        modelBuilder.Entity<CommentVote>(entity =>
+        modelBuilder.Entity<Core>(entity =>
         {
-            entity.HasKey(e => e.CommentVoteId).HasName("PK__CommentV__B8446E76D1709949");
+            entity.HasKey(e => e.CoreId).HasName("PK__Cores__DF0AAB83C7EA60CD");
 
-            entity.HasIndex(e => new { e.CommentId, e.UserId }, "UQ_CommentVotes").IsUnique();
+            entity.HasIndex(e => e.InstructorId, "IX_Cores_InstructorId");
 
+            entity.HasIndex(e => e.SemesterId, "IX_Cores_SemesterId");
+
+            entity.HasIndex(e => new { e.CoreCode, e.SemesterId }, "UQ_Cores_Code_Semester").IsUnique();
+
+            entity.Property(e => e.CoreCode).HasMaxLength(20);
+            entity.Property(e => e.CoreName).HasMaxLength(100);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.VoteType).HasDefaultValue((byte)1);
-
-            entity.HasOne(d => d.Comment).WithMany(p => p.CommentVotes)
-                .HasForeignKey(d => d.CommentId)
-                .HasConstraintName("FK_CommentVotes_Comment");
-
-            entity.HasOne(d => d.User).WithMany(p => p.CommentVotes)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_CommentVotes_User");
-        });
-
-        modelBuilder.Entity<Meeting>(entity =>
-        {
-            entity.HasKey(e => e.MeetingId).HasName("PK__Meetings__E9F9E94C1A02EE61");
-
-            entity.HasIndex(e => e.OrganizerId, "IX_Meetings_OrganizerId");
-
-            entity.HasIndex(e => e.StartTime, "IX_Meetings_StartTime");
-
-            entity.HasIndex(e => e.Status, "IX_Meetings_Status");
-
-            entity.Property(e => e.Color)
-                .HasMaxLength(20)
-                .HasDefaultValue("#0078d4");
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.CurrentParticipants).HasDefaultValue(0);
-            entity.Property(e => e.Description).HasMaxLength(1000);
-            entity.Property(e => e.IsRecurring).HasDefaultValue(false);
-            entity.Property(e => e.Location).HasMaxLength(200);
-            entity.Property(e => e.MeetingType).HasMaxLength(50);
-            entity.Property(e => e.MeetingUrl).HasMaxLength(500);
-            entity.Property(e => e.RecurrencePattern).HasMaxLength(100);
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .HasDefaultValue("Scheduled");
-            entity.Property(e => e.TimeZone)
-                .HasMaxLength(50)
-                .HasDefaultValue("Asia/Ho_Chi_Minh");
-            entity.Property(e => e.Title).HasMaxLength(200);
+            entity.Property(e => e.CurrentTeams).HasDefaultValue(0);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.MaxTeams).HasDefaultValue(10);
+            entity.Property(e => e.Room).HasMaxLength(50);
+            entity.Property(e => e.Schedule).HasMaxLength(200);
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
 
-            entity.HasOne(d => d.Organizer).WithMany(p => p.Meetings)
-                .HasForeignKey(d => d.OrganizerId)
+            entity.HasOne(d => d.Instructor).WithMany(p => p.Cores)
+                .HasForeignKey(d => d.InstructorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Meetings_Organizer");
+                .HasConstraintName("FK_Cores_Instructor");
 
-            entity.HasOne(d => d.Team).WithMany(p => p.Meetings)
-                .HasForeignKey(d => d.TeamId)
-                .HasConstraintName("FK_Meetings_Team");
-        });
-
-        modelBuilder.Entity<MeetingParticipant>(entity =>
-        {
-            entity.HasKey(e => e.MeetingParticipantId).HasName("PK__MeetingP__3D3422E6BD983E56");
-
-            entity.HasIndex(e => new { e.MeetingId, e.UserId }, "UQ_MeetingParticipants").IsUnique();
-
-            entity.Property(e => e.RegisteredAt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .HasDefaultValue("Registered");
-
-            entity.HasOne(d => d.Meeting).WithMany(p => p.MeetingParticipants)
-                .HasForeignKey(d => d.MeetingId)
-                .HasConstraintName("FK_MeetingParticipants_Meeting");
-
-            entity.HasOne(d => d.User).WithMany(p => p.MeetingParticipants)
-                .HasForeignKey(d => d.UserId)
+            entity.HasOne(d => d.Semester).WithMany(p => p.Cores)
+                .HasForeignKey(d => d.SemesterId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_MeetingParticipants_User");
+                .HasConstraintName("FK_Cores_Semester");
         });
 
         modelBuilder.Entity<Notification>(entity =>
@@ -315,15 +234,21 @@ public partial class SWP391QAContext : DbContext
         {
             entity.HasKey(e => e.QuestionId).HasName("PK__Question__0DC06FACA1D76904");
 
+            entity.HasIndex(e => e.AssignedInstructorId, "IX_Questions_AssignedInstructorId");
+
             entity.HasIndex(e => e.AuthorId, "IX_Questions_AuthorId");
 
             entity.HasIndex(e => e.Category, "IX_Questions_Category");
+
+            entity.HasIndex(e => e.CoreId, "IX_Questions_CoreId");
 
             entity.HasIndex(e => e.CreatedAt, "IX_Questions_CreatedAt").IsDescending();
 
             entity.HasIndex(e => e.LastActivityAt, "IX_Questions_LastActivityAt").IsDescending();
 
             entity.HasIndex(e => e.Status, "IX_Questions_Status");
+
+            entity.HasIndex(e => e.TopicId, "IX_Questions_TopicId");
 
             entity.HasIndex(e => e.ViewCount, "IX_Questions_ViewCount").IsDescending();
 
@@ -333,18 +258,21 @@ public partial class SWP391QAContext : DbContext
             entity.Property(e => e.CommentCount).HasDefaultValue(0);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.Difficulty).HasMaxLength(20);
-            entity.Property(e => e.DownvoteCount).HasDefaultValue(0);
             entity.Property(e => e.Excerpt).HasMaxLength(500);
             entity.Property(e => e.IsClosed).HasDefaultValue(false);
             entity.Property(e => e.IsPinned).HasDefaultValue(false);
+            entity.Property(e => e.IsPrivate).HasDefaultValue(false);
             entity.Property(e => e.LastActivityAt).HasDefaultValueSql("(getdate())");
             entity.Property(e => e.Status)
                 .HasMaxLength(20)
                 .HasDefaultValue("Open");
             entity.Property(e => e.Title).HasMaxLength(500);
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.UpvoteCount).HasDefaultValue(0);
             entity.Property(e => e.ViewCount).HasDefaultValue(0);
+
+            entity.HasOne(d => d.AssignedInstructor).WithMany(p => p.QuestionAssignedInstructors)
+                .HasForeignKey(d => d.AssignedInstructorId)
+                .HasConstraintName("FK_Questions_AssignedInstructor");
 
             entity.HasOne(d => d.Author).WithMany(p => p.QuestionAuthors)
                 .HasForeignKey(d => d.AuthorId)
@@ -355,9 +283,17 @@ public partial class SWP391QAContext : DbContext
                 .HasForeignKey(d => d.ClosedById)
                 .HasConstraintName("FK_Questions_ClosedBy");
 
+            entity.HasOne(d => d.Core).WithMany(p => p.Questions)
+                .HasForeignKey(d => d.CoreId)
+                .HasConstraintName("FK_Questions_Core");
+
             entity.HasOne(d => d.Team).WithMany(p => p.Questions)
                 .HasForeignKey(d => d.TeamId)
                 .HasConstraintName("FK_Questions_Team");
+
+            entity.HasOne(d => d.Topic).WithMany(p => p.Questions)
+                .HasForeignKey(d => d.TopicId)
+                .HasConstraintName("FK_Questions_Topic");
         });
 
         modelBuilder.Entity<QuestionFollower>(entity =>
@@ -380,40 +316,6 @@ public partial class SWP391QAContext : DbContext
                 .HasConstraintName("FK_QuestionFollowers_User");
         });
 
-        modelBuilder.Entity<QuestionTag>(entity =>
-        {
-            entity.HasKey(e => e.QuestionTagId).HasName("PK__Question__9E06EFA7BB29A0C0");
-
-            entity.HasIndex(e => new { e.QuestionId, e.TagId }, "UQ_QuestionTags").IsUnique();
-
-            entity.HasOne(d => d.Question).WithMany(p => p.QuestionTags)
-                .HasForeignKey(d => d.QuestionId)
-                .HasConstraintName("FK_QuestionTags_Question");
-
-            entity.HasOne(d => d.Tag).WithMany(p => p.QuestionTags)
-                .HasForeignKey(d => d.TagId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_QuestionTags_Tag");
-        });
-
-        modelBuilder.Entity<QuestionVote>(entity =>
-        {
-            entity.HasKey(e => e.QuestionVoteId).HasName("PK__Question__874C1A3AC7E4DB6E");
-
-            entity.HasIndex(e => new { e.QuestionId, e.UserId }, "UQ_QuestionVotes").IsUnique();
-
-            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-
-            entity.HasOne(d => d.Question).WithMany(p => p.QuestionVotes)
-                .HasForeignKey(d => d.QuestionId)
-                .HasConstraintName("FK_QuestionVotes_Question");
-
-            entity.HasOne(d => d.User).WithMany(p => p.QuestionVotes)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_QuestionVotes_User");
-        });
-
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.RoleId).HasName("PK__Roles__8AFACE1A0D73B196");
@@ -425,52 +327,56 @@ public partial class SWP391QAContext : DbContext
             entity.Property(e => e.RoleName).HasMaxLength(50);
         });
 
-        modelBuilder.Entity<Tag>(entity =>
+        modelBuilder.Entity<Semester>(entity =>
         {
-            entity.HasKey(e => e.TagId).HasName("PK__Tags__657CF9AC87290BEA");
+            entity.HasKey(e => e.SemesterId).HasName("PK__Semester__043301DD6AC7D7B8");
 
-            entity.HasIndex(e => e.Category, "IX_Tags_Category");
+            entity.HasIndex(e => e.IsActive, "IX_Semesters_IsActive");
 
-            entity.HasIndex(e => e.Slug, "IX_Tags_Slug");
+            entity.HasIndex(e => e.IsCurrent, "IX_Semesters_IsCurrent");
 
-            entity.HasIndex(e => e.Slug, "UQ__Tags__BC7B5FB63877B106").IsUnique();
+            entity.HasIndex(e => e.SemesterCode, "UQ__Semester__513151C944B3EE65").IsUnique();
 
-            entity.HasIndex(e => e.TagName, "UQ__Tags__BDE0FD1D522B16F2").IsUnique();
-
-            entity.Property(e => e.Category).HasMaxLength(50);
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
-            entity.Property(e => e.Description).HasMaxLength(500);
-            entity.Property(e => e.FollowerCount).HasDefaultValue(0);
-            entity.Property(e => e.IconUrl).HasMaxLength(500);
             entity.Property(e => e.IsActive).HasDefaultValue(true);
-            entity.Property(e => e.QuestionCount).HasDefaultValue(0);
-            entity.Property(e => e.Slug).HasMaxLength(100);
-            entity.Property(e => e.TagName).HasMaxLength(100);
+            entity.Property(e => e.IsCurrent).HasDefaultValue(false);
+            entity.Property(e => e.SemesterCode).HasMaxLength(20);
+            entity.Property(e => e.SemesterName).HasMaxLength(100);
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
         });
 
-        modelBuilder.Entity<TagFollower>(entity =>
+        modelBuilder.Entity<SystemInstructor>(entity =>
         {
-            entity.HasKey(e => e.TagFollowerId).HasName("PK__TagFollo__FD122139D30EF721");
+            entity.HasKey(e => e.SystemInstructorId).HasName("PK__SystemIn__0013902052D896BD");
 
-            entity.HasIndex(e => new { e.TagId, e.UserId }, "UQ_TagFollowers").IsUnique();
+            entity.HasIndex(e => new { e.UserId, e.SemesterId }, "UQ_SystemInstructors").IsUnique();
 
-            entity.Property(e => e.FollowedAt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.CanManageCores).HasDefaultValue(true);
+            entity.Property(e => e.CanManageInstructors).HasDefaultValue(false);
+            entity.Property(e => e.CanManageTopics).HasDefaultValue(true);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.IsHead).HasDefaultValue(false);
 
-            entity.HasOne(d => d.Tag).WithMany(p => p.TagFollowers)
-                .HasForeignKey(d => d.TagId)
+            entity.HasOne(d => d.Semester).WithMany(p => p.SystemInstructors)
+                .HasForeignKey(d => d.SemesterId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_TagFollowers_Tag");
+                .HasConstraintName("FK_SystemInstructors_Semester");
 
-            entity.HasOne(d => d.User).WithMany(p => p.TagFollowers)
+            entity.HasOne(d => d.User).WithMany(p => p.SystemInstructors)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_TagFollowers_User");
+                .HasConstraintName("FK_SystemInstructors_User");
         });
 
         modelBuilder.Entity<Team>(entity =>
         {
             entity.HasKey(e => e.TeamId).HasName("PK__Teams__123AE799A8E293F0");
+
+            entity.HasIndex(e => e.CoreId, "IX_Teams_CoreId");
+
+            entity.HasIndex(e => e.SemesterId, "IX_Teams_SemesterId");
+
+            entity.HasIndex(e => e.TopicId, "IX_Teams_TopicId");
 
             entity.HasIndex(e => e.TeamCode, "UQ__Teams__5501350846AFA1AB").IsUnique();
 
@@ -483,6 +389,10 @@ public partial class SWP391QAContext : DbContext
             entity.Property(e => e.TeamName).HasMaxLength(100);
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
 
+            entity.HasOne(d => d.Core).WithMany(p => p.Teams)
+                .HasForeignKey(d => d.CoreId)
+                .HasConstraintName("FK_Teams_Core");
+
             entity.HasOne(d => d.Leader).WithMany(p => p.TeamLeaders)
                 .HasForeignKey(d => d.LeaderId)
                 .HasConstraintName("FK_Teams_Leader");
@@ -490,6 +400,14 @@ public partial class SWP391QAContext : DbContext
             entity.HasOne(d => d.Mentor).WithMany(p => p.TeamMentors)
                 .HasForeignKey(d => d.MentorId)
                 .HasConstraintName("FK_Teams_Mentor");
+
+            entity.HasOne(d => d.SemesterNavigation).WithMany(p => p.Teams)
+                .HasForeignKey(d => d.SemesterId)
+                .HasConstraintName("FK_Teams_Semester");
+
+            entity.HasOne(d => d.Topic).WithMany(p => p.Teams)
+                .HasForeignKey(d => d.TopicId)
+                .HasConstraintName("FK_Teams_Topic");
         });
 
         modelBuilder.Entity<TeamMember>(entity =>
@@ -514,6 +432,31 @@ public partial class SWP391QAContext : DbContext
                 .HasConstraintName("FK_TeamMembers_User");
         });
 
+        modelBuilder.Entity<Topic>(entity =>
+        {
+            entity.HasKey(e => e.TopicId).HasName("PK__Topics__022E0F5DD3409851");
+
+            entity.HasIndex(e => e.IsActive, "IX_Topics_IsActive");
+
+            entity.HasIndex(e => e.SemesterId, "IX_Topics_SemesterId");
+
+            entity.HasIndex(e => new { e.TopicCode, e.SemesterId }, "UQ_Topics_Code_Semester").IsUnique();
+
+            entity.Property(e => e.Category).HasMaxLength(100);
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.CurrentTeams).HasDefaultValue(0);
+            entity.Property(e => e.Difficulty).HasMaxLength(20);
+            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.Property(e => e.TopicCode).HasMaxLength(20);
+            entity.Property(e => e.TopicName).HasMaxLength(200);
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
+
+            entity.HasOne(d => d.Semester).WithMany(p => p.Topics)
+                .HasForeignKey(d => d.SemesterId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Topics_Semester");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.UserId).HasName("PK__Users__1788CC4C01DABA39");
@@ -535,7 +478,6 @@ public partial class SWP391QAContext : DbContext
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.IsEmailVerified).HasDefaultValue(false);
             entity.Property(e => e.PasswordHash).HasMaxLength(255);
-            entity.Property(e => e.ReputationPoints).HasDefaultValue(0);
             entity.Property(e => e.StudentId).HasMaxLength(20);
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("(getdate())");
 

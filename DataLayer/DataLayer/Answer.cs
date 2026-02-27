@@ -17,19 +17,11 @@ public partial class Answer
 
     public bool? IsMentorAnswer { get; set; }
 
-    public bool? IsAigenerated { get; set; }
-
-    public int? UpvoteCount { get; set; }
-
-    public int? DownvoteCount { get; set; }
-
     public int? CommentCount { get; set; }
 
     public DateTime? CreatedAt { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
-
-    public virtual ICollection<AnswerVote> AnswerVotes { get; set; } = new List<AnswerVote>();
 
     public virtual User Author { get; set; } = null!;
 

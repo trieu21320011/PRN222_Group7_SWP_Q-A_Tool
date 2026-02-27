@@ -16,18 +16,25 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public string? AuthorName { get; set; }
         public int? TeamId { get; set; }
         public string? TeamName { get; set; }
+        public int? CoreId { get; set; }
+        public string? CoreName { get; set; }
+        public int? TopicId { get; set; }
+        public string? TopicName { get; set; }
+        public int? AssignedInstructorId { get; set; }
+        public string? AssignedInstructorName { get; set; }
         public string? Status { get; set; }
         public string? Category { get; set; }
         public string? Difficulty { get; set; }
         public int? ViewCount { get; set; }
         public int? AnswerCount { get; set; }
         public int? CommentCount { get; set; }
-        public int? UpvoteCount { get; set; }
-        public int? DownvoteCount { get; set; }
         public int? AcceptedAnswerId { get; set; }
         public bool? IsPinned { get; set; }
+        public bool? IsPrivate { get; set; }
         public bool? IsClosed { get; set; }
         public string? ClosedReason { get; set; }
+        public int? ClosedById { get; set; }
+        public DateTime? ClosedAt { get; set; }
         public DateTime? LastActivityAt { get; set; }
         public DateTime? CreatedAt { get; set; }
     }
@@ -39,8 +46,11 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public string? Excerpt { get; set; }
         public int AuthorId { get; set; }
         public int? TeamId { get; set; }
+        public int? CoreId { get; set; }
+        public int? TopicId { get; set; }
         public string? Category { get; set; }
         public string? Difficulty { get; set; }
+        public bool? IsPrivate { get; set; }
     }
 
     public class UpdateQuestionDTO
@@ -50,12 +60,17 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public string Body { get; set; } = null!;
         public string? Excerpt { get; set; }
         public int? TeamId { get; set; }
+        public int? CoreId { get; set; }
+        public int? TopicId { get; set; }
+        public int? AssignedInstructorId { get; set; }
         public string? Status { get; set; }
         public string? Category { get; set; }
         public string? Difficulty { get; set; }
         public bool? IsPinned { get; set; }
+        public bool? IsPrivate { get; set; }
         public bool? IsClosed { get; set; }
         public string? ClosedReason { get; set; }
+        public int? ClosedById { get; set; }
     }
 
     public class GetQuestionDTO
@@ -66,14 +81,17 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public string? Excerpt { get; set; }
         public string? AuthorName { get; set; }
         public string? TeamName { get; set; }
+        public string? CoreName { get; set; }
+        public string? TopicName { get; set; }
+        public string? AssignedInstructorName { get; set; }
         public string? Status { get; set; }
         public string? Category { get; set; }
         public string? Difficulty { get; set; }
         public int? ViewCount { get; set; }
         public int? AnswerCount { get; set; }
-        public int? UpvoteCount { get; set; }
-        public int? DownvoteCount { get; set; }
+        public int? CommentCount { get; set; }
         public bool? IsPinned { get; set; }
+        public bool? IsPrivate { get; set; }
         public bool? IsClosed { get; set; }
         public DateTime? LastActivityAt { get; set; }
         public DateTime? CreatedAt { get; set; }

@@ -17,6 +17,12 @@ namespace BussinessLayer.ViewModels.TeamDTOs
         public string? LeaderName { get; set; }
         public int? MentorId { get; set; }
         public string? MentorName { get; set; }
+        public int? CoreId { get; set; }
+        public string? CoreName { get; set; }
+        public int? TopicId { get; set; }
+        public string? TopicName { get; set; }
+        public int? SemesterId { get; set; }
+        public string? SemesterCode { get; set; }
         public string? Semester { get; set; }
         public bool? IsActive { get; set; }
         public DateTime? CreatedAt { get; set; }
@@ -30,6 +36,9 @@ namespace BussinessLayer.ViewModels.TeamDTOs
         public string? ProjectName { get; set; }
         public int? LeaderId { get; set; }
         public int? MentorId { get; set; }
+        public int? CoreId { get; set; }
+        public int? TopicId { get; set; }
+        public int? SemesterId { get; set; }
         public string? Semester { get; set; }
         public bool? IsActive { get; set; }
     }
@@ -43,6 +52,9 @@ namespace BussinessLayer.ViewModels.TeamDTOs
         public string? ProjectName { get; set; }
         public int? LeaderId { get; set; }
         public int? MentorId { get; set; }
+        public int? CoreId { get; set; }
+        public int? TopicId { get; set; }
+        public int? SemesterId { get; set; }
         public string? Semester { get; set; }
         public bool? IsActive { get; set; }
     }
@@ -56,6 +68,9 @@ namespace BussinessLayer.ViewModels.TeamDTOs
         public string? ProjectName { get; set; }
         public string? LeaderName { get; set; }
         public string? MentorName { get; set; }
+        public string? CoreName { get; set; }
+        public string? TopicName { get; set; }
+        public string? SemesterCode { get; set; }
         public string? Semester { get; set; }
         public bool? IsActive { get; set; }
         public DateTime? CreatedAt { get; set; }
