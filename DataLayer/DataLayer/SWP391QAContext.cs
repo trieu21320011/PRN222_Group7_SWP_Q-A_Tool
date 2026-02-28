@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer.DataLayer;
@@ -486,6 +487,9 @@ public partial class SWP391QAContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Users_Roles");
         });
+
+        // Apply all configurations from FluentApis folder
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         OnModelCreatingPartial(modelBuilder);
     }
