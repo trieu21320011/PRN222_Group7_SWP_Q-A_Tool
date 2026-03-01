@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BussinessLayer.ViewModels.SemesterDTOs.GetSemesterDTO>
+
+@{
+    ViewData["Title"] = "Semesters";
+}
+
+<h2>Semesters</h2>
+
+<p>
+    <a asp-area="Admin" asp-controller="Semesters" asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Code</th>
+            <th>Name</th>
+            <th>StartDate</th>
+            <th>EndDate</th>
+            <th>IsActive</th>
+            <th>IsCurrent</th>
+            <th style="width:220px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SemesterId</td>
+                <td>@item.SemesterCode</td>
+                <td>@item.SemesterName</td>
+                <td>@item.StartDate</td>
+                <td>@item.EndDate</td>
+                <td>@(item.IsActive == true ? "Yes" : "No")</td>
+                <td>@(item.IsCurrent == true ? "Yes" : "No")</td>
+                <td>
+                    <a asp-area="Admin" asp-controller="Semesters" asp-action="Details" asp-route-id="@item.SemesterId" class="btn btn-sm btn-info">Details</a>
+                    <a asp-area="Admin" asp-controller="Semesters" asp-action="Edit" asp-route-id="@item.SemesterId" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-area="Admin" asp-controller="Semesters" asp-action="Delete" asp-route-id="@item.SemesterId" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
