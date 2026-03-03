@@ -1,0 +1,42 @@
+﻿@model BussinessLayer.ViewModels.SemesterDTOs.GetSemesterDTO
+
+@{
+    ViewData["Title"] = "Semester Details";
+}
+
+<h2>Semester Details</h2>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">SemesterId</dt>
+            <dd class="col-sm-9">@Model.SemesterId</dd>
+
+            <dt class="col-sm-3">SemesterCode</dt>
+            <dd class="col-sm-9">@Model.SemesterCode</dd>
+
+            <dt class="col-sm-3">SemesterName</dt>
+            <dd class="col-sm-9">@Model.SemesterName</dd>
+
+            <dt class="col-sm-3">StartDate</dt>
+            <dd class="col-sm-9">@Model.StartDate</dd>
+
+            <dt class="col-sm-3">EndDate</dt>
+            <dd class="col-sm-9">@Model.EndDate</dd>
+
+            <dt class="col-sm-3">IsActive</dt>
+            <dd class="col-sm-9">@((Model.IsActive == true) ? "Yes" : "No")</dd>
+
+            <dt class="col-sm-3">IsCurrent</dt>
+            <dd class="col-sm-9">@((Model.IsCurrent == true) ? "Yes" : "No")</dd>
+
+            <dt class="col-sm-3">CreatedAt</dt>
+            <dd class="col-sm-9">@Model.CreatedAt</dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-area="Admin" asp-controller="Semesters" asp-action="Edit" asp-route-id="@Model.SemesterId" class="btn btn-warning">Edit</a>
+    <a asp-area="Admin" asp-controller="Semesters" asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
