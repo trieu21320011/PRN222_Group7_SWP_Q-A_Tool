@@ -1,0 +1,169 @@
+@page
+@model SWP_QA_TOOL.Pages.Student.Teams.EditModel
+@{
+    ViewData["Title"] = "Chỉnh sửa nhóm";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Student/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/Student/Teams/MyTeam">Nhóm của tôi</a></li>
+                    <li class="breadcrumb-item active">Chỉnh sửa</li>
+                </ol>
+            </nav>
+            <h3><i class="bi bi-pencil"></i> Chỉnh sửa nhóm</h3>
+            <p class="text-muted">Cập nhật thông tin nhóm của bạn</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-people-fill"></i> Thông tin nhóm</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Tên nhóm <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" value="Nhóm 1" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Core</label>
+                            <input type="text" class="form-control" value="Core A - Morning (SWP391)" disabled>
+                            <div class="form-text text-warning">
+                                <i class="bi bi-exclamation-triangle"></i> Không thể thay đổi Core sau khi đã tạo nhóm
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Mô tả đề tài</label>
+                            <textarea class="form-control" rows="4">Xây dựng hệ thống Q&A hỗ trợ giao tiếp giữa sinh viên và giảng viên trong quá trình làm đồ án môn học.</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Cập nhật tiến độ (%)</label>
+                            <input type="range" class="form-range" min="0" max="100" value="85" id="progressRange">
+                            <div class="d-flex justify-content-between">
+                                <span>0%</span>
+                                <span id="progressValue"><strong>85%</strong></span>
+                                <span>100%</span>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <h6><i class="bi bi-person-badge"></i> Chuyển nhóm trưởng</h6>
+                        <div class="mb-3">
+                            <label class="form-label">Nhóm trưởng hiện tại</label>
+                            <select class="form-select">
+                                <option selected>Nguyễn Văn A - SE150001</option>
+                                <option>Trần Thị B - SE150002</option>
+                                <option>Lê Văn C - SE150003</option>
+                                <option>Phạm Thị D - SE150004</option>
+                                <option>Hoàng Văn E - SE150005</option>
+                            </select>
+                            <div class="form-text">Chọn thành viên để chuyển quyền nhóm trưởng</div>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Lưu thay đổi
+                            </button>
+                            <a href="/Student/Teams/MyTeam" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Hủy
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-people"></i> Thành viên nhóm</h6>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><i class="bi bi-star-fill text-warning"></i> Nguyễn Văn A</span>
+                        <span class="badge bg-primary">Nhóm trưởng</span>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Trần Thị B</span>
+                        <button class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Lê Văn C</span>
+                        <button class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Phạm Thị D</span>
+                        <button class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    </div>
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>Hoàng Văn E</span>
+                        <button class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-x"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="/Student/Teams/Members" class="btn btn-sm btn-outline-primary w-100">
+                        <i class="bi bi-person-plus"></i> Quản lý thành viên
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h6 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Vùng nguy hiểm</h6>
+                </div>
+                <div class="card-body">
+                    <p class="small text-muted">Xóa nhóm sẽ xóa toàn bộ dữ liệu liên quan.</p>
+                    <button class="btn btn-outline-danger w-100" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="bi bi-trash"></i> Xóa nhóm
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Xác nhận xóa nhóm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa <strong>Nhóm 1</strong>?</p>
+                <p class="text-danger">Hành động này không thể hoàn tác!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger">Xóa nhóm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    document.getElementById('progressRange').addEventListener('input', function() {
+        document.getElementById('progressValue').innerHTML = '<strong>' + this.value + '%</strong>';
+    });
+</script>
+}

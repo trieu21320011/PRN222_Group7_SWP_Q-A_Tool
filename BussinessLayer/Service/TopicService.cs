@@ -191,5 +191,35 @@ namespace BussinessLayer.Service
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<IEnumerable<GetTopicDTO>> GetTopicsByInstructorAsync(int instructorId)
+        {
+            try
+            {
+                var topics = await _unitOfWork.TopicRepo.GetTopicsByInstructorAsync(instructorId);
+                return _mapper.Map<IEnumerable<GetTopicDTO>>(topics);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<GetTopicDTO?> GetTopicWithTeamsAndCoresAsync(int topicId)
+        {
+            try
+            {
+                var topic = await _unitOfWork.TopicRepo.GetTopicWithTeamsAndCoresAsync(topicId);
+                if (topic == null)
+                {
+                    return null;
+                }
+                return _mapper.Map<GetTopicDTO>(topic);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

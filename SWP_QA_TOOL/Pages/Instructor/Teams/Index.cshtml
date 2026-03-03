@@ -1,0 +1,151 @@
+@page
+@model SWP_QA_TOOL.Pages.Instructor.Teams.IndexModel
+@{
+    ViewData["Title"] = "Danh sách nhóm";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-people"></i> Danh sách nhóm</h3>
+            <p class="text-muted">Quản lý các nhóm thuộc lớp của bạn</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm nhóm...">
+                <button class="btn btn-outline-primary" type="button">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select">
+                <option selected>-- Chọn lớp --</option>
+                <option>SE1234 - Lớp A Sáng</option>
+                <option>SE1235 - Lớp B Chiều</option>
+                <option>SE1236 - Lớp C Tối</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select">
+                <option selected>-- Trạng thái --</option>
+                <option>Hoạt động</option>
+                <option>Đã hoàn thành</option>
+                <option>Tạm dừng</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Tên nhóm</th>
+                        <th>Mã lớp</th>
+                        <th>Đề tài</th>
+                        <th>Số thành viên</th>
+                        <th>Câu hỏi</th>
+                        <th>Tiến độ</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Nhóm 1</td>
+                        <td>SE1234</td>
+                        <td>SWP391 - Q&A Tool</td>
+                        <td><span class="badge bg-info">5</span></td>
+                        <td><span class="badge bg-warning">3</span></td>
+                        <td>
+                            <div class="progress" style="width: 100px;">
+                                <div class="progress-bar bg-success" style="width: 85%">85%</div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-success">Hoạt động</span></td>
+                        <td>
+                            <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="/Instructor/Questions/Index" class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-chat-dots"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Nhóm 2</td>
+                        <td>SE1234</td>
+                        <td>SWP391 - E-commerce</td>
+                        <td><span class="badge bg-info">4</span></td>
+                        <td><span class="badge bg-warning">5</span></td>
+                        <td>
+                            <div class="progress" style="width: 100px;">
+                                <div class="progress-bar bg-info" style="width: 70%">70%</div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-success">Hoạt động</span></td>
+                        <td>
+                            <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="/Instructor/Questions/Index" class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-chat-dots"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Nhóm 3</td>
+                        <td>SE1235</td>
+                        <td>PRN231 - REST API</td>
+                        <td><span class="badge bg-info">5</span></td>
+                        <td><span class="badge bg-warning">2</span></td>
+                        <td>
+                            <div class="progress" style="width: 100px;">
+                                <div class="progress-bar bg-warning" style="width: 50%">50%</div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-success">Hoạt động</span></td>
+                        <td>
+                            <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="/Instructor/Questions/Index" class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-chat-dots"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Nhóm 4</td>
+                        <td>SE1235</td>
+                        <td>PRN231 - Microservices</td>
+                        <td><span class="badge bg-info">6</span></td>
+                        <td><span class="badge bg-danger">8</span></td>
+                        <td>
+                            <div class="progress" style="width: 100px;">
+                                <div class="progress-bar bg-danger" style="width: 30%">30%</div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-warning">Cần hỗ trợ</span></td>
+                        <td>
+                            <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="/Instructor/Questions/Index" class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-chat-dots"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

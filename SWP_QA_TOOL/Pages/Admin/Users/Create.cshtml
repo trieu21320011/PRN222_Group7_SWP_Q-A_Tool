@@ -1,0 +1,129 @@
+@page
+@model SWP_QA_TOOL.Pages.Admin.Users.CreateModel
+@{
+    ViewData["Title"] = "Thêm người dùng";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Admin">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="/Admin/Users">Người dùng</a></li>
+                    <li class="breadcrumb-item active">Thêm mới</li>
+                </ol>
+            </nav>
+            <h3><i class="bi bi-person-plus"></i> Thêm người dùng mới</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-info-circle"></i> Thông tin người dùng
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" placeholder="Nhập họ và tên">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Tên hiển thị</label>
+                                <input type="text" class="form-control" placeholder="Nhập tên hiển thị">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" placeholder="example@fpt.edu.vn">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Mã sinh viên</label>
+                                <input type="text" class="form-control" placeholder="SE123456">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" placeholder="Nhập mật khẩu">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+                                <input type="password" class="form-control" placeholder="Nhập lại mật khẩu">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Vai trò <span class="text-danger">*</span></label>
+                                <select class="form-select">
+                                    <option selected>-- Chọn vai trò --</option>
+                                    <option value="1">Admin</option>
+                                    <option value="2">Instructor</option>
+                                    <option value="3">Student</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Trạng thái</label>
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" id="isActive" checked>
+                                    <label class="form-check-label" for="isActive">Kích hoạt</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ghi chú</label>
+                            <textarea class="form-control" rows="3" placeholder="Ghi chú thêm (nếu có)"></textarea>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <a href="/Admin/Users" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Hủy
+                            </a>
+                            <button type="submit" class="btn btn-admin-primary">
+                                <i class="bi bi-check-circle"></i> Lưu
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-lightbulb"></i> Hướng dẫn
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle text-success"></i> 
+                            Họ tên phải đầy đủ theo CMND/CCCD
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle text-success"></i> 
+                            Email phải là email FPT (@@fpt.edu.vn)
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-check-circle text-success"></i> 
+                            Mật khẩu tối thiểu 6 ký tự
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-info-circle text-primary"></i> 
+                            Vai trò xác định quyền truy cập của người dùng
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

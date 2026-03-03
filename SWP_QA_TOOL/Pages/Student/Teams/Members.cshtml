@@ -1,0 +1,205 @@
+@page
+@model SWP_QA_TOOL.Pages.Student.Teams.MembersModel
+@{
+    ViewData["Title"] = "Quản lý thành viên";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Student/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/Student/Teams/MyTeam">Nhóm của tôi</a></li>
+                    <li class="breadcrumb-item active">Quản lý thành viên</li>
+                </ol>
+            </nav>
+            <h3><i class="bi bi-person-plus"></i> Quản lý thành viên</h3>
+            <p class="text-muted">Thêm, xóa thành viên trong nhóm</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Danh sách thành viên hiện tại -->
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-people-fill"></i> Thành viên hiện tại (5/6)</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Họ tên</th>
+                                <th>MSSV</th>
+                                <th>Email</th>
+                                <th>Vai trò</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-success">
+                                <td>1</td>
+                                <td><i class="bi bi-star-fill text-warning"></i> Nguyễn Văn A</td>
+                                <td>SE150001</td>
+                                <td>anse150001@fpt.edu.vn</td>
+                                <td><span class="badge bg-primary">Nhóm trưởng</span></td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Trần Thị B</td>
+                                <td>SE150002</td>
+                                <td>bse150002@fpt.edu.vn</td>
+                                <td><span class="badge bg-secondary">Thành viên</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-warning" title="Chuyển quyền nhóm trưởng">
+                                        <i class="bi bi-star"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Xóa thành viên">
+                                        <i class="bi bi-person-x"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Lê Văn C</td>
+                                <td>SE150003</td>
+                                <td>cse150003@fpt.edu.vn</td>
+                                <td><span class="badge bg-secondary">Thành viên</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-warning" title="Chuyển quyền nhóm trưởng">
+                                        <i class="bi bi-star"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Xóa thành viên">
+                                        <i class="bi bi-person-x"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Phạm Thị D</td>
+                                <td>SE150004</td>
+                                <td>dse150004@fpt.edu.vn</td>
+                                <td><span class="badge bg-secondary">Thành viên</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-warning" title="Chuyển quyền nhóm trưởng">
+                                        <i class="bi bi-star"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Xóa thành viên">
+                                        <i class="bi bi-person-x"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Hoàng Văn E</td>
+                                <td>SE150005</td>
+                                <td>ese150005@fpt.edu.vn</td>
+                                <td><span class="badge bg-secondary">Thành viên</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-warning" title="Chuyển quyền nhóm trưởng">
+                                        <i class="bi bi-star"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" title="Xóa thành viên">
+                                        <i class="bi bi-person-x"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Thêm thành viên mới -->
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-person-plus-fill"></i> Thêm thành viên mới</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label class="form-label">Tìm sinh viên</label>
+                                    <input type="text" class="form-control" placeholder="Nhập MSSV hoặc email sinh viên...">
+                                    <div class="form-text">Ví dụ: SE150006 hoặc example@fpt.edu.vn</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button type="button" class="btn btn-outline-primary mb-3 w-100">
+                                    <i class="bi bi-search"></i> Tìm kiếm
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Kết quả tìm kiếm (mẫu) -->
+                        <div class="alert alert-secondary">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>Vũ Minh F</strong> - SE150006<br>
+                                    <small>fse150006@fpt.edu.vn</small>
+                                </div>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-person-plus"></i> Thêm vào nhóm
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-info-circle"></i> Thông tin nhóm</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Tên nhóm:</strong> Nhóm 1</p>
+                    <p><strong>Core:</strong> Core A - Morning</p>
+                    <p><strong>Số thành viên:</strong> 5/6</p>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-warning" style="width: 83%">5/6</div>
+                    </div>
+                    <small class="text-muted">Còn 1 chỗ trống</small>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Lưu ý</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="small mb-0">
+                        <li>Mỗi nhóm tối đa 6 thành viên</li>
+                        <li>Sinh viên đã có nhóm không thể thêm</li>
+                        <li>Chỉ nhóm trưởng mới có quyền quản lý thành viên</li>
+                        <li>Thành viên bị xóa sẽ mất quyền truy cập nhóm</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-clock-history"></i> Lịch sử thay đổi</h6>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <small class="text-muted">05/09/2024</small>
+                        <p class="mb-0 small">Tạo nhóm với 3 thành viên</p>
+                    </div>
+                    <div class="list-group-item">
+                        <small class="text-muted">07/09/2024</small>
+                        <p class="mb-0 small">Thêm Phạm Thị D</p>
+                    </div>
+                    <div class="list-group-item">
+                        <small class="text-muted">10/09/2024</small>
+                        <p class="mb-0 small">Thêm Hoàng Văn E</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,210 @@
+@page
+@model SWP_QA_TOOL.Pages.Instructor.Teams.ProgressModel
+@{
+    ViewData["Title"] = "Tiến độ nhóm";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-graph-up"></i> Tiến độ các nhóm</h3>
+            <p class="text-muted">Theo dõi tiến độ làm việc của các nhóm</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-3">
+            <select class="form-select">
+                <option selected>-- Chọn Core --</option>
+                <option>Core A - Morning</option>
+                <option>Core B - Afternoon</option>
+                <option>All Cores</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select">
+                <option selected>-- Sắp xếp theo --</option>
+                <option>Tiến độ cao nhất</option>
+                <option>Tiến độ thấp nhất</option>
+                <option>Nhiều câu hỏi nhất</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white">
+                    <h6 class="mb-0"><i class="bi bi-emoji-smile"></i> Nhóm tiến độ tốt (> 70%)</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span><strong>Nhóm 1</strong> - SWP391</span>
+                            <span class="badge bg-success">85%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" style="width: 85%"></div>
+                        </div>
+                        <small class="text-muted">Core A - 2 câu hỏi chờ trả lời</small>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span><strong>Nhóm 5</strong> - PRN222</span>
+                            <span class="badge bg-success">80%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-success" style="width: 80%"></div>
+                        </div>
+                        <small class="text-muted">Core B - 0 câu hỏi chờ trả lời</small>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span><strong>Nhóm 2</strong> - SWP391</span>
+                            <span class="badge bg-info">70%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" style="width: 70%"></div>
+                        </div>
+                        <small class="text-muted">Core A - 1 câu hỏi chờ trả lời</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h6 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Nhóm cần hỗ trợ (< 50%)</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span><strong>Nhóm 4</strong> - PRN231</span>
+                            <span class="badge bg-danger">30%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-danger" style="width: 30%"></div>
+                        </div>
+                        <small class="text-muted">Core B - 8 câu hỏi chờ trả lời</small>
+                        <div class="mt-1">
+                            <a href="#" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-chat-text"></i> Liên hệ nhóm
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span><strong>Nhóm 7</strong> - PRN222</span>
+                            <span class="badge bg-danger">25%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-danger" style="width: 25%"></div>
+                        </div>
+                        <small class="text-muted">Core C - 5 câu hỏi chờ trả lời</small>
+                        <div class="mt-1">
+                            <a href="#" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-chat-text"></i> Liên hệ nhóm
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h6 class="mb-0"><i class="bi bi-bar-chart"></i> Tổng quan tiến độ tất cả nhóm</h6>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nhóm</th>
+                                <th>Core</th>
+                                <th>Đề tài</th>
+                                <th style="width: 30%;">Tiến độ</th>
+                                <th>Câu hỏi chờ</th>
+                                <th>Cập nhật</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nhóm 1</td>
+                                <td>Core A</td>
+                                <td>SWP391 - Q&A Tool</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" style="width: 85%">85%</div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-warning">2</span></td>
+                                <td>2 giờ trước</td>
+                                <td>
+                                    <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nhóm 2</td>
+                                <td>Core A</td>
+                                <td>SWP391 - E-commerce</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-info" style="width: 70%">70%</div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-warning">1</span></td>
+                                <td>1 ngày trước</td>
+                                <td>
+                                    <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nhóm 3</td>
+                                <td>Core B</td>
+                                <td>PRN231 - REST API</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-warning" style="width: 50%">50%</div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-warning">3</span></td>
+                                <td>3 giờ trước</td>
+                                <td>
+                                    <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="table-danger">
+                                <td>Nhóm 4</td>
+                                <td>Core B</td>
+                                <td>PRN231 - Microservices</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger" style="width: 30%">30%</div>
+                                    </div>
+                                </td>
+                                <td><span class="badge bg-danger">8</span></td>
+                                <td>5 ngày trước</td>
+                                <td>
+                                    <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

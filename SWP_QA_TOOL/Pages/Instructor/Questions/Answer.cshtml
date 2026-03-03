@@ -1,0 +1,138 @@
+@page "{id:int?}"
+@model SWP_QA_TOOL.Pages.Instructor.Questions.AnswerModel
+@{
+    ViewData["Title"] = "Trả lời câu hỏi";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Instructor/Questions/Index">Câu hỏi</a></li>
+                    <li class="breadcrumb-item"><a href="/Instructor/Questions/Pending">Chờ trả lời</a></li>
+                    <li class="breadcrumb-item active">Trả lời</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Nội dung câu hỏi -->
+            <div class="card mb-4">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="bi bi-question-circle"></i> Câu hỏi về Use Case Diagram</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <span class="badge bg-info">Nhóm 1</span>
+                        <span class="badge bg-secondary">Core A</span>
+                        <span class="badge bg-primary">SWP391</span>
+                    </div>
+                    <p class="text-muted">
+                        <i class="bi bi-person"></i> Hỏi bởi: <strong>Nguyễn Văn A</strong> - 
+                        <i class="bi bi-clock"></i> 10 phút trước
+                    </p>
+                    <hr>
+                    <div class="question-content">
+                        <p>Kính gửi Thầy/Cô,</p>
+                        <p>Em muốn hỏi về cách vẽ Use Case Diagram cho chức năng đăng nhập, đăng ký trong dự án. Cụ thể:</p>
+                        <ol>
+                            <li>Actor "User" có nên được chia thành "Guest" và "Member" không?</li>
+                            <li>Chức năng "Quên mật khẩu" nên được đặt là extend hay include của "Đăng nhập"?</li>
+                            <li>Có cần vẽ riêng Use Case cho validate form không?</li>
+                        </ol>
+                        <p>Em xin cảm ơn Thầy/Cô!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form trả lời -->
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-reply"></i> Câu trả lời của bạn</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Nội dung trả lời <span class="text-danger">*</span></label>
+                            <textarea class="form-control" rows="8" placeholder="Nhập câu trả lời của bạn..." required></textarea>
+                            <div class="form-text">Hỗ trợ định dạng Markdown</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Đính kèm file (tùy chọn)</label>
+                            <input type="file" class="form-control" multiple>
+                            <div class="form-text">Cho phép: .pdf, .doc, .docx, .zip, .png, .jpg (tối đa 10MB)</div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="markResolved">
+                            <label class="form-check-label" for="markResolved">Đánh dấu câu hỏi đã được giải quyết</label>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-send"></i> Gửi trả lời
+                            </button>
+                            <a href="/Instructor/Questions/Pending" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Hủy
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Thông tin nhóm -->
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-people"></i> Thông tin nhóm</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Tên nhóm:</strong> Nhóm 1</p>
+                    <p><strong>Core:</strong> Core A - Morning</p>
+                    <p><strong>Đề tài:</strong> SWP391 - Q&A Tool</p>
+                    <p><strong>Số thành viên:</strong> 5</p>
+                    <p><strong>Tiến độ:</strong> 
+                        <div class="progress">
+                            <div class="progress-bar bg-success" style="width: 85%">85%</div>
+                        </div>
+                    </p>
+                    <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-eye"></i> Xem nhóm
+                    </a>
+                </div>
+            </div>
+
+            <!-- Lịch sử hỏi đáp -->
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-clock-history"></i> Câu hỏi khác của nhóm</h6>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between">
+                            <small>Hỏi về Database Design</small>
+                            <span class="badge bg-success">Đã TL</span>
+                        </div>
+                        <small class="text-muted">2 ngày trước</small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between">
+                            <small>Cách validate form</small>
+                            <span class="badge bg-primary">Giải quyết</span>
+                        </div>
+                        <small class="text-muted">1 tuần trước</small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex justify-content-between">
+                            <small>Hỏi về requirement</small>
+                            <span class="badge bg-primary">Giải quyết</span>
+                        </div>
+                        <small class="text-muted">2 tuần trước</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

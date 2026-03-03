@@ -191,5 +191,35 @@ namespace BussinessLayer.Service
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<IEnumerable<GetCoreDTO>> GetCoresByTopicAsync(int topicId)
+        {
+            try
+            {
+                var cores = await _unitOfWork.CoreRepo.GetCoresByTopicAsync(topicId);
+                return _mapper.Map<IEnumerable<GetCoreDTO>>(cores);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<GetCoreDTO?> GetCoreWithTeamsAsync(int coreId)
+        {
+            try
+            {
+                var core = await _unitOfWork.CoreRepo.GetCoreWithTeamsAsync(coreId);
+                if (core == null)
+                {
+                    return null;
+                }
+                return _mapper.Map<GetCoreDTO>(core);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

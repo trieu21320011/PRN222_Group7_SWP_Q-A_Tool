@@ -1,0 +1,148 @@
+@page
+@model SWP_QA_TOOL.Pages.Student.Topics.IndexModel
+@{
+    ViewData["Title"] = "Đề tài đăng ký";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-journal-bookmark"></i> Đề tài đăng ký</h3>
+            <p class="text-muted">Xem thông tin đề tài mà nhóm bạn đã đăng ký</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-journal-bookmark-fill"></i> SWP391 - Phát triển phần mềm</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p><strong><i class="bi bi-hash"></i> Mã đề tài:</strong> SWP391-2024-FALL</p>
+                            <p><strong><i class="bi bi-calendar"></i> Học kỳ:</strong> Fall 2024</p>
+                            <p><strong><i class="bi bi-calendar-range"></i> Thời gian:</strong> 01/09/2024 - 31/12/2024</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong><i class="bi bi-person-badge"></i> GV hướng dẫn:</strong> ThS. Nguyễn Văn Instructor</p>
+                            <p><strong><i class="bi bi-collection"></i> Core:</strong> Core A - Morning</p>
+                            <p><strong><i class="bi bi-flag"></i> Trạng thái:</strong> <span class="badge bg-success">Đang thực hiện</span></p>
+                        </div>
+                    </div>
+
+                    <h6><i class="bi bi-file-text"></i> Mô tả đề tài</h6>
+                    <div class="bg-light p-3 rounded mb-4">
+                        <p>Xây dựng hệ thống hỏi đáp (Q&A) hỗ trợ giao tiếp giữa sinh viên và giảng viên trong quá trình làm đồ án môn học. Hệ thống cho phép:</p>
+                        <ul>
+                            <li>Sinh viên đặt câu hỏi, theo dõi trạng thái câu hỏi</li>
+                            <li>Giảng viên trả lời, quản lý các nhóm sinh viên</li>
+                            <li>Admin quản lý người dùng, học kỳ, đề tài</li>
+                        </ul>
+                    </div>
+
+                    <h6><i class="bi bi-list-check"></i> Yêu cầu kỹ thuật</h6>
+                    <div class="bg-light p-3 rounded mb-4">
+                        <ul class="mb-0">
+                            <li>Công nghệ: ASP.NET Core, Entity Framework Core</li>
+                            <li>Database: SQL Server</li>
+                            <li>Pattern: Repository Pattern, Unit of Work</li>
+                            <li>UI: Bootstrap 5, Razor Pages</li>
+                        </ul>
+                    </div>
+
+                    <h6><i class="bi bi-calendar-event"></i> Các mốc quan trọng</h6>
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Mốc</th>
+                                <th>Ngày</th>
+                                <th>Nội dung</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>15/09/2024</td>
+                                <td>Nộp đề cương</td>
+                                <td><span class="badge bg-success">Hoàn thành</span></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>30/09/2024</td>
+                                <td>Báo cáo tiến độ 1</td>
+                                <td><span class="badge bg-success">Hoàn thành</span></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>31/10/2024</td>
+                                <td>Báo cáo tiến độ 2</td>
+                                <td><span class="badge bg-warning">Đang thực hiện</span></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>15/12/2024</td>
+                                <td>Bảo vệ đồ án</td>
+                                <td><span class="badge bg-secondary">Chưa đến</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-people"></i> Thông tin nhóm</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Tên nhóm:</strong> Nhóm 1</p>
+                    <p><strong>Số thành viên:</strong> 5</p>
+                    <p><strong>Tiến độ:</strong></p>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" style="width: 85%">85%</div>
+                    </div>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="/Student/Teams/MyTeam" class="btn btn-sm btn-outline-primary w-100">
+                        <i class="bi bi-people"></i> Xem nhóm
+                    </a>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-person-badge"></i> Liên hệ GV</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>ThS. Nguyễn Văn Instructor</strong></p>
+                    <p><i class="bi bi-envelope"></i> instructor@fpt.edu.vn</p>
+                    <p><i class="bi bi-telephone"></i> 0123-456-789</p>
+                    <a href="/Student/Questions/Create" class="btn btn-sm btn-success w-100">
+                        <i class="bi bi-question-circle"></i> Đặt câu hỏi
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-file-earmark-arrow-down"></i> Tài liệu</h6>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="bi bi-file-pdf text-danger"></i> Đề cương chi tiết.pdf
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="bi bi-file-word text-primary"></i> Template báo cáo.docx
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="bi bi-file-ppt text-warning"></i> Template slide.pptx
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -91,7 +91,15 @@ namespace SWP_QA_TOOL.Pages.Account
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
 
-            return LocalRedirect(returnUrl);
+            // Redirect based on user role
+            var roleName = user.Role?.RoleName ?? "User";
+            return roleName switch
+            {
+                "Admin" => LocalRedirect("/Admin"),
+                "Instructor" => LocalRedirect("/Instructor"),
+                "Student" => LocalRedirect("/Student"),
+                _ => LocalRedirect(returnUrl)
+            };
         }
     }
 }

@@ -21,5 +21,7 @@ namespace BussinessLayer.IServices
         Task<IEnumerable<GetTeamDTO>> GetTeamsBySemesterAsync(int semesterId);
         Task<IEnumerable<GetTeamDTO>> GetTeamsByCoreAsync(int coreId);
         Task<IEnumerable<GetTeamDTO>> GetTeamsByTopicAsync(int topicId);
+        Task<GetTeamDTO?> GetTeamWithMembersAsync(int teamId);
+        Task<GetTeamDTO?> GetTeamProgressAsync(int teamId);
     }
 }

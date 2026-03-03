@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Giảng Viên - SWP QA Tool</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/instructor.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark instructor-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/Instructor">
+                    <i class="bi bi-mortarboard-fill"></i> SWP QA Tool - Giảng Viên
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i>
+                                @if (User.Identity?.IsAuthenticated == true)
+                                {
+                                    @User.Identity.Name
+                                }
+                                else
+                                {
+                                    <span>Giảng Viên</span>
+                                }
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/"><i class="bi bi-house"></i> Trang chủ</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-page="/Account/Logout"><i class="bi bi-box-arrow-right"></i> Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="sidebar-header">
+                    <i class="bi bi-person-badge"></i> Giảng Viên
+                </div>
+                <div class="position-sticky pt-3">
+                    <!-- Xem thông tin học kỳ - đề tài -->
+                    <div class="nav-section-title">Thông tin học kỳ - Đề tài</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Instructor/Semesters/Index">
+                                <i class="bi bi-calendar3"></i> Học kỳ hoạt động
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Instructor/Topics/Index">
+                                <i class="bi bi-journal-bookmark"></i> Đề tài phụ trách
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Instructor/Cores/Index">
+                                <i class="bi bi-collection"></i> Lớp được phân công
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Quản lý nhóm -->
+                    <div class="nav-section-title nav-section">Quản lý nhóm</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Instructor/Teams/Index">
+                                <i class="bi bi-people"></i> Danh sách nhóm
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Instructor/Teams/Progress">
+                                <i class="bi bi-graph-up"></i> Tiến độ nhóm
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Trả lời câu hỏi -->
+                    <div class="nav-section-title nav-section">Câu hỏi - Trả lời</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Instructor/Questions/Index">
+                                <i class="bi bi-question-circle"></i> Danh sách câu hỏi
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Instructor/Questions/Pending">
+                                <i class="bi bi-hourglass-split"></i> Chờ trả lời
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-page="/Instructor/Questions/Answered">
+                                <i class="bi bi-check-circle"></i> Đã trả lời
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 content-wrapper">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="instructor-footer">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <span class="text-muted">&copy; 2026 SWP QA Tool - Giảng Viên Portal</span>
+                </div>
+                <div class="col-md-6 text-end">
+                    <span class="text-muted">Version 1.0.0</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

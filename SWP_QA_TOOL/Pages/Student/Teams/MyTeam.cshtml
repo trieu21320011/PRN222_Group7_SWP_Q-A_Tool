@@ -1,0 +1,178 @@
+@page
+@model SWP_QA_TOOL.Pages.Student.Teams.MyTeamModel
+@{
+    ViewData["Title"] = "Nhóm của tôi";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-people"></i> Nhóm của tôi</h3>
+            <p class="text-muted">Thông tin chi tiết về nhóm của bạn</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-people-fill"></i> Nhóm 1 - SWP391 Q&A Tool</h5>
+                    <a href="/Student/Teams/Edit" class="btn btn-sm btn-light">
+                        <i class="bi bi-pencil"></i> Chỉnh sửa
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p><strong><i class="bi bi-collection"></i> Core:</strong> Core A - Morning</p>
+                            <p><strong><i class="bi bi-journal-bookmark"></i> Đề tài:</strong> SWP391 - Phát triển phần mềm</p>
+                            <p><strong><i class="bi bi-calendar"></i> Học kỳ:</strong> Fall 2024</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong><i class="bi bi-person-badge"></i> GV hướng dẫn:</strong> ThS. Nguyễn Văn Instructor</p>
+                            <p><strong><i class="bi bi-calendar-check"></i> Ngày tạo:</strong> 05/09/2024</p>
+                            <p><strong><i class="bi bi-flag"></i> Trạng thái:</strong> 
+                                <span class="badge bg-success">Hoạt động</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <p><strong><i class="bi bi-card-text"></i> Mô tả đề tài:</strong></p>
+                    <p class="ms-3">Xây dựng hệ thống Q&A hỗ trợ giao tiếp giữa sinh viên và giảng viên trong quá trình làm đồ án môn học.</p>
+
+                    <p><strong><i class="bi bi-graph-up"></i> Tiến độ:</strong></p>
+                    <div class="progress mb-3" style="height: 25px;">
+                        <div class="progress-bar bg-success" style="width: 85%">
+                            <strong>85%</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Danh sách thành viên -->
+            <div class="card">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0"><i class="bi bi-person-lines-fill"></i> Thành viên nhóm</h6>
+                    <a href="/Student/Teams/Members" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-person-plus"></i> Quản lý thành viên
+                    </a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Họ tên</th>
+                                <th>MSSV</th>
+                                <th>Email</th>
+                                <th>Vai trò</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-success">
+                                <td>1</td>
+                                <td><i class="bi bi-star-fill text-warning"></i> Nguyễn Văn A</td>
+                                <td>SE150001</td>
+                                <td>anse150001@fpt.edu.vn</td>
+                                <td><span class="badge bg-primary">Nhóm trưởng</span></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Trần Thị B</td>
+                                <td>SE150002</td>
+                                <td>bse150002@fpt.edu.vn</td>
+                                <td><span class="badge bg-secondary">Thành viên</span></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Lê Văn C</td>
+                                <td>SE150003</td>
+                                <td>cse150003@fpt.edu.vn</td>
+                                <td><span class="badge bg-secondary">Thành viên</span></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Phạm Thị D</td>
+                                <td>SE150004</td>
+                                <td>dse150004@fpt.edu.vn</td>
+                                <td><span class="badge bg-secondary">Thành viên</span></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Hoàng Văn E</td>
+                                <td>SE150005</td>
+                                <td>ese150005@fpt.edu.vn</td>
+                                <td><span class="badge bg-secondary">Thành viên</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-lightning"></i> Hành động</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="/Student/Questions/Create" class="btn btn-success">
+                            <i class="bi bi-plus-circle"></i> Tạo câu hỏi mới
+                        </a>
+                        <a href="/Student/Questions/Index" class="btn btn-outline-primary">
+                            <i class="bi bi-question-circle"></i> Xem câu hỏi nhóm
+                        </a>
+                        <a href="/Student/Teams/Edit" class="btn btn-outline-secondary">
+                            <i class="bi bi-pencil"></i> Chỉnh sửa nhóm
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-bar-chart"></i> Thống kê</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Tổng câu hỏi:</span>
+                        <span class="badge bg-info">5</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Đã trả lời:</span>
+                        <span class="badge bg-success">3</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Chờ trả lời:</span>
+                        <span class="badge bg-warning">2</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Đã giải quyết:</span>
+                        <span class="badge bg-primary">2</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-clock-history"></i> Hoạt động gần đây</h6>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <small class="text-muted">10 phút trước</small>
+                        <p class="mb-0">Nguyễn Văn A đặt câu hỏi mới</p>
+                    </div>
+                    <div class="list-group-item">
+                        <small class="text-muted">2 ngày trước</small>
+                        <p class="mb-0">GV trả lời câu hỏi Database Design</p>
+                    </div>
+                    <div class="list-group-item">
+                        <small class="text-muted">1 tuần trước</small>
+                        <p class="mb-0">Cập nhật tiến độ: 85%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

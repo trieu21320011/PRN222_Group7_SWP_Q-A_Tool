@@ -1,0 +1,63 @@
+@page
+@model SWP_QA_TOOL.Pages.Instructor.Semesters.IndexModel
+@{
+    ViewData["Title"] = "Học kỳ hoạt động";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-calendar-check"></i> Học kỳ hoạt động</h3>
+            <p class="text-muted">Xem thông tin các học kỳ đang hoạt động mà bạn tham gia</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Tên học kỳ</th>
+                        <th>Năm học</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Trạng thái</th>
+                        <th>Số đề tài</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Học kỳ Fall 2024</td>
+                        <td>2024</td>
+                        <td>01/09/2024</td>
+                        <td>31/12/2024</td>
+                        <td><span class="badge bg-success">Đang diễn ra</span></td>
+                        <td><span class="badge bg-primary">5</span></td>
+                        <td>
+                            <a href="/Instructor/Semesters/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> Chi tiết
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Học kỳ Summer 2024</td>
+                        <td>2024</td>
+                        <td>01/05/2024</td>
+                        <td>31/08/2024</td>
+                        <td><span class="badge bg-secondary">Đã kết thúc</span></td>
+                        <td><span class="badge bg-primary">3</span></td>
+                        <td>
+                            <a href="/Instructor/Semesters/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> Chi tiết
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

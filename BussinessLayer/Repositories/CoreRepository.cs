@@ -55,5 +55,28 @@ namespace BussinessLayer.Repositories
                 .Where(x => x.IsActive == true)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Core>> GetCoresByTopicAsync(int topicId)
+        {
+            return await _dbContext.Cores
+                .Include(x => x.Instructor)
+                .Include(x => x.Semester)
+                .Include(x => x.Teams)
+                .Where(x => x.Teams.Any(t => t.TopicId == topicId))
+                .ToListAsync();
+        }
+
+        public async Task<Core?> GetCoreWithTeamsAsync(int coreId)
+        {
+            return await _dbContext.Cores
+                .Include(x => x.Instructor)
+                .Include(x => x.Semester)
+                .Include(x => x.Teams)
+                    .ThenInclude(t => t.TeamMembers)
+                        .ThenInclude(tm => tm.User)
+                .Include(x => x.Teams)
+                    .ThenInclude(t => t.Leader)
+                .FirstOrDefaultAsync(x => x.CoreId == coreId);
+        }
     }
 }

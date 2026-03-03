@@ -14,5 +14,7 @@ namespace BussinessLayer.IRepositories
         Task<IEnumerable<Topic>> GetTopicsBySemesterAsync(int semesterId);
         Task<IEnumerable<Topic>> GetActiveTopicsAsync();
         Task<IEnumerable<Topic>> GetTopicsByCategoryAsync(string category);
+        Task<IEnumerable<Topic>> GetTopicsByInstructorAsync(int instructorId);
+        Task<Topic?> GetTopicWithTeamsAndCoresAsync(int topicId);
     }
 }

@@ -1,0 +1,147 @@
+@page
+@model SWP_QA_TOOL.Pages.Instructor.Questions.PendingModel
+@{
+    ViewData["Title"] = "Câu hỏi chờ trả lời";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-hourglass-split text-warning"></i> Câu hỏi chờ trả lời</h3>
+            <p class="text-muted">Các câu hỏi cần được phản hồi</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm...">
+                <button class="btn btn-outline-primary" type="button">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select">
+                <option selected>-- Lớp --</option>
+                <option>SE1234</option>
+                <option>SE1235</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select">
+                <option selected>-- Ưu tiên --</option>
+                <option>Mới nhất</option>
+                <option>Cũ nhất</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="alert alert-warning">
+        <i class="bi bi-exclamation-triangle"></i> Bạn có <strong>8</strong> câu hỏi đang chờ trả lời
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-3 border-warning">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title mb-1">
+                                <a href="/Instructor/Questions/Details" class="text-decoration-none">
+                                    Câu hỏi về Use Case Diagram
+                                </a>
+                            </h5>
+                            <p class="text-muted mb-2">
+                                <span class="badge bg-info">Nhóm 1</span>
+                                <span class="badge bg-secondary">Core A</span>
+                                <small class="ms-2">Hỏi bởi: Nguyễn Văn A - 10 phút trước</small>
+                            </p>
+                            <p class="card-text">Em muốn hỏi về cách vẽ Use Case Diagram cho chức năng đăng nhập, đăng ký...</p>
+                        </div>
+                        <div>
+                            <a href="/Instructor/Questions/Answer" class="btn btn-success">
+                                <i class="bi bi-reply"></i> Trả lời
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3 border-warning">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title mb-1">
+                                <a href="/Instructor/Questions/Details" class="text-decoration-none">
+                                    Hỏi về Database Design
+                                </a>
+                            </h5>
+                            <p class="text-muted mb-2">
+                                <span class="badge bg-info">Nhóm 3</span>
+                                <span class="badge bg-secondary">Core A</span>
+                                <small class="ms-2">Hỏi bởi: Trần Thị B - 30 phút trước</small>
+                            </p>
+                            <p class="card-text">Nhóm em đang gặp vấn đề về thiết kế database, cần thầy/cô tư vấn thêm...</p>
+                        </div>
+                        <div>
+                            <a href="/Instructor/Questions/Answer" class="btn btn-success">
+                                <i class="bi bi-reply"></i> Trả lời
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3 border-warning">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title mb-1">
+                                <a href="/Instructor/Questions/Details" class="text-decoration-none">
+                                    Cách implement Repository Pattern
+                                </a>
+                            </h5>
+                            <p class="text-muted mb-2">
+                                <span class="badge bg-info">Nhóm 4</span>
+                                <span class="badge bg-secondary">Core B</span>
+                                <small class="ms-2">Hỏi bởi: Hoàng Thị E - 3 giờ trước</small>
+                            </p>
+                            <p class="card-text">Em muốn hỏi về cách triển khai Repository Pattern trong dự án .NET...</p>
+                        </div>
+                        <div>
+                            <a href="/Instructor/Questions/Answer" class="btn btn-success">
+                                <i class="bi bi-reply"></i> Trả lời
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3 border-warning">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h5 class="card-title mb-1">
+                                <a href="/Instructor/Questions/Details" class="text-decoration-none">
+                                    Xử lý lỗi khi deploy lên Azure
+                                </a>
+                            </h5>
+                            <p class="text-muted mb-2">
+                                <span class="badge bg-info">Nhóm 4</span>
+                                <span class="badge bg-secondary">Core B</span>
+                                <small class="ms-2">Hỏi bởi: Lê Văn F - 5 giờ trước</small>
+                            </p>
+                            <p class="card-text">Nhóm em gặp lỗi khi deploy ứng dụng lên Azure, xin thầy/cô hướng dẫn...</p>
+                        </div>
+                        <div>
+                            <a href="/Instructor/Questions/Answer" class="btn btn-success">
+                                <i class="bi bi-reply"></i> Trả lời
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

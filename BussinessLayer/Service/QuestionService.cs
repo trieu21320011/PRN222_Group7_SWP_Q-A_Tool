@@ -259,5 +259,44 @@ namespace BussinessLayer.Service
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<IEnumerable<GetQuestionDTO>> GetQuestionsByTeamInCoreAsync(int teamId, int coreId)
+        {
+            try
+            {
+                var questions = await _unitOfWork.QuestionRepo.GetQuestionsByTeamInCoreAsync(teamId, coreId);
+                return _mapper.Map<IEnumerable<GetQuestionDTO>>(questions);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<IEnumerable<GetQuestionDTO>> GetQuestionsAssignedToInstructorAsync(int instructorId)
+        {
+            try
+            {
+                var questions = await _unitOfWork.QuestionRepo.GetQuestionsAssignedToInstructorAsync(instructorId);
+                return _mapper.Map<IEnumerable<GetQuestionDTO>>(questions);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> MarkAsResolvedAsync(int questionId, int closedById)
+        {
+            try
+            {
+                await _unitOfWork.QuestionRepo.MarkAsResolvedAsync(questionId, closedById);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

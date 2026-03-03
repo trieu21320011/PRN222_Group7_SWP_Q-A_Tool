@@ -1,0 +1,218 @@
+@page
+@model SWP_QA_TOOL.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-speedometer2"></i> Dashboard Quản Trị</h3>
+            <p class="text-muted">Tổng quan hệ thống SWP QA Tool</p>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="stats-card bg-primary">
+                <i class="bi bi-people stats-icon"></i>
+                <div class="stats-value">125</div>
+                <div class="stats-label">Tổng người dùng</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stats-card bg-success">
+                <i class="bi bi-people-fill stats-icon"></i>
+                <div class="stats-value">45</div>
+                <div class="stats-label">Nhóm hoạt động</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stats-card bg-warning">
+                <i class="bi bi-question-circle stats-icon"></i>
+                <div class="stats-value">89</div>
+                <div class="stats-label">Câu hỏi mới</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stats-card bg-info">
+                <i class="bi bi-calendar3 stats-icon"></i>
+                <div class="stats-value">3</div>
+                <div class="stats-label">Học kỳ hoạt động</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Recent Users -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-person-plus"></i> Người dùng mới đăng ký
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Họ tên</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Ngày</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Nguyễn Văn A</td>
+                                <td>nva@fpt.edu.vn</td>
+                                <td><span class="badge bg-success">Student</span></td>
+                                <td>03/03/2026</td>
+                            </tr>
+                            <tr>
+                                <td>Trần Thị B</td>
+                                <td>ttb@fpt.edu.vn</td>
+                                <td><span class="badge bg-success">Student</span></td>
+                                <td>02/03/2026</td>
+                            </tr>
+                            <tr>
+                                <td>Lê Văn C</td>
+                                <td>lvc@fpt.edu.vn</td>
+                                <td><span class="badge bg-primary">Instructor</span></td>
+                                <td>01/03/2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="/Admin/Users" class="btn btn-sm btn-outline-primary">Xem tất cả</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Questions -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-chat-dots"></i> Câu hỏi gần đây
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Tiêu đề</th>
+                                <th>Nhóm</th>
+                                <th>Trạng thái</th>
+                                <th>Ngày</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cách deploy project lên Azure?</td>
+                                <td>Nhóm 1</td>
+                                <td><span class="badge badge-pending">Chờ</span></td>
+                                <td>1 giờ trước</td>
+                            </tr>
+                            <tr>
+                                <td>Lỗi kết nối database</td>
+                                <td>Nhóm 5</td>
+                                <td><span class="badge badge-active">Đã trả lời</span></td>
+                                <td>3 giờ trước</td>
+                            </tr>
+                            <tr>
+                                <td>Hỏi về Entity Framework</td>
+                                <td>Nhóm 3</td>
+                                <td><span class="badge badge-active">Đã trả lời</span></td>
+                                <td>5 giờ trước</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="#" class="btn btn-sm btn-outline-primary">Xem tất cả</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- System Status -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-activity"></i> Trạng thái hệ thống
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Database</span>
+                        <span class="badge bg-success">Hoạt động</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Server</span>
+                        <span class="badge bg-success">Hoạt động</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Email Service</span>
+                        <span class="badge bg-success">Hoạt động</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Storage</span>
+                        <span class="badge bg-warning">75%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-lightning"></i> Thao tác nhanh
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a href="/Admin/Users/Create" class="btn btn-outline-primary">
+                            <i class="bi bi-person-plus"></i> Thêm người dùng
+                        </a>
+                        <a href="/Admin/Semesters/Index" class="btn btn-outline-success">
+                            <i class="bi bi-calendar-plus"></i> Quản lý học kỳ
+                        </a>
+                        <a href="/Admin/Topics/Index" class="btn btn-outline-info">
+                            <i class="bi bi-journal-plus"></i> Quản lý đề tài
+                        </a>
+                        <a href="/Admin/Notifications/Create" class="btn btn-outline-warning">
+                            <i class="bi bi-bell"></i> Gửi thông báo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Semester Info -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-calendar3"></i> Học kỳ hiện tại
+                </div>
+                <div class="card-body">
+                    <h5 class="text-primary">Spring 2026</h5>
+                    <p class="text-muted mb-2">01/01/2026 - 30/04/2026</p>
+                    <hr />
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <h5 class="mb-0">15</h5>
+                            <small class="text-muted">Đề tài</small>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="mb-0">45</h5>
+                            <small class="text-muted">Nhóm</small>
+                        </div>
+                        <div class="col-4">
+                            <h5 class="mb-0">8</h5>
+                            <small class="text-muted">GV</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

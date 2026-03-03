@@ -1,0 +1,112 @@
+@page
+@model SWP_QA_TOOL.Pages.Instructor.Topics.IndexModel
+@{
+    ViewData["Title"] = "Đề tài phụ trách";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-journal-bookmark"></i> Đề tài phụ trách</h3>
+            <p class="text-muted">Xem danh sách các đề tài bạn được phân công hướng dẫn</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm đề tài...">
+                <button class="btn btn-outline-primary" type="button">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <select class="form-select">
+                <option selected>-- Chọn học kỳ --</option>
+                <option>Fall 2024</option>
+                <option>Summer 2024</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="mb-0">SWP391 - Phát triển phần mềm</h6>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Xây dựng hệ thống Q&A cho môn học SWP391</p>
+                    <div class="mb-2">
+                        <span class="badge bg-info">Fall 2024</span>
+                        <span class="badge bg-secondary">4 nhóm</span>
+                    </div>
+                    <small class="text-muted">
+                        <i class="bi bi-calendar"></i> 01/09/2024 - 31/12/2024
+                    </small>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="/Instructor/Topics/Details" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-eye"></i> Chi tiết
+                    </a>
+                    <a href="/Instructor/Teams/Index" class="btn btn-sm btn-outline-success">
+                        <i class="bi bi-people"></i> Xem nhóm
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h6 class="mb-0">PRN231 - WEB API</h6>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Xây dựng REST API cho ứng dụng quản lý</p>
+                    <div class="mb-2">
+                        <span class="badge bg-info">Fall 2024</span>
+                        <span class="badge bg-secondary">3 nhóm</span>
+                    </div>
+                    <small class="text-muted">
+                        <i class="bi bi-calendar"></i> 01/09/2024 - 31/12/2024
+                    </small>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="/Instructor/Topics/Details" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-eye"></i> Chi tiết
+                    </a>
+                    <a href="/Instructor/Teams/Index" class="btn btn-sm btn-outline-success">
+                        <i class="bi bi-people"></i> Xem nhóm
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0">PRN222 - .NET Framework</h6>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Xây dựng ứng dụng desktop với .NET WPF</p>
+                    <div class="mb-2">
+                        <span class="badge bg-info">Fall 2024</span>
+                        <span class="badge bg-secondary">5 nhóm</span>
+                    </div>
+                    <small class="text-muted">
+                        <i class="bi bi-calendar"></i> 01/09/2024 - 31/12/2024
+                    </small>
+                </div>
+                <div class="card-footer bg-white">
+                    <a href="/Instructor/Topics/Details" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-eye"></i> Chi tiết
+                    </a>
+                    <a href="/Instructor/Teams/Index" class="btn btn-sm btn-outline-success">
+                        <i class="bi bi-people"></i> Xem nhóm
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

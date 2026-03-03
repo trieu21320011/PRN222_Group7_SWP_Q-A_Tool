@@ -1,0 +1,321 @@
+/* ===========================================
+   SWP Q&A Tool - Student Layout Styles
+   =========================================== */
+
+:root {
+    --student-primary: #27ae60;
+    --student-primary-dark: #1e8449;
+    --student-secondary: #2ecc71;
+    --student-sidebar-bg: #27ae60;
+    --student-sidebar-dark: #1e8449;
+    --student-sidebar-hover: #2ecc71;
+    --student-sidebar-active: #1e8449;
+    --student-navbar-bg: #1e8449;
+    --student-text-light: #ffffff;
+    --student-text-muted: rgba(255,255,255,0.7);
+    --student-border-color: rgba(255,255,255,0.2);
+    --student-content-bg: #f8f9fa;
+    --student-card-bg: #ffffff;
+    --student-success: #27ae60;
+    --student-warning: #f39c12;
+    --student-danger: #e74c3c;
+    --student-info: #3498db;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--student-content-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===========================================
+   Navbar Styles
+   =========================================== */
+.student-navbar {
+    background: linear-gradient(135deg, var(--student-navbar-bg) 0%, var(--student-primary) 100%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 0.75rem 1rem;
+}
+
+.student-navbar .navbar-brand {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+.student-navbar .navbar-brand i {
+    color: #fff;
+}
+
+.student-navbar .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    transition: color 0.2s;
+}
+
+.student-navbar .nav-link:hover {
+    color: #fff !important;
+}
+
+.student-navbar .badge {
+    font-size: 0.65rem;
+    position: relative;
+    top: -8px;
+    left: -5px;
+}
+
+/* ===========================================
+   Sidebar Styles
+   =========================================== */
+.sidebar {
+    min-height: calc(100vh - 56px);
+    background-color: var(--student-sidebar-bg);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header {
+    padding: 18px 20px;
+    color: #fff;
+    background-color: var(--student-sidebar-dark);
+    font-weight: 600;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--student-border-color);
+}
+
+.sidebar-header i {
+    color: #fff;
+}
+
+.sidebar .nav-link {
+    color: var(--student-text-light);
+    padding: 12px 20px;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.sidebar .nav-link:hover {
+    background-color: var(--student-sidebar-hover);
+    color: #fff;
+    padding-left: 25px;
+}
+
+.sidebar .nav-link.active {
+    background-color: var(--student-sidebar-active);
+    color: #fff;
+    border-left: 4px solid #fff;
+}
+
+.sidebar .nav-link i {
+    margin-right: 12px;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.nav-section {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--student-border-color);
+}
+
+.nav-section-title {
+    color: var(--student-text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 12px 20px 6px;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+/* ===========================================
+   Content Area Styles
+   =========================================== */
+.content-wrapper {
+    padding: 25px;
+    background-color: var(--student-content-bg);
+    min-height: calc(100vh - 56px - 50px);
+}
+
+/* ===========================================
+   Card Styles
+   =========================================== */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+/* ===========================================
+   Stats Cards
+   =========================================== */
+.stats-card {
+    border-radius: 10px;
+    padding: 20px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card.bg-primary {
+    background: linear-gradient(135deg, var(--student-primary) 0%, var(--student-secondary) 100%) !important;
+}
+
+.stats-card.bg-success {
+    background: linear-gradient(135deg, var(--student-success) 0%, #2ecc71 100%) !important;
+}
+
+.stats-card.bg-warning {
+    background: linear-gradient(135deg, var(--student-warning) 0%, #f1c40f 100%) !important;
+}
+
+.stats-card.bg-danger {
+    background: linear-gradient(135deg, var(--student-danger) 0%, #c0392b 100%) !important;
+}
+
+.stats-card.bg-info {
+    background: linear-gradient(135deg, var(--student-info) 0%, #2980b9 100%) !important;
+}
+
+.stats-card .stats-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 3rem;
+    opacity: 0.3;
+}
+
+.stats-card .stats-value {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.stats-card .stats-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* ===========================================
+   Table Styles
+   =========================================== */
+.table {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: var(--student-primary);
+    color: #fff;
+    border: none;
+    padding: 15px;
+    font-weight: 600;
+}
+
+.table tbody td {
+    padding: 12px 15px;
+    vertical-align: middle;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* ===========================================
+   Button Styles
+   =========================================== */
+.btn-student-primary {
+    background-color: var(--student-primary);
+    border-color: var(--student-primary);
+    color: #fff;
+}
+
+.btn-student-primary:hover {
+    background-color: var(--student-primary-dark);
+    border-color: var(--student-primary-dark);
+    color: #fff;
+}
+
+/* ===========================================
+   Footer Styles
+   =========================================== */
+.student-footer {
+    background-color: var(--student-primary-dark);
+    color: var(--student-text-muted);
+    padding: 15px 25px;
+    margin-top: auto;
+}
+
+.student-footer .text-muted {
+    color: var(--student-text-muted) !important;
+}
+
+/* ===========================================
+   Badge Styles
+   =========================================== */
+.badge-student {
+    background-color: var(--student-primary);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+}
+
+.badge-pending {
+    background-color: var(--student-warning);
+}
+
+.badge-answered {
+    background-color: var(--student-success);
+}
+
+/* ===========================================
+   Team Card Styles
+   =========================================== */
+.team-card {
+    border-left: 4px solid var(--student-primary);
+    transition: transform 0.2s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-2px);
+}
+
+/* ===========================================
+   Responsive
+   =========================================== */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 56px;
+        left: -100%;
+        width: 250px;
+        z-index: 1000;
+        transition: left 0.3s ease;
+    }
+    
+    .sidebar.show {
+        left: 0;
+    }
+    
+    .content-wrapper {
+        padding: 15px;
+    }
+    
+    .stats-card .stats-value {
+        font-size: 1.5rem;
+    }
+}

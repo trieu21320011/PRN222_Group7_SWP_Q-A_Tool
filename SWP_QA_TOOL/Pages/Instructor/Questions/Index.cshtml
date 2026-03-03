@@ -1,0 +1,206 @@
+@page
+@model SWP_QA_TOOL.Pages.Instructor.Questions.IndexModel
+@{
+    ViewData["Title"] = "Danh sách câu hỏi";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-question-circle"></i> Danh sách câu hỏi</h3>
+            <p class="text-muted">Quản lý các câu hỏi từ sinh viên</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm câu hỏi...">
+                <button class="btn btn-outline-primary" type="button">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select">
+                <option selected>-- Lớp --</option>
+                <option>SE1234</option>
+                <option>SE1235</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select">
+                <option selected>-- Nhóm --</option>
+                <option>Nhóm 1</option>
+                <option>Nhóm 2</option>
+                <option>Nhóm 3</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select">
+                <option selected>-- Trạng thái --</option>
+                <option>Chờ trả lời</option>
+                <option>Đã trả lời</option>
+                <option>Đã giải quyết</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Thống kê nhanh -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-warning">
+                <div class="card-body text-center">
+                    <h3 class="text-warning">8</h3>
+                    <small>Chờ trả lời</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-success">
+                <div class="card-body text-center">
+                    <h3 class="text-success">25</h3>
+                    <small>Đã trả lời</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-primary">
+                <div class="card-body text-center">
+                    <h3 class="text-primary">18</h3>
+                    <small>Đã giải quyết</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-info">
+                <div class="card-body text-center">
+                    <h3 class="text-info">51</h3>
+                    <small>Tổng câu hỏi</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Tiêu đề</th>
+                        <th>Nhóm</th>
+                        <th>Mã lớp</th>
+                        <th>Người hỏi</th>
+                        <th>Thời gian</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-warning">
+                        <td>1</td>
+                        <td>
+                            <a href="/Instructor/Questions/Details" class="text-decoration-none">
+                                Câu hỏi về Use Case Diagram
+                            </a>
+                        </td>
+                        <td>Nhóm 1</td>
+                        <td>SE1234</td>
+                        <td>Nguyễn Văn A</td>
+                        <td>10 phút trước</td>
+                        <td><span class="badge bg-warning">Chờ trả lời</span></td>
+                        <td>
+                            <a href="/Instructor/Questions/Answer" class="btn btn-sm btn-success">
+                                <i class="bi bi-reply"></i> Trả lời
+                            </a>
+                        </td>
+                    </tr>
+                    <tr class="table-warning">
+                        <td>2</td>
+                        <td>
+                            <a href="/Instructor/Questions/Details" class="text-decoration-none">
+                                Hỏi về Database Design
+                            </a>
+                        </td>
+                        <td>Nhóm 3</td>
+                        <td>SE1234</td>
+                        <td>Trần Thị B</td>
+                        <td>30 phút trước</td>
+                        <td><span class="badge bg-warning">Chờ trả lời</span></td>
+                        <td>
+                            <a href="/Instructor/Questions/Answer" class="btn btn-sm btn-success">
+                                <i class="bi bi-reply"></i> Trả lời
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>
+                            <a href="/Instructor/Questions/Details" class="text-decoration-none">
+                                Xác nhận requirement
+                            </a>
+                        </td>
+                        <td>Nhóm 2</td>
+                        <td>SE1234</td>
+                        <td>Lê Văn C</td>
+                        <td>1 giờ trước</td>
+                        <td><span class="badge bg-success">Đã trả lời</span></td>
+                        <td>
+                            <a href="/Instructor/Questions/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> Xem
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>
+                            <a href="/Instructor/Questions/Details" class="text-decoration-none">
+                                Hướng dẫn deploy ứng dụng
+                            </a>
+                        </td>
+                        <td>Nhóm 5</td>
+                        <td>SE1235</td>
+                        <td>Phạm Văn D</td>
+                        <td>2 giờ trước</td>
+                        <td><span class="badge bg-primary">Đã giải quyết</span></td>
+                        <td>
+                            <a href="/Instructor/Questions/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> Xem
+                            </a>
+                        </td>
+                    </tr>
+                    <tr class="table-warning">
+                        <td>5</td>
+                        <td>
+                            <a href="/Instructor/Questions/Details" class="text-decoration-none">
+                                Cách implement Repository Pattern
+                            </a>
+                        </td>
+                        <td>Nhóm 4</td>
+                        <td>SE1235</td>
+                        <td>Hoàng Thị E</td>
+                        <td>3 giờ trước</td>
+                        <td><span class="badge bg-warning">Chờ trả lời</span></td>
+                        <td>
+                            <a href="/Instructor/Questions/Answer" class="btn btn-sm btn-success">
+                                <i class="bi bi-reply"></i> Trả lời
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer bg-white">
+            <nav>
+                <ul class="pagination pagination-sm mb-0 justify-content-end">
+                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

@@ -233,5 +233,39 @@ namespace BussinessLayer.Service
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<GetTeamDTO?> GetTeamWithMembersAsync(int teamId)
+        {
+            try
+            {
+                var team = await _unitOfWork.TeamRepo.GetTeamWithMembersAsync(teamId);
+                if (team == null)
+                {
+                    return null;
+                }
+                return _mapper.Map<GetTeamDTO>(team);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<GetTeamDTO?> GetTeamProgressAsync(int teamId)
+        {
+            try
+            {
+                var team = await _unitOfWork.TeamRepo.GetTeamProgressAsync(teamId);
+                if (team == null)
+                {
+                    return null;
+                }
+                return _mapper.Map<GetTeamDTO>(team);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

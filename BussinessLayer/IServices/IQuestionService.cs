@@ -22,5 +22,8 @@ namespace BussinessLayer.IServices
         Task<IEnumerable<GetQuestionDTO>> GetPinnedQuestionsAsync();
         Task<IEnumerable<GetQuestionDTO>> GetRecentQuestionsAsync(int count);
         Task<IEnumerable<GetQuestionDTO>> GetOpenQuestionsAsync();
+        Task<IEnumerable<GetQuestionDTO>> GetQuestionsByTeamInCoreAsync(int teamId, int coreId);
+        Task<IEnumerable<GetQuestionDTO>> GetQuestionsAssignedToInstructorAsync(int instructorId);
+        Task<bool> MarkAsResolvedAsync(int questionId, int closedById);
     }
 }

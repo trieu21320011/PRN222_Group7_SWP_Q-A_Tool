@@ -1,0 +1,197 @@
+@page
+@model SWP_QA_TOOL.Pages.Student.Questions.IndexModel
+@{
+    ViewData["Title"] = "Câu hỏi của nhóm";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-question-circle"></i> Câu hỏi của nhóm</h3>
+            <p class="text-muted">Xem tất cả câu hỏi nhóm đã gửi cho giảng viên</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Tìm kiếm câu hỏi...">
+                <button class="btn btn-outline-primary" type="button">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select">
+                <option selected>-- Trạng thái --</option>
+                <option>Chờ trả lời</option>
+                <option>Đã trả lời</option>
+                <option>Đã giải quyết</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <select class="form-select">
+                <option selected>-- Thời gian --</option>
+                <option>Hôm nay</option>
+                <option>Tuần này</option>
+                <option>Tháng này</option>
+            </select>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="/Student/Questions/Create" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Tạo câu hỏi mới
+            </a>
+        </div>
+    </div>
+
+    <!-- Thống kê nhanh -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-warning">
+                <div class="card-body text-center py-2">
+                    <h4 class="text-warning mb-0">2</h4>
+                    <small>Chờ trả lời</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-success">
+                <div class="card-body text-center py-2">
+                    <h4 class="text-success mb-0">1</h4>
+                    <small>Đã trả lời</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-primary">
+                <div class="card-body text-center py-2">
+                    <h4 class="text-primary mb-0">2</h4>
+                    <small>Đã giải quyết</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-info">
+                <div class="card-body text-center py-2">
+                    <h4 class="text-info mb-0">5</h4>
+                    <small>Tổng câu hỏi</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Tiêu đề</th>
+                        <th>Người hỏi</th>
+                        <th>Thời gian</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-warning">
+                        <td>1</td>
+                        <td>
+                            <a href="/Student/Questions/Details" class="text-decoration-none">
+                                <strong>Câu hỏi về Use Case Diagram</strong>
+                            </a>
+                        </td>
+                        <td>Nguyễn Văn A</td>
+                        <td>10 phút trước</td>
+                        <td><span class="badge bg-warning">Chờ trả lời</span></td>
+                        <td>
+                            <a href="/Student/Questions/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="/Student/Questions/Edit" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr class="table-warning">
+                        <td>2</td>
+                        <td>
+                            <a href="/Student/Questions/Details" class="text-decoration-none">
+                                <strong>Thắc mắc về API authentication</strong>
+                            </a>
+                        </td>
+                        <td>Trần Thị B</td>
+                        <td>2 giờ trước</td>
+                        <td><span class="badge bg-warning">Chờ trả lời</span></td>
+                        <td>
+                            <a href="/Student/Questions/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="/Student/Questions/Edit" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>
+                            <a href="/Student/Questions/Details" class="text-decoration-none">
+                                Hỏi về Database Design
+                                <span class="badge bg-success ms-1">Mới TL</span>
+                            </a>
+                        </td>
+                        <td>Nguyễn Văn A</td>
+                        <td>2 ngày trước</td>
+                        <td><span class="badge bg-success">Đã trả lời</span></td>
+                        <td>
+                            <a href="/Student/Questions/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>
+                            <a href="/Student/Questions/Details" class="text-decoration-none">
+                                Xác nhận requirement
+                            </a>
+                        </td>
+                        <td>Lê Văn C</td>
+                        <td>1 tuần trước</td>
+                        <td><span class="badge bg-primary">Đã giải quyết</span></td>
+                        <td>
+                            <a href="/Student/Questions/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>
+                            <a href="/Student/Questions/Details" class="text-decoration-none">
+                                Cách validate form input
+                            </a>
+                        </td>
+                        <td>Phạm Thị D</td>
+                        <td>2 tuần trước</td>
+                        <td><span class="badge bg-primary">Đã giải quyết</span></td>
+                        <td>
+                            <a href="/Student/Questions/Details" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer bg-white">
+            <nav>
+                <ul class="pagination pagination-sm mb-0 justify-content-end">
+                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

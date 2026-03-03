@@ -18,5 +18,7 @@ namespace BussinessLayer.IServices
         Task<IEnumerable<GetCoreDTO>> GetCoresBySemesterAsync(int semesterId);
         Task<IEnumerable<GetCoreDTO>> GetCoresByInstructorAsync(int instructorId);
         Task<IEnumerable<GetCoreDTO>> GetActiveCoresAsync();
+        Task<IEnumerable<GetCoreDTO>> GetCoresByTopicAsync(int topicId);
+        Task<GetCoreDTO?> GetCoreWithTeamsAsync(int coreId);
     }
 }

@@ -18,5 +18,7 @@ namespace BussinessLayer.IServices
         Task<IEnumerable<GetTopicDTO>> GetTopicsBySemesterAsync(int semesterId);
         Task<IEnumerable<GetTopicDTO>> GetActiveTopicsAsync();
         Task<IEnumerable<GetTopicDTO>> GetTopicsByCategoryAsync(string category);
+        Task<IEnumerable<GetTopicDTO>> GetTopicsByInstructorAsync(int instructorId);
+        Task<GetTopicDTO?> GetTopicWithTeamsAndCoresAsync(int topicId);
     }
 }

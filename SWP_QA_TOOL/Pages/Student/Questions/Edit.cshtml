@@ -1,0 +1,143 @@
+@page "{id:int?}"
+@model SWP_QA_TOOL.Pages.Student.Questions.EditModel
+@{
+    ViewData["Title"] = "Chỉnh sửa câu hỏi";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Student/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/Student/Questions/Index">Câu hỏi</a></li>
+                    <li class="breadcrumb-item active">Chỉnh sửa</li>
+                </ol>
+            </nav>
+            <h3><i class="bi bi-pencil"></i> Chỉnh sửa câu hỏi</h3>
+            <p class="text-muted">Cập nhật nội dung câu hỏi</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="bi bi-question-circle"></i> Nội dung câu hỏi</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Tiêu đề câu hỏi <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" value="Câu hỏi về Use Case Diagram" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Phân loại câu hỏi</label>
+                            <select class="form-select">
+                                <option>-- Chọn phân loại --</option>
+                                <option selected>Yêu cầu (Requirements)</option>
+                                <option>Thiết kế (Design)</option>
+                                <option>Database</option>
+                                <option>Coding</option>
+                                <option>Testing</option>
+                                <option>Deployment</option>
+                                <option>Khác</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nội dung chi tiết <span class="text-danger">*</span></label>
+                            <textarea class="form-control" rows="10" required>Kính gửi Thầy/Cô,
+
+Em muốn hỏi về cách vẽ Use Case Diagram cho chức năng đăng nhập, đăng ký trong dự án. Cụ thể:
+
+1. Actor "User" có nên được chia thành "Guest" và "Member" không?
+2. Chức năng "Quên mật khẩu" nên được đặt là extend hay include của "Đăng nhập"?
+3. Có cần vẽ riêng Use Case cho validate form không?
+
+Em xin cảm ơn Thầy/Cô!</textarea>
+                            <div class="form-text">
+                                <i class="bi bi-markdown"></i> Hỗ trợ định dạng Markdown
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">File đính kèm hiện tại</label>
+                            <div class="list-group">
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span><i class="bi bi-file-earmark-image"></i> use_case_draft.png (256 KB)</span>
+                                    <button type="button" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-x"></i> Xóa
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Thêm file mới</label>
+                            <input type="file" class="form-control" multiple>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Mức độ ưu tiên</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="priority" id="priorityNormal" checked>
+                                <label class="form-check-label" for="priorityNormal">
+                                    <span class="badge bg-secondary">Bình thường</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="priority" id="priorityHigh">
+                                <label class="form-check-label" for="priorityHigh">
+                                    <span class="badge bg-warning">Quan trọng</span>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="priority" id="priorityUrgent">
+                                <label class="form-check-label" for="priorityUrgent">
+                                    <span class="badge bg-danger">Khẩn cấp</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Lưu thay đổi
+                            </button>
+                            <a href="/Student/Questions/Details" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-circle"></i> Hủy
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-info-circle"></i> Thông tin câu hỏi</h6>
+                </div>
+                <div class="card-body">
+                    <p><strong>Mã:</strong> #Q001</p>
+                    <p><strong>Trạng thái:</strong> <span class="badge bg-warning">Chờ trả lời</span></p>
+                    <p><strong>Ngày tạo:</strong> 20/10/2024, 10:30</p>
+                    <p><strong>Người tạo:</strong> Nguyễn Văn A</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Lưu ý</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="small mb-0">
+                        <li>Chỉ có thể chỉnh sửa câu hỏi khi chưa được trả lời</li>
+                        <li>Sau khi GV trả lời, câu hỏi sẽ bị khóa chỉnh sửa</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

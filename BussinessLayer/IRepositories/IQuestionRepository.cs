@@ -18,5 +18,8 @@ namespace BussinessLayer.IRepositories
         Task<IEnumerable<Question>> GetPinnedQuestionsAsync();
         Task<IEnumerable<Question>> GetRecentQuestionsAsync(int count);
         Task<IEnumerable<Question>> GetOpenQuestionsAsync();
+        Task<IEnumerable<Question>> GetQuestionsByTeamInCoreAsync(int teamId, int coreId);
+        Task<IEnumerable<Question>> GetQuestionsAssignedToInstructorAsync(int instructorId);
+        Task MarkAsResolvedAsync(int questionId, int closedById);
     }
 }
