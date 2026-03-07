@@ -20,6 +20,7 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public string? CoreName { get; set; }
         public int? TopicId { get; set; }
         public string? TopicName { get; set; }
+        public string? SemesterCode { get; set; }
         public int? AssignedInstructorId { get; set; }
         public string? AssignedInstructorName { get; set; }
         public string? Status { get; set; }
@@ -83,6 +84,7 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public string? TeamName { get; set; }
         public string? CoreName { get; set; }
         public string? TopicName { get; set; }
+        public string? SemesterCode { get; set; }
         public string? AssignedInstructorName { get; set; }
         public string? Status { get; set; }
         public string? Category { get; set; }

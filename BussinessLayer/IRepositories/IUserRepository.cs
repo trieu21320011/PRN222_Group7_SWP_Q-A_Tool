@@ -11,6 +11,7 @@ namespace BussinessLayer.IRepositories
     {
         Task<User?> GetUserByEmailAsync(string email);
         Task<User?> GetUserWithRoleAsync(int userId);
+        Task<IEnumerable<User>> GetUsersWithRoleAsync();
         Task<IEnumerable<User>> GetUsersByRoleAsync(int roleId);
         Task<IEnumerable<User>> GetActiveUsersAsync();
         Task<User?> LoginAsync(string email, string password);

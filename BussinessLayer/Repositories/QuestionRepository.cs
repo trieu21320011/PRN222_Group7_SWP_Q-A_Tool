@@ -10,6 +10,19 @@ namespace BussinessLayer.Repositories
         {
         }
 
+        public async Task<IEnumerable<Question>> GetAllWithDetailsAsync()
+        {
+            return await _dbContext.Questions
+                .Include(x => x.Author)
+                .Include(x => x.Team)
+                .Include(x => x.Core)
+                    .ThenInclude(c => c.Semester)
+                .Include(x => x.Topic)
+                .Include(x => x.AssignedInstructor)
+                .OrderByDescending(x => x.CreatedAt)
+                .ToListAsync();
+        }
+
         public async Task<Question?> GetQuestionWithDetailsAsync(int questionId)
         {
             return await _dbContext.Questions

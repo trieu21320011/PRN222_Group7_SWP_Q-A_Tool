@@ -9,6 +9,7 @@ namespace BussinessLayer.IRepositories
 {
     public interface IQuestionRepository : IGenericRepository<Question>
     {
+        Task<IEnumerable<Question>> GetAllWithDetailsAsync();
         Task<Question?> GetQuestionWithDetailsAsync(int questionId);
         Task<IEnumerable<Question>> GetQuestionsByAuthorAsync(int authorId);
         Task<IEnumerable<Question>> GetQuestionsByTeamAsync(int teamId);

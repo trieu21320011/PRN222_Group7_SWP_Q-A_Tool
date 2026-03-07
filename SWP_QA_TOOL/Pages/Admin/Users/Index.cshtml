@@ -19,34 +19,49 @@
         </div>
     </div>
 
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
     <!-- Filter -->
     <div class="card mb-4">
         <div class="card-body">
-            <div class="row g-3">
+            <form method="get" class="row g-3">
                 <div class="col-md-3">
-                    <input type="text" class="form-control" placeholder="Tìm kiếm theo tên...">
+                    <input type="text" asp-for="SearchTerm" class="form-control" placeholder="Tìm kiếm theo tên, email, mssv...">
                 </div>
                 <div class="col-md-2">
-                    <select class="form-select">
-                        <option selected>-- Tất cả Role --</option>
-                        <option>Admin</option>
-                        <option>Instructor</option>
-                        <option>Student</option>
+                    <select asp-for="RoleName" class="form-select">
+                        <option value="ALL">-- Tất cả Role --</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Instructor">Instructor</option>
+                        <option value="Student">Student</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <select class="form-select">
-                        <option selected>-- Trạng thái --</option>
-                        <option>Hoạt động</option>
-                        <option>Bị khóa</option>
+                    <select asp-for="Status" class="form-select">
+                        <option value="ALL">-- Trạng thái --</option>
+                        <option value="Active">Hoạt động</option>
+                        <option value="Inactive">Bị khóa</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-outline-primary w-100">
+                    <button type="submit" class="btn btn-outline-primary w-100">
                         <i class="bi bi-search"></i> Tìm kiếm
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -59,6 +74,7 @@
                         <th>#</th>
                         <th>Họ tên</th>
                         <th>Email</th>
+                        <th>MSSV</th>
                         <th>Role</th>
                         <th>Ngày tạo</th>
                         <th>Trạng thái</th>
@@ -66,75 +82,68 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img src="https://ui-avatars.com/api/?name=Admin&background=8e44ad&color=fff" 
-                                     class="rounded-circle me-2" width="36" height="36">
-                                <span>System Administrator</span>
-                            </div>
-                        </td>
-                        <td>admin@swp39...</td>
-                        <td><span class="badge bg-danger">Admin</span></td>
-                        <td>01/01/2026</td>
-                        <td><span class="badge badge-active">Hoạt động</span></td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                            <a href="#" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img src="https://ui-avatars.com/api/?name=Nguyen+Van+Instructor&background=3498db&color=fff" 
-                                     class="rounded-circle me-2" width="36" height="36">
-                                <span>Nguyen Van Instructor</span>
-                            </div>
-                        </td>
-                        <td>instructor@swp...</td>
-                        <td><span class="badge bg-primary">Instructor</span></td>
-                        <td>15/01/2026</td>
-                        <td><span class="badge badge-active">Hoạt động</span></td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                            <a href="#" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
-                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-lock"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <img src="https://ui-avatars.com/api/?name=Tran+Thi+Mentor&background=27ae60&color=fff" 
-                                     class="rounded-circle me-2" width="36" height="36">
-                                <span>Tran Thi Mentor</span>
-                            </div>
-                        </td>
-                        <td>Student1@swp...</td>
-                        <td><span class="badge bg-success">Student</span></td>
-                        <td>20/01/2026</td>
-                        <td><span class="badge badge-active">Hoạt động</span></td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                            <a href="#" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
-                            <button class="btn btn-sm btn-outline-danger"><i class="bi bi-lock"></i></button>
-                        </td>
-                    </tr>
+                    @if (Model.Users != null && Model.Users.Any())
+                    {
+                        int index = 1;
+                        foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>@index</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img src="@(string.IsNullOrEmpty(user.AvatarUrl) ? $"https://ui-avatars.com/api/?name={Uri.EscapeDataString(user.FullName)}&background=random&color=fff" : user.AvatarUrl)" 
+                                             class="rounded-circle me-2" width="36" height="36">
+                                        <span>@user.FullName</span>
+                                    </div>
+                                </td>
+                                <td>@user.Email</td>
+                                <td>@(user.StudentId ?? "-")</td>
+                                <td>
+                                    @if(user.RoleName == "Admin")
+                                    {
+                                        <span class="badge bg-danger">@user.RoleName</span>
+                                    }
+                                    else if(user.RoleName == "Instructor")
+                                    {
+                                        <span class="badge bg-primary">@user.RoleName</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">@user.RoleName</span>
+                                    }
+                                </td>
+                                <td>@(user.CreatedAt?.ToString("dd/MM/yyyy") ?? "-")</td>
+                                <td>
+                                    @if(user.IsActive == true)
+                                    {
+                                        <span class="badge badge-active text-bg-success">Hoạt động</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge text-bg-secondary">Bị khóa</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a href="/Admin/Users/Details/@user.UserId" class="btn btn-sm btn-outline-primary" title="Chi tiết"><i class="bi bi-eye"></i></a>
+                                    <a href="#" class="btn btn-sm btn-outline-warning" title="Sửa"><i class="bi bi-pencil"></i></a>
+                                    <button class="btn btn-sm btn-outline-danger" title="Khóa"><i class="bi bi-lock"></i></button>
+                                </td>
+                            </tr>
+                            index++;
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center">Không tìm thấy người dùng nào.</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
         <div class="card-footer">
             <div class="d-flex justify-content-between align-items-center">
-                <span class="text-muted">Hiển thị 1-3 của 3 người dùng</span>
-                <nav>
-                    <ul class="pagination pagination-sm mb-0">
-                        <li class="page-item disabled"><a class="page-link" href="#">Trước</a></li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item disabled"><a class="page-link" href="#">Sau</a></li>
-                    </ul>
-                </nav>
+                <span class="text-muted">Hiển thị @Model.Users.Count() người dùng</span>
             </div>
         </div>
     </div>

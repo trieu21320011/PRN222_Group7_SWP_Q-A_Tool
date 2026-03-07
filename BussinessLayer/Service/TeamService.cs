@@ -267,5 +267,65 @@ namespace BussinessLayer.Service
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<IEnumerable<GetTeamDTO>> GetTeamsByUserAsync(int userId)
+        {
+            try
+            {
+                var memberships = await _unitOfWork.TeamMemberRepo.GetTeamsByUserAsync(userId);
+                var teams = memberships.Select(m => m.Team).ToList();
+                return _mapper.Map<IEnumerable<GetTeamDTO>>(teams);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> AddMemberToTeamAsync(int teamId, int userId, string role)
+        {
+            try
+            {
+                var existingMembership = await _unitOfWork.TeamMemberRepo.GetMembershipAsync(teamId, userId);
+                if (existingMembership != null)
+                {
+                    return false; // Already a member
+                }
+
+                var teamMember = new TeamMember
+                {
+                    TeamId = teamId,
+                    UserId = userId,
+                    Role = role,
+                    JoinedAt = DateTime.UtcNow
+                };
+
+                await _unitOfWork.TeamMemberRepo.AddAsync(teamMember);
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+
+                // Update Core.CurrentTeams count
+                if (isSuccess)
+                {
+                    var team = await _unitOfWork.TeamRepo.GetByIdAsync(teamId);
+                    if (team?.CoreId != null)
+                    {
+                        var core = await _unitOfWork.CoreRepo.GetByIdAsync(team.CoreId.Value);
+                        if (core != null)
+                        {
+                            core.CurrentTeams = (core.CurrentTeams ?? 0) + 1;
+                            core.UpdatedAt = DateTime.UtcNow;
+                            _unitOfWork.CoreRepo.Update(core);
+                            await _unitOfWork.SaveChangeAsync();
+                        }
+                    }
+                }
+
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
