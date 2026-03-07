@@ -1,0 +1,64 @@
+﻿@page
+@model Web.Pages.Topics.DetailsModel
+
+<h2>Topic Details</h2>
+
+<table class="table table-bordered">
+
+    <tr>
+        <th>Topic Code</th>
+        <td>@Model.Topic.TopicCode</td>
+    </tr>
+
+    <tr>
+        <th>Topic Name</th>
+        <td>@Model.Topic.TopicName</td>
+    </tr>
+
+    <tr>
+        <th>Description</th>
+        <td>@Model.Topic.Description</td>
+    </tr>
+
+    <tr>
+        <th>Semester</th>
+        <td>@Model.Topic.SemesterCode</td>
+    </tr>
+
+    <tr>
+        <th>Category</th>
+        <td>@Model.Topic.Category</td>
+    </tr>
+
+    <tr>
+        <th>Difficulty</th>
+        <td>@Model.Topic.Difficulty</td>
+    </tr>
+
+    <tr>
+        <th>Max Teams</th>
+        <td>@Model.Topic.MaxTeams</td>
+    </tr>
+
+    <tr>
+        <th>Current Teams</th>
+        <td>@Model.Topic.CurrentTeams</td>
+    </tr>
+
+    <tr>
+        <th>Status</th>
+        <td>
+            @(Model.Topic.IsActive == true ? "Active" : "Inactive")
+        </td>
+    </tr>
+
+    <tr>
+        <th>Created At</th>
+        <td>@Model.Topic.CreatedAt</td>
+    </tr>
+
+</table>
+
+<a asp-page="Index" class="btn btn-primary">
+    Back
+</a>

@@ -1,0 +1,24 @@
+﻿@page "{id:int}"
+@model SWP391_QA.Pages.Cores.DeleteModel
+
+<h2>Delete Core</h2>
+
+<h4>Are you sure you want to delete this Core?</h4>
+
+<div>
+
+    <p><b>Core Code:</b> @Model.Core.CoreCode</p>
+    <p><b>Core Name:</b> @Model.Core.CoreName</p>
+    <p><b>Instructor:</b> @Model.Core.InstructorName</p>
+    <p><b>Semester:</b> @Model.Core.SemesterCode</p>
+
+</div>
+
+<form method="post">
+
+    <input type="hidden" asp-for="Core.CoreId" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+
+</form>

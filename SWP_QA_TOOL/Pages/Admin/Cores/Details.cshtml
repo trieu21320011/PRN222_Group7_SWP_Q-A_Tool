@@ -1,0 +1,26 @@
+﻿@page "{id:int}"
+@model SWP391_QA.Pages.Cores.DetailsModel
+
+<h2>Core Details</h2>
+
+<div>
+
+    <p><b>Core Code:</b> @Model.Core.CoreCode</p>
+
+    <p><b>Core Name:</b> @Model.Core.CoreName</p>
+
+    <p><b>Instructor:</b> @Model.Core.InstructorName</p>
+
+    <p><b>Semester:</b> @Model.Core.SemesterCode</p>
+
+    <p><b>Room:</b> @Model.Core.Room</p>
+
+    <p><b>Schedule:</b> @Model.Core.Schedule</p>
+
+    <p><b>Teams:</b> @Model.Core.CurrentTeams / @Model.Core.MaxTeams</p>
+
+</div>
+
+<hr>
+
+<a asp-page="Index" class="btn btn-secondary">Back</a>

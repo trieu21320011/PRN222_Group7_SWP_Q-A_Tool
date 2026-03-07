@@ -1,0 +1,50 @@
+﻿@page "{id:int}"
+@model SWP391_QA.Pages.Cores.EditModel
+
+<h2>Edit Core</h2>
+
+<form method="post">
+
+    <input type="hidden" asp-for="Core.CoreId" />
+
+    <div class="form-group">
+        <label>Core Code</label>
+        <input asp-for="Core.CoreCode" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Core Name</label>
+        <input asp-for="Core.CoreName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Instructor Id</label>
+        <input asp-for="Core.InstructorId" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Max Teams</label>
+        <input asp-for="Core.MaxTeams" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Schedule</label>
+        <input asp-for="Core.Schedule" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Room</label>
+        <input asp-for="Core.Room" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Active</label>
+        <input asp-for="Core.IsActive" type="checkbox" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-page="Index" class="btn btn-secondary">Back</a>
+
+</form>

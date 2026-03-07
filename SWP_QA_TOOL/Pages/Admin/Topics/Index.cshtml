@@ -1,0 +1,44 @@
+﻿@page
+@model Web.Pages.Topics.IndexModel
+
+<h2>Topic Management</h2>
+
+<a asp-page="Create" class="btn btn-primary">Create Topic</a>
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>Semester</th>
+            <th>Category</th>
+            <th>Difficulty</th>
+            <th>Max Teams</th>
+            <th>Current Teams</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.Topics)
+        {
+            <tr>
+                <td>@item.TopicCode</td>
+                <td>@item.TopicName</td>
+                <td>@item.SemesterCode</td>
+                <td>@item.Category</td>
+                <td>@item.Difficulty</td>
+                <td>@item.MaxTeams</td>
+                <td>@item.CurrentTeams</td>
+                <td>@(item.IsActive == true ? "Active" : "Inactive")</td>
+
+                <td>
+                    <a asp-page="Details" asp-route-id="@item.TopicId">View</a> |
+                    <a asp-page="Edit" asp-route-id="@item.TopicId">Edit</a> |
+                    <a asp-page="Delete" asp-route-id="@item.TopicId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

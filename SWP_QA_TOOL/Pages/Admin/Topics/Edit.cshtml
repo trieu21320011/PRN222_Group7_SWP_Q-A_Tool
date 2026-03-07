@@ -1,0 +1,51 @@
+﻿@page
+@model Web.Pages.Topics.EditModel
+
+<h2>Edit Topic</h2>
+
+<form method="post">
+
+    <input type="hidden" asp-for="Topic.TopicId" />
+
+    <div class="form-group">
+        <label>Topic Code</label>
+        <input asp-for="Topic.TopicCode" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Topic Name</label>
+        <input asp-for="Topic.TopicName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Description</label>
+        <textarea asp-for="Topic.Description" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Category</label>
+        <input asp-for="Topic.Category" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Difficulty</label>
+        <input asp-for="Topic.Difficulty" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Max Teams</label>
+        <input asp-for="Topic.MaxTeams" class="form-control" />
+    </div>
+
+    <div class="form-group mt-2">
+        <label>Status</label>
+        <select asp-for="Topic.IsActive" class="form-control">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Update</button>
+    <a asp-page="Index" class="btn btn-secondary mt-3">Back</a>
+
+</form>

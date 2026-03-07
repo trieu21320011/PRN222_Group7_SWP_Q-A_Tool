@@ -1,0 +1,46 @@
+﻿@page
+@model SWP391_QA.Pages.Cores.IndexModel
+
+<h2>Core List</h2>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create Core</a>
+</p>
+
+<table class="table table-bordered">
+
+    <thead>
+        <tr>
+            <th>Core Code</th>
+            <th>Core Name</th>
+            <th>Semester</th>
+            <th>Instructor</th>
+            <th>Teams</th>
+            <th>Room</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var core in Model.Cores)
+        {
+            <tr>
+                <td>@core.CoreCode</td>
+                <td>@core.CoreName</td>
+                <td>@core.SemesterCode</td>
+                <td>@core.InstructorName</td>
+                <td>@core.CurrentTeams / @core.MaxTeams</td>
+                <td>@core.Room</td>
+
+                <td>
+                    <a asp-page="Details" asp-route-id="@core.CoreId">Details</a> |
+                    <a asp-page="Edit" asp-route-id="@core.CoreId">Edit</a> |
+                    <a asp-page="Delete" asp-route-id="@core.CoreId">Delete</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
