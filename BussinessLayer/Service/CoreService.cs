@@ -221,5 +221,39 @@ namespace BussinessLayer.Service
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<IEnumerable<GetCoreDTO>> GetStudentCoursesAsync(int userId)
+        {
+            try
+            {
+                var teams = await _unitOfWork.TeamRepo.GetTeamsByUserAsync(userId);
+                var coreIds = teams
+                    .Where(t => t.CoreId.HasValue)
+                    .Select(t => t.CoreId.Value)
+                    .Distinct()
+                    .ToList();
+
+                if (!coreIds.Any())
+                {
+                    return new List<GetCoreDTO>();
+                }
+
+                var cores = new List<Core>();
+                foreach (var coreId in coreIds)
+                {
+                    var core = await _unitOfWork.CoreRepo.GetCoreWithDetailsAsync(coreId);
+                    if (core != null)
+                    {
+                        cores.Add(core);
+                    }
+                }
+
+                return _mapper.Map<IEnumerable<GetCoreDTO>>(cores);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

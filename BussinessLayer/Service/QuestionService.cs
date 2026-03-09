@@ -298,5 +298,157 @@ namespace BussinessLayer.Service
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<QuestionDTO?> UpdateQuestionAsAuthorAsync(int questionId, UpdateQuestionDTO updateQuestionDTO, int userId)
+        {
+            try
+            {
+                var question = await _unitOfWork.QuestionRepo.GetQuestionWithDetailsAsync(questionId);
+                if (question == null)
+                {
+                    throw new Exception("Question not found.");
+                }
+
+                // Check if user is the question author
+                if (question.AuthorId != userId)
+                {
+                    throw new Exception("Only the question author can edit this question.");
+                }
+
+                // Check if question has answers - cannot edit if it does
+                if (question.AnswerCount > 0 || question.Answers.Any())
+                {
+                    throw new Exception("Cannot edit a question after answers have been provided.");
+                }
+
+                // Validate input
+                if (string.IsNullOrWhiteSpace(updateQuestionDTO.Title))
+                {
+                    throw new Exception("Question title cannot be empty.");
+                }
+
+                if (string.IsNullOrWhiteSpace(updateQuestionDTO.Body))
+                {
+                    throw new Exception("Question body cannot be empty.");
+                }
+
+                // Only allow students to update basic fields
+                question.Title = updateQuestionDTO.Title;
+                question.Body = updateQuestionDTO.Body;
+                question.Excerpt = updateQuestionDTO.Excerpt;
+                question.TopicId = updateQuestionDTO.TopicId;
+                question.Category = updateQuestionDTO.Category;
+                question.Difficulty = updateQuestionDTO.Difficulty;
+                question.UpdatedAt = DateTime.UtcNow;
+                question.LastActivityAt = DateTime.UtcNow;
+
+                _unitOfWork.QuestionRepo.Update(question);
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+
+                if (isSuccess)
+                {
+                    return _mapper.Map<QuestionDTO>(question);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<QuestionDTO?> MarkAsUnderstoodAsync(int questionId, int userId)
+        {
+            try
+            {
+                var question = await _unitOfWork.QuestionRepo.GetQuestionWithDetailsAsync(questionId);
+                if (question == null)
+                {
+                    throw new Exception("Question not found.");
+                }
+
+                // Check if user is the question author
+                if (question.AuthorId != userId)
+                {
+                    throw new Exception("Only the question author can mark this question as understood.");
+                }
+
+                // Check if question has at least one answer
+                if (question.AnswerCount == 0 || !question.Answers.Any())
+                {
+                    throw new Exception("Question must have at least one answer before marking as understood.");
+                }
+
+                // Mark as understood
+                question.Status = "Understood";
+                question.UpdatedAt = DateTime.UtcNow;
+                question.LastActivityAt = DateTime.UtcNow;
+
+                _unitOfWork.QuestionRepo.Update(question);
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+
+                if (isSuccess)
+                {
+                    return _mapper.Map<QuestionDTO>(question);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> CanEditQuestionAsync(int questionId)
+        {
+            try
+            {
+                var question = await _unitOfWork.QuestionRepo.GetByIdAsync(questionId);
+                if (question == null)
+                {
+                    return false;
+                }
+
+                // Can edit only if no answers exist
+                return (question.AnswerCount == null || question.AnswerCount == 0);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> DeleteQuestionAsAuthorAsync(int questionId, int userId)
+        {
+            try
+            {
+                var question = await _unitOfWork.QuestionRepo.GetByIdAsync(questionId);
+                if (question == null)
+                {
+                    throw new Exception("Question not found.");
+                }
+
+                // Check if user is the question author
+                if (question.AuthorId != userId)
+                {
+                    throw new Exception("Only the question author can delete this question.");
+                }
+
+                _unitOfWork.QuestionRepo.Delete(question);
+                var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
+
+                return isSuccess;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

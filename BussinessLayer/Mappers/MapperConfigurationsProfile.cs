@@ -44,6 +44,26 @@ namespace BussinessLayer.Mappers
                 .ForMember(dest => dest.TopicName, opt => opt.MapFrom(src => src.Topic != null ? src.Topic.TopicName : null))
                 .ForMember(dest => dest.AssignedInstructorName, opt => opt.MapFrom(src => src.AssignedInstructor != null ? src.AssignedInstructor.FullName : null))
                 .ReverseMap();
+            CreateMap<Question, QuestionDetailDTO>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
+                .ForMember(dest => dest.TeamName, opt => opt.MapFrom(src => src.Team != null ? src.Team.TeamName : null))
+                .ForMember(dest => dest.CoreName, opt => opt.MapFrom(src => src.Core != null ? src.Core.CoreName : null))
+                .ForMember(dest => dest.TopicName, opt => opt.MapFrom(src => src.Topic != null ? src.Topic.TopicName : null))
+                .ForMember(dest => dest.AssignedInstructorName, opt => opt.MapFrom(src => src.AssignedInstructor != null ? src.AssignedInstructor.FullName : null))
+                .ForMember(dest => dest.Answers, opt => opt.MapFrom(src => src.Answers))
+                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments))
+                .ReverseMap();
+
+            // Answer related mappings
+            CreateMap<Answer, QuestionAnswerDTO>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
+                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments))
+                .ReverseMap();
+
+            // Comment related mappings
+            CreateMap<Comment, QuestionCommentDTO>()
+                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
+                .ReverseMap();
 
             // Team mappings
             CreateMap<Team, TeamDTO>()
@@ -114,6 +134,16 @@ namespace BussinessLayer.Mappers
             CreateMap<Comment, GetCommentDTO>()
                 .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
                 .ReverseMap();
+
+            // TeamMember mappings
+            CreateMap<TeamMember, TeamMemberDTO>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.DisplayName ?? src.User.FullName))
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User.Email))
+                .ForMember(dest => dest.StudentId, opt => opt.MapFrom(src => src.User.StudentId))
+                .ReverseMap();
+            CreateMap<TeamMember, AddTeamMemberDTO>().ReverseMap();
+            CreateMap<TeamMember, UpdateTeamMemberRoleDTO>().ReverseMap();
         }
     }
 }

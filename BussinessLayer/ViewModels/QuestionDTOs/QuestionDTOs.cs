@@ -98,4 +98,43 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public DateTime? LastActivityAt { get; set; }
         public DateTime? CreatedAt { get; set; }
     }
+
+    public class QuestionDetailDTO : GetQuestionDTO
+    {
+        public int AuthorId { get; set; }
+        public int? AcceptedAnswerId { get; set; }
+        public string? ClosedReason { get; set; }
+        public int? ClosedById { get; set; }
+        public DateTime? ClosedAt { get; set; }
+        public List<QuestionAnswerDTO> Answers { get; set; } = new List<QuestionAnswerDTO>();
+        public List<QuestionCommentDTO> Comments { get; set; } = new List<QuestionCommentDTO>();
+        public bool CanEdit { get; set; } // Can current user edit?
+    }
+
+    public class QuestionAnswerDTO
+    {
+        public int AnswerId { get; set; }
+        public int AuthorId { get; set; }
+        public string? AuthorName { get; set; }
+        public string Body { get; set; } = null!;
+        public bool? IsAccepted { get; set; }
+        public bool? IsMentorAnswer { get; set; }
+        public int? CommentCount { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public List<QuestionCommentDTO> Comments { get; set; } = new List<QuestionCommentDTO>();
+    }
+
+    public class QuestionCommentDTO
+    {
+        public int CommentId { get; set; }
+        public int AuthorId { get; set; }
+        public string? AuthorName { get; set; }
+        public string Body { get; set; } = null!;
+        public DateTime? CreatedAt { get; set; }
+    }
+
+    public class MarkAsUnderstoodDTO
+    {
+        public int QuestionId { get; set; }
+    }
 }
