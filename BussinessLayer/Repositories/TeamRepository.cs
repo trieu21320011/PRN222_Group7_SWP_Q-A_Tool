@@ -138,5 +138,20 @@ namespace BussinessLayer.Repositories
                     .ThenInclude(q => q.Answers)
                 .FirstOrDefaultAsync(x => x.TeamId == teamId);
         }
+
+        public async Task<IEnumerable<Team>> GetTeamsByUserAsync(int userId)
+        {
+            return await _dbContext.Teams
+                .Include(x => x.Leader)
+                .Include(x => x.Mentor)
+                .Include(x => x.Core)
+                    .ThenInclude(c => c.Instructor)
+                .Include(x => x.Topic)
+                .Include(x => x.SemesterNavigation)
+                .Include(x => x.TeamMembers)
+                    .ThenInclude(tm => tm.User)
+                .Where(x => x.TeamMembers.Any(tm => tm.UserId == userId))
+                .ToListAsync();
+        }
     }
 }
