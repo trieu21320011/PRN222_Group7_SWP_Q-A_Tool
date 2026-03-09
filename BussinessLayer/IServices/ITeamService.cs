@@ -29,5 +29,6 @@ namespace BussinessLayer.IServices
         Task<TeamMemberDTO?> AddMemberToTeamAsync(AddTeamMemberDTO addMemberDTO, int leaderUserId);
         Task<bool> RemoveMemberFromTeamAsync(int teamId, int userIdToRemove, int requesterId);
         Task<bool> LeaveTeamAsync(int teamId, int userId);
+        Task<bool> AddMemberToTeamAsync(int teamId, int userId, string role);
     }
 }

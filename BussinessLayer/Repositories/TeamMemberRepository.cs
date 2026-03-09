@@ -39,6 +39,9 @@ namespace BussinessLayer.Repositories
             return await _dbContext.TeamMembers
                 .Include(x => x.Team)
                     .ThenInclude(t => t.Core)
+                        .ThenInclude(c => c.Semester)
+                .Include(x => x.Team)
+                    .ThenInclude(t => t.SemesterNavigation)
                 .Include(x => x.Team)
                     .ThenInclude(t => t.Topic)
                 .Include(x => x.Team)

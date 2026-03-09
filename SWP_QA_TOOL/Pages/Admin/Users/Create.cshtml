@@ -18,6 +18,21 @@
         </div>
     </div>
 
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> @Model.ErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
     <div class="row">
         <div class="col-md-8">
             <div class="card">
@@ -25,62 +40,63 @@
                     <i class="bi bi-info-circle"></i> Thông tin người dùng
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form method="post">
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">Họ và tên <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" placeholder="Nhập họ và tên">
+                                <input type="text" asp-for="Input.FullName" class="form-control" placeholder="Nhập họ và tên" required>
+                                <span asp-validation-for="Input.FullName" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Tên hiển thị</label>
-                                <input type="text" class="form-control" placeholder="Nhập tên hiển thị">
+                                <input type="text" asp-for="Input.DisplayName" class="form-control" placeholder="Nhập tên hiển thị">
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" placeholder="example@fpt.edu.vn">
+                                <input type="email" asp-for="Input.Email" class="form-control" placeholder="example@fpt.edu.vn" required>
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Mã sinh viên</label>
-                                <input type="text" class="form-control" placeholder="SE123456">
+                                <input type="text" asp-for="Input.StudentId" class="form-control" placeholder="SE123456">
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">Mật khẩu <span class="text-danger">*</span></label>
-                                <input type="password" class="form-control" placeholder="Nhập mật khẩu">
+                                <input type="password" asp-for="Input.PasswordHash" class="form-control" placeholder="Nhập mật khẩu" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Xác nhận mật khẩu <span class="text-danger">*</span></label>
-                                <input type="password" class="form-control" placeholder="Nhập lại mật khẩu">
+                                <input type="password" asp-for="ConfirmPassword" class="form-control" placeholder="Nhập lại mật khẩu" required>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">Vai trò <span class="text-danger">*</span></label>
-                                <select class="form-select">
-                                    <option selected>-- Chọn vai trò --</option>
-                                    <option value="1">Admin</option>
-                                    <option value="2">Instructor</option>
-                                    <option value="3">Student</option>
+                                <select asp-for="Input.RoleId" asp-items="Model.RoleOptions" class="form-select" required>
+                                    <option value="">-- Chọn vai trò --</option>
                                 </select>
+                                <span asp-validation-for="Input.RoleId" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Trạng thái</label>
                                 <div class="form-check form-switch mt-2">
-                                    <input class="form-check-input" type="checkbox" id="isActive" checked>
-                                    <label class="form-check-label" for="isActive">Kích hoạt</label>
+                                    <input class="form-check-input" type="checkbox" id="IsActiveCheck" name="Input.IsActive" value="true" checked>
+                                    <input type="hidden" name="Input.IsActive" value="false" />
+                                    <label class="form-check-label" for="IsActiveCheck">Kích hoạt</label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Ghi chú</label>
-                            <textarea class="form-control" rows="3" placeholder="Ghi chú thêm (nếu có)"></textarea>
+                            <label class="form-label">Ghi chú (Bio)</label>
+                            <textarea asp-for="Input.Bio" class="form-control" rows="3" placeholder="Ghi chú thêm (nếu có)"></textarea>
                         </div>
 
                         <hr />
@@ -119,7 +135,10 @@
                         </li>
                         <li class="mb-2">
                             <i class="bi bi-info-circle text-primary"></i> 
-                            Vai trò xác định quyền truy cập của người dùng
+                            Vai trò: <br/>
+                            - Mặc định 1: Admin<br/>
+                            - 2: Instructor<br/>
+                            - 3: Student
                         </li>
                     </ul>
                 </div>

@@ -30,6 +30,7 @@ namespace BussinessLayer.Mappers
                 .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
                 .ForMember(dest => dest.TeamName, opt => opt.MapFrom(src => src.Team != null ? src.Team.TeamName : null))
                 .ForMember(dest => dest.CoreName, opt => opt.MapFrom(src => src.Core != null ? src.Core.CoreName : null))
+                .ForMember(dest => dest.SemesterCode, opt => opt.MapFrom(src => src.Core != null && src.Core.Semester != null ? src.Core.Semester.SemesterCode : null))
                 .ForMember(dest => dest.TopicName, opt => opt.MapFrom(src => src.Topic != null ? src.Topic.TopicName : null))
                 .ForMember(dest => dest.AssignedInstructorName, opt => opt.MapFrom(src => src.AssignedInstructor != null ? src.AssignedInstructor.FullName : null))
                 .ReverseMap();
@@ -39,6 +40,7 @@ namespace BussinessLayer.Mappers
                 .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
                 .ForMember(dest => dest.TeamName, opt => opt.MapFrom(src => src.Team != null ? src.Team.TeamName : null))
                 .ForMember(dest => dest.CoreName, opt => opt.MapFrom(src => src.Core != null ? src.Core.CoreName : null))
+                .ForMember(dest => dest.SemesterCode, opt => opt.MapFrom(src => src.Core != null && src.Core.Semester != null ? src.Core.Semester.SemesterCode : null))
                 .ForMember(dest => dest.TopicName, opt => opt.MapFrom(src => src.Topic != null ? src.Topic.TopicName : null))
                 .ForMember(dest => dest.AssignedInstructorName, opt => opt.MapFrom(src => src.AssignedInstructor != null ? src.AssignedInstructor.FullName : null))
                 .ReverseMap();
@@ -78,7 +80,9 @@ namespace BussinessLayer.Mappers
                 .ForMember(dest => dest.MentorName, opt => opt.MapFrom(src => src.Mentor != null ? src.Mentor.FullName : null))
                 .ForMember(dest => dest.CoreName, opt => opt.MapFrom(src => src.Core != null ? src.Core.CoreName : null))
                 .ForMember(dest => dest.TopicName, opt => opt.MapFrom(src => src.Topic != null ? src.Topic.TopicName : null))
-                .ForMember(dest => dest.SemesterCode, opt => opt.MapFrom(src => src.SemesterNavigation != null ? src.SemesterNavigation.SemesterCode : null))
+                .ForMember(dest => dest.SemesterCode, opt => opt.MapFrom(src =>
+                    src.SemesterNavigation != null ? src.SemesterNavigation.SemesterCode :
+                    src.Core != null && src.Core.Semester != null ? src.Core.Semester.SemesterCode : null))
                 .ReverseMap();
 
             // Core mappings

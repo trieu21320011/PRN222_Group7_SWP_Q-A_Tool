@@ -1,0 +1,183 @@
+@page
+@model SWP_QA_TOOL.Pages.Admin.Questions.IndexModel
+@{
+    ViewData["Title"] = "Quản lý câu hỏi";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h3><i class="bi bi-question-circle"></i> Quản lý Câu hỏi</h3>
+            <div class="stats-group d-flex gap-3">
+                <div class="card p-2 bg-light border-0 shadow-sm">
+                    <small class="text-muted d-block">Tổng số</small>
+                    <span class="h5 mb-0">@Model.TotalQuestions</span>
+                </div>
+                <div class="card p-2 bg-success-light border-0 shadow-sm" style="background-color: #e8f5e9;">
+                    <small class="text-success d-block">Đã trả lời</small>
+                    <span class="h5 mb-0 text-success">@Model.AnsweredQuestions</span>
+                </div>
+                <div class="card p-2 bg-warning-light border-0 shadow-sm" style="background-color: #fff9c4;">
+                    <small class="text-warning d-block">Chưa trả lời</small>
+                    <span class="h5 mb-0 text-warning">@Model.UnansweredQuestions</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-body">
+            <form method="get" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label small fw-bold">Tìm kiếm</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+                        <input type="text" asp-for="SearchTerm" class="form-control border-start-0" placeholder="Tiêu đề, tác giả...">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold">Trạng thái</label>
+                    <select asp-for="StatusFilter" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="Answered">Đã trả lời</option>
+                        <option value="Unanswered">Chưa trả lời</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold">Core / Lớp</label>
+                    <select asp-for="CoreFilter" class="form-select">
+                        <option value="">Tất cả</option>
+                        @foreach(var core in Model.Cores)
+                        {
+                            <option value="@core">@core</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold">Nhóm (Team)</label>
+                    <select asp-for="TeamFilter" class="form-select">
+                        <option value="">Tất cả</option>
+                        @foreach(var team in Model.Teams)
+                        {
+                            <option value="@team">@team</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small fw-bold">Giảng viên</label>
+                    <select asp-for="InstructorFilter" class="form-select">
+                        <option value="">Tất cả</option>
+                        @foreach(var inst in Model.Instructors)
+                        {
+                            <option value="@inst">@inst</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-1 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Lọc</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Questions Table -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50px;" class="ps-3">#</th>
+                            <th>Câu hỏi</th>
+                            <th>Người đăng</th>
+                            <th>Core / Lớp</th>
+                            <th>GV Phụ trách</th>
+                            <th>Thống kê</th>
+                            <th>Trạng thái</th>
+                            <th class="text-center pe-3">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Questions.Any())
+                        {
+                            int index = 1;
+                            foreach (var q in Model.Questions)
+                            {
+                                <tr>
+                                    <td class="ps-3 text-muted small">@index</td>
+                                    <td>
+                                        <div class="fw-bold mb-1">
+                                            @if (q.IsPinned == true) { <i class="bi bi-pin-angle-fill text-danger me-1"></i> }
+                                            @q.Title
+                                        </div>
+                                        <div class="small text-muted text-truncate" style="max-width: 300px;">@q.Excerpt</div>
+                                        <small class="text-muted" style="font-size: 0.75rem;">
+                                            <i class="bi bi-clock"></i> @(q.CreatedAt?.ToString("dd/MM/yyyy HH:mm") ?? "-")
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <div class="small fw-bold">@q.AuthorName</div>
+                                        <div class="text-muted small">@q.TeamName</div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info-subtle text-info px-2 py-1 border border-info-subtle">@q.CoreName</span>
+                                    </td>
+                                    <td>
+                                        <div class="small">@q.AssignedInstructorName</div>
+                                    </td>
+                                    <td>
+                                        <div class="small">
+                                            <span class="me-2" title="Lượt xem"><i class="bi bi-eye"></i> @q.ViewCount</span>
+                                            <span class="me-2 text-success" title="Trả lời"><i class="bi bi-chat-left-text"></i> @q.AnswerCount</span>
+                                            <span class="text-primary" title="Bình luận"><i class="bi bi-chat-dots"></i> @q.CommentCount</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @if (q.IsClosed == true)
+                                        {
+                                            <span class="badge bg-secondary">Đã đóng</span>
+                                        }
+                                        else if (q.AnswerCount > 0)
+                                        {
+                                            <span class="badge bg-success">Đã trả lời</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning text-dark">Chưa trả lời</span>
+                                        }
+                                    </td>
+                                    <td class="text-center pe-3">
+                                        <div class="btn-group">
+                                            <a href="#" class="btn btn-sm btn-outline-primary" title="Xem chi tiết"><i class="bi bi-eye"></i></a>
+                                            <form method="post" asp-page-handler="Delete" asp-route-id="@q.QuestionId" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa câu hỏi này?')">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa"><i class="bi bi-trash"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                index++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center py-5 text-muted">
+                                    <i class="bi bi-inbox h1 d-block mb-3"></i>
+                                    Không tìm thấy câu hỏi nào phù hợp với bộ lọc.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-info-subtle { background-color: #e0f7fa !important; }
+    .border-info-subtle { border-color: #4dd0e1 !important; }
+    .text-info { color: #00838f !important; }
+    .table-hover tbody tr:hover { background-color: #f8f9fa; }
+</style>
