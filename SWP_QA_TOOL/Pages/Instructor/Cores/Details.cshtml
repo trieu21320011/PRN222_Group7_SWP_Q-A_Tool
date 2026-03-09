@@ -1,0 +1,122 @@
+@page "{id:int}"
+@model SWP_QA_TOOL.Pages.Instructor.Cores.DetailsModel
+@{
+    ViewData["Title"] = "Chi tiết Lớp";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="/Instructor/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a asp-page="Index">Lớp</a></li>
+                    <li class="breadcrumb-item active">Chi tiết</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    @if (Model.Core != null)
+    {
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="mb-0">
+                            <i class="bi bi-folder2"></i> @Model.Core.CoreName
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Lịch học:</strong></p>
+                        <p>@(Model.Core.Schedule ?? "Chưa xác định")</p>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>
+                                    <strong>Học kỳ:</strong>
+                                    <span class="badge bg-success">@(Model.Core.SemesterCode ?? "Chưa xác định")</span>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p>
+                                    <strong>Giảng viên:</strong>
+                                    @(Model.Core.InstructorName ?? "Chưa phân công")
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-light">
+                    <div class="card-body text-center">
+                        <h5>Số nhóm</h5>
+                        <h2 class="text-info">@Model.Teams.Count()</h2>
+                        <small class="text-muted">trong lớp này</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="bi bi-people"></i> Danh sách nhóm</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Teams.Any())
+                {
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Tên nhóm</th>
+                                <th>Trưởng nhóm</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ var index = 0; }
+                            @foreach (var team in Model.Teams)
+                            {
+                                index++;
+                                <tr>
+                                    <td>@index</td>
+                                    <td><strong>@team.TeamName</strong></td>
+                                    <td>@(team.LeaderName ?? "Chưa có")</td>
+                                    <td>
+                                        <a asp-page="/Instructor/Teams/Details" asp-route-id="@team.TeamId" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i> Xem chi tiết
+                                        </a>
+                                        <a asp-page="/Instructor/Questions/Index" asp-route-teamId="@team.TeamId" class="btn btn-sm btn-outline-warning">
+                                            <i class="bi bi-chat-left-text"></i> Câu hỏi
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="text-center py-4 text-muted">
+                        <i class="bi bi-people" style="font-size: 2rem;"></i>
+                        <p class="mt-2">Chưa có nhóm nào trong lớp này</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i> Không tìm thấy lớp
+        </div>
+    }
+
+    <div class="mt-4">
+        <a asp-page="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+</div>

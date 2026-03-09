@@ -2,6 +2,7 @@
 @model SWP_QA_TOOL.Pages.Instructor.Topics.IndexModel
 @{
     ViewData["Title"] = "Đề tài phụ trách";
+    var colors = new[] { "primary", "success", "warning", "info", "secondary" };
 }
 
 <div class="container-fluid">
@@ -12,101 +13,70 @@
         </div>
     </div>
 
-    <div class="row mb-3">
+    <form method="get" class="row mb-3">
         <div class="col-md-4">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Tìm kiếm đề tài...">
-                <button class="btn btn-outline-primary" type="button">
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm đề tài..." value="@Model.SearchTerm">
+                <button class="btn btn-outline-primary" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </div>
         <div class="col-md-3">
-            <select class="form-select">
-                <option selected>-- Chọn học kỳ --</option>
-                <option>Fall 2024</option>
-                <option>Summer 2024</option>
+            <select name="semesterId" class="form-select" onchange="this.form.submit()">
+                <option value="">-- Tất cả học kỳ --</option>
+                @foreach (var semester in Model.Semesters)
+                {
+                    <option value="@semester.SemesterId" selected="@(Model.SelectedSemesterId == semester.SemesterId)">
+                        @semester.SemesterName
+                    </option>
+                }
             </select>
         </div>
-    </div>
+    </form>
 
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-header bg-primary text-white">
-                    <h6 class="mb-0">SWP391 - Phát triển phần mềm</h6>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Xây dựng hệ thống Q&A cho môn học SWP391</p>
-                    <div class="mb-2">
-                        <span class="badge bg-info">Fall 2024</span>
-                        <span class="badge bg-secondary">4 nhóm</span>
+    @if (Model.Topics.Any())
+    {
+        <div class="row">
+            @{ var index = 0; }
+            @foreach (var topic in Model.Topics)
+            {
+                var colorClass = colors[index % colors.Length];
+                index++;
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-@colorClass @(colorClass == "warning" ? "text-dark" : "text-white")">
+                            <h6 class="mb-0">@topic.TopicName</h6>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">@(topic.Description ?? "Không có mô tả")</p>
+                            <div class="mb-2">
+                                @if (topic.SemesterCode != null)
+                                {
+                                    <span class="badge bg-info">@topic.SemesterCode</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white">
+                            <a asp-page="Details" asp-route-id="@topic.TopicId" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> Chi tiết
+                            </a>
+                            <a asp-page="/Instructor/Cores/Index" asp-route-topicId="@topic.TopicId" class="btn btn-sm btn-outline-success">
+                                <i class="bi bi-folder2"></i> Xem Lớp
+                            </a>
+                        </div>
                     </div>
-                    <small class="text-muted">
-                        <i class="bi bi-calendar"></i> 01/09/2024 - 31/12/2024
-                    </small>
                 </div>
-                <div class="card-footer bg-white">
-                    <a href="/Instructor/Topics/Details" class="btn btn-sm btn-outline-primary">
-                        <i class="bi bi-eye"></i> Chi tiết
-                    </a>
-                    <a href="/Instructor/Teams/Index" class="btn btn-sm btn-outline-success">
-                        <i class="bi bi-people"></i> Xem nhóm
-                    </a>
-                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <i class="bi bi-journal-x" style="font-size: 3rem; color: #6c757d;"></i>
+                <p class="text-muted mt-3">Không có đề tài nào</p>
             </div>
         </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-header bg-success text-white">
-                    <h6 class="mb-0">PRN231 - WEB API</h6>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Xây dựng REST API cho ứng dụng quản lý</p>
-                    <div class="mb-2">
-                        <span class="badge bg-info">Fall 2024</span>
-                        <span class="badge bg-secondary">3 nhóm</span>
-                    </div>
-                    <small class="text-muted">
-                        <i class="bi bi-calendar"></i> 01/09/2024 - 31/12/2024
-                    </small>
-                </div>
-                <div class="card-footer bg-white">
-                    <a href="/Instructor/Topics/Details" class="btn btn-sm btn-outline-primary">
-                        <i class="bi bi-eye"></i> Chi tiết
-                    </a>
-                    <a href="/Instructor/Teams/Index" class="btn btn-sm btn-outline-success">
-                        <i class="bi bi-people"></i> Xem nhóm
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-header bg-warning text-dark">
-                    <h6 class="mb-0">PRN222 - .NET Framework</h6>
-                </div>
-                <div class="card-body">
-                    <p class="card-text">Xây dựng ứng dụng desktop với .NET WPF</p>
-                    <div class="mb-2">
-                        <span class="badge bg-info">Fall 2024</span>
-                        <span class="badge bg-secondary">5 nhóm</span>
-                    </div>
-                    <small class="text-muted">
-                        <i class="bi bi-calendar"></i> 01/09/2024 - 31/12/2024
-                    </small>
-                </div>
-                <div class="card-footer bg-white">
-                    <a href="/Instructor/Topics/Details" class="btn btn-sm btn-outline-primary">
-                        <i class="bi bi-eye"></i> Chi tiết
-                    </a>
-                    <a href="/Instructor/Teams/Index" class="btn btn-sm btn-outline-success">
-                        <i class="bi bi-people"></i> Xem nhóm
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+    }
 </div>

@@ -20,11 +20,14 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="card-title">Học kỳ hoạt động</h6>
-                            <h2 class="mb-0">1</h2>
+                            <h2 class="mb-0">@Model.ActiveSemesterCount</h2>
                         </div>
                         <i class="bi bi-calendar-check" style="font-size: 2.5rem; opacity: 0.5;"></i>
                     </div>
                 </div>
+                <a href="/Instructor/Semesters" class="card-footer text-white text-decoration-none">
+                    <small>Xem chi tiết <i class="bi bi-arrow-right"></i></small>
+                </a>
             </div>
         </div>
         <div class="col-md-3">
@@ -33,11 +36,14 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="card-title">Đề tài phụ trách</h6>
-                            <h2 class="mb-0">5</h2>
+                            <h2 class="mb-0">@Model.TopicCount</h2>
                         </div>
                         <i class="bi bi-journal-bookmark" style="font-size: 2.5rem; opacity: 0.5;"></i>
                     </div>
                 </div>
+                <a href="/Instructor/Topics" class="card-footer text-white text-decoration-none">
+                    <small>Xem chi tiết <i class="bi bi-arrow-right"></i></small>
+                </a>
             </div>
         </div>
         <div class="col-md-3">
@@ -46,11 +52,14 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="card-title">Nhóm quản lý</h6>
-                            <h2 class="mb-0">12</h2>
+                            <h2 class="mb-0">@Model.TeamCount</h2>
                         </div>
                         <i class="bi bi-people" style="font-size: 2.5rem; opacity: 0.5;"></i>
                     </div>
                 </div>
+                <a href="/Instructor/Teams" class="card-footer text-white text-decoration-none">
+                    <small>Xem chi tiết <i class="bi bi-arrow-right"></i></small>
+                </a>
             </div>
         </div>
         <div class="col-md-3">
@@ -59,11 +68,14 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="card-title">Câu hỏi chờ trả lời</h6>
-                            <h2 class="mb-0">8</h2>
+                            <h2 class="mb-0">@Model.PendingQuestionCount</h2>
                         </div>
                         <i class="bi bi-question-circle" style="font-size: 2.5rem; opacity: 0.5;"></i>
                     </div>
                 </div>
+                <a href="/Instructor/Questions/Pending" class="card-footer text-white text-decoration-none">
+                    <small>Xem chi tiết <i class="bi bi-arrow-right"></i></small>
+                </a>
             </div>
         </div>
     </div>
@@ -77,38 +89,57 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Câu hỏi về Use Case Diagram</div>
-                                <small class="text-muted">Nhóm 1 - 10 phút trước</small>
-                            </div>
-                            <span class="badge bg-warning rounded-pill">Chờ trả lời</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Hỏi về Database Design</div>
-                                <small class="text-muted">Nhóm 3 - 30 phút trước</small>
-                            </div>
-                            <span class="badge bg-warning rounded-pill">Chờ trả lời</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Xác nhận requirement</div>
-                                <small class="text-muted">Nhóm 2 - 1 giờ trước</small>
-                            </div>
-                            <span class="badge bg-success rounded-pill">Đã trả lời</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">Hướng dẫn deploy ứng dụng</div>
-                                <small class="text-muted">Nhóm 5 - 2 giờ trước</small>
-                            </div>
-                            <span class="badge bg-success rounded-pill">Đã trả lời</span>
-                        </li>
+                        @if (Model.RecentQuestions.Any())
+                        {
+                            @foreach (var question in Model.RecentQuestions)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">@question.Title</div>
+                                        <small class="text-muted">
+                                            @if (question.CreatedAt.HasValue)
+                                            {
+                                                var timeAgo = DateTime.Now - question.CreatedAt.Value;
+                                                if (timeAgo.TotalMinutes < 60)
+                                                {
+                                                    @($"{(int)timeAgo.TotalMinutes} phút trước")
+                                                }
+                                                else if (timeAgo.TotalHours < 24)
+                                                {
+                                                    @($"{(int)timeAgo.TotalHours} giờ trước")
+                                                }
+                                                else
+                                                {
+                                                    @($"{(int)timeAgo.TotalDays} ngày trước")
+                                                }
+                                            }
+                                        </small>
+                                    </div>
+                                    @if (question.Status == "Open")
+                                    {
+                                        <span class="badge bg-warning rounded-pill">Chờ trả lời</span>
+                                    }
+                                    else if (question.Status == "Answered")
+                                    {
+                                        <span class="badge bg-info rounded-pill">Đã trả lời</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success rounded-pill">Đã giải quyết</span>
+                                    }
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="list-group-item text-center text-muted">
+                                <i class="bi bi-inbox"></i> Không có câu hỏi nào
+                            </li>
+                        }
                     </ul>
                 </div>
                 <div class="card-footer bg-white">
-                    <a href="/Instructor/Questions/Index" class="btn btn-sm btn-outline-primary">
+                    <a href="/Instructor/Questions" class="btn btn-sm btn-outline-primary">
                         Xem tất cả <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
@@ -119,49 +150,39 @@
         <div class="col-md-6 mb-4">
             <div class="card h-100">
                 <div class="card-header bg-white">
-                    <h5 class="mb-0"><i class="bi bi-people text-success"></i> Tiến độ các nhóm</h5>
+                    <h5 class="mb-0"><i class="bi bi-journal-bookmark text-info"></i> Lớp được phân công</h5>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span>Nhóm 1 - SWP391</span>
-                            <span>85%</span>
+                    @if (Model.MyCores.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var core in Model.MyCores.Take(5))
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-bold">@core.CoreName</div>
+                                        <small class="text-muted">
+                                            @(core.SemesterCode ?? "Không có kỳ học")
+                                        </small>
+                                    </div>
+                                    <a href="/Instructor/Cores/Details?id=@core.CoreId" class="btn btn-sm btn-outline-info">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div class="text-center text-muted py-4">
+                            <i class="bi bi-folder2-open" style="font-size: 2rem;"></i>
+                            <p class="mt-2">Chưa có lớp nào được phân công</p>
                         </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-success" style="width: 85%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span>Nhóm 2 - SWP391</span>
-                            <span>70%</span>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-info" style="width: 70%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span>Nhóm 3 - PRN231</span>
-                            <span>50%</span>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-warning" style="width: 50%"></div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-1">
-                            <span>Nhóm 4 - PRN231</span>
-                            <span>30%</span>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar bg-danger" style="width: 30%"></div>
-                        </div>
-                    </div>
+                    }
                 </div>
                 <div class="card-footer bg-white">
-                    <a href="/Instructor/Teams/Progress" class="btn btn-sm btn-outline-success">
-                        Xem chi tiết <i class="bi bi-arrow-right"></i>
+                    <a href="/Instructor/Cores" class="btn btn-sm btn-outline-info">
+                        Xem tất cả <i class="bi bi-arrow-right"></i>
                     </a>
                 </div>
             </div>

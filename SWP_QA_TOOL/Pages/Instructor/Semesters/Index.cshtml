@@ -14,50 +14,62 @@
 
     <div class="card">
         <div class="card-body">
-            <table class="table table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Tên học kỳ</th>
-                        <th>Năm học</th>
-                        <th>Ngày bắt đầu</th>
-                        <th>Ngày kết thúc</th>
-                        <th>Trạng thái</th>
-                        <th>Số đề tài</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Học kỳ Fall 2024</td>
-                        <td>2024</td>
-                        <td>01/09/2024</td>
-                        <td>31/12/2024</td>
-                        <td><span class="badge bg-success">Đang diễn ra</span></td>
-                        <td><span class="badge bg-primary">5</span></td>
-                        <td>
-                            <a href="/Instructor/Semesters/Details" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i> Chi tiết
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Học kỳ Summer 2024</td>
-                        <td>2024</td>
-                        <td>01/05/2024</td>
-                        <td>31/08/2024</td>
-                        <td><span class="badge bg-secondary">Đã kết thúc</span></td>
-                        <td><span class="badge bg-primary">3</span></td>
-                        <td>
-                            <a href="/Instructor/Semesters/Details" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i> Chi tiết
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            @if (Model.Semesters.Any())
+            {
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Tên học kỳ</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Ngày kết thúc</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ var index = 0; }
+                        @foreach (var semester in Model.Semesters)
+                        {
+                            index++;
+                            var isActive = semester.StartDate <= DateOnly.FromDateTime(DateTime.Now) 
+                                        && semester.EndDate >= DateOnly.FromDateTime(DateTime.Now);
+                            <tr>
+                                <td>@index</td>
+                                <td>@semester.SemesterName</td>
+                                <td>@semester.StartDate.ToString("dd/MM/yyyy")</td>
+                                <td>@semester.EndDate.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @if (isActive)
+                                    {
+                                        <span class="badge bg-success">Đang diễn ra</span>
+                                    }
+                                    else if (semester.EndDate < DateOnly.FromDateTime(DateTime.Now))
+                                    {
+                                        <span class="badge bg-secondary">Đã kết thúc</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-info">Sắp diễn ra</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-page="Details" asp-route-id="@semester.SemesterId" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> Chi tiết
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="bi bi-calendar-x" style="font-size: 3rem; color: #6c757d;"></i>
+                    <p class="text-muted mt-3">Chưa có học kỳ nào</p>
+                </div>
+            }
         </div>
     </div>
 </div>

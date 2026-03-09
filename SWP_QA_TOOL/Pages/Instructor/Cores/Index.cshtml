@@ -12,97 +12,61 @@
         </div>
     </div>
 
-    <div class="row mb-3">
+    <form method="get" class="row mb-3">
         <div class="col-md-4">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Tìm kiếm lớp...">
-                <button class="btn btn-outline-primary" type="button">
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm lớp..." value="@Model.SearchTerm">
+                <button class="btn btn-outline-primary" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </div>
-        <div class="col-md-3">
-            <select class="form-select">
-                <option selected>-- Chọn đề tài --</option>
-                <option>SWP391 - Phát triển phần mềm</option>
-                <option>PRN231 - WEB API</option>
-            </select>
-        </div>
-    </div>
+    </form>
 
     <div class="card">
         <div class="card-body">
-            <table class="table table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Mã lớp</th>
-                        <th>Tên lớp</th>
-                        <th>Đề tài</th>
-                        <th>Học kỳ</th>
-                        <th>Số nhóm</th>
-                        <th>Số câu hỏi</th>
-                        <th>Trạng thái</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>SE1234</td>
-                        <td>Lớp A - Sáng</td>
-                        <td>SWP391</td>
-                        <td>Fall 2024</td>
-                        <td><span class="badge bg-info">4</span></td>
-                        <td><span class="badge bg-warning">12</span></td>
-                        <td><span class="badge bg-success">Hoạt động</span></td>
-                        <td>
-                            <a href="/Instructor/Cores/Details" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="/Instructor/Teams/Index" class="btn btn-sm btn-outline-success">
-                                <i class="bi bi-people"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>SE1235</td>
-                        <td>Lớp B - Chiều</td>
-                        <td>SWP391</td>
-                        <td>Fall 2024</td>
-                        <td><span class="badge bg-info">3</span></td>
-                        <td><span class="badge bg-warning">8</span></td>
-                        <td><span class="badge bg-success">Hoạt động</span></td>
-                        <td>
-                            <a href="/Instructor/Cores/Details" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="/Instructor/Teams/Index" class="btn btn-sm btn-outline-success">
-                                <i class="bi bi-people"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>SE1236</td>
-                        <td>Lớp C - Tối</td>
-                        <td>PRN231</td>
-                        <td>Fall 2024</td>
-                        <td><span class="badge bg-info">5</span></td>
-                        <td><span class="badge bg-warning">15</span></td>
-                        <td><span class="badge bg-success">Hoạt động</span></td>
-                        <td>
-                            <a href="/Instructor/Cores/Details" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="/Instructor/Teams/Index" class="btn btn-sm btn-outline-success">
-                                <i class="bi bi-people"></i>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            @if (Model.Cores.Any())
+            {
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Tên Lớp</th>
+                            <th>Lịch học</th>
+                            <th>Học kỳ</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ var index = 0; }
+                        @foreach (var core in Model.Cores)
+                        {
+                            index++;
+                            <tr>
+                                <td>@index</td>
+                                <td><strong>@core.CoreName</strong></td>
+                                <td>@(core.Schedule ?? "Chưa xác định")</td>
+                                <td><span class="badge bg-info">@(core.SemesterCode ?? "Chưa xác định")</span></td>
+                                <td>
+                                    <a asp-page="Details" asp-route-id="@core.CoreId" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> Chi tiết
+                                    </a>
+                                    <a asp-page="/Instructor/Teams/Index" asp-route-coreId="@core.CoreId" class="btn btn-sm btn-outline-success">
+                                        <i class="bi bi-people"></i> Nhóm
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="bi bi-folder2-open" style="font-size: 3rem; color: #6c757d;"></i>
+                    <p class="text-muted mt-3">Không có lớp nào được phân công</p>
+                </div>
+            }
         </div>
     </div>
 </div>

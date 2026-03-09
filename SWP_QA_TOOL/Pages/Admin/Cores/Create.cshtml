@@ -1,0 +1,70 @@
+@page
+@model SWP_QA_TOOL.Pages.Admin.Cores.CreateModel
+
+@{
+    ViewData["Title"] = "Tạo Core";
+}
+
+<h2>Tạo Core mới</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="text-danger">
+        @Html.ValidationSummary()
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Mã Core</label>
+        <input asp-for="Input.CoreCode" class="form-control" />
+        <span asp-validation-for="Input.CoreCode" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Tên Core</label>
+        <input asp-for="Input.CoreName" class="form-control" />
+        <span asp-validation-for="Input.CoreName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Học kỳ</label>
+        <select asp-for="Input.SemesterId" class="form-select" asp-items="Model.SemesterList"></select>
+        <span asp-validation-for="Input.SemesterId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Giảng viên phụ trách</label>
+        <select asp-for="Input.InstructorId" class="form-select" asp-items="Model.InstructorList"></select>
+        <span asp-validation-for="Input.InstructorId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Số nhóm tối đa</label>
+        <input asp-for="Input.MaxTeams" type="number" class="form-control" />
+        <span asp-validation-for="Input.MaxTeams" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Lịch học</label>
+        <input asp-for="Input.Schedule" class="form-control" placeholder="VD: Thứ 2, 7:30-9:30" />
+        <span asp-validation-for="Input.Schedule" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Phòng học</label>
+        <input asp-for="Input.Room" class="form-control" />
+        <span asp-validation-for="Input.Room" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="Input.IsActive" class="form-check-input" />
+        <label class="form-check-label">Hoạt động</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Tạo</button>
+    <a asp-page="Index" class="btn btn-secondary">Quay lại</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

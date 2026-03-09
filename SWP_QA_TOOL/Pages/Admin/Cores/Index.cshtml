@@ -1,0 +1,60 @@
+@page
+@model SWP_QA_TOOL.Pages.Admin.Cores.IndexModel
+
+@{
+    ViewData["Title"] = "Quản lý Core (Lớp)";
+}
+
+<h2>Quản lý Core (Lớp)</h2>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Tạo Core mới</a>
+</p>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Mã Core</th>
+            <th>Tên Core</th>
+            <th>Học kỳ</th>
+            <th>Giảng viên phụ trách</th>
+            <th>Lịch học</th>
+            <th>Phòng</th>
+            <th>Số nhóm</th>
+            <th>Trạng thái</th>
+            <th style="width:220px;">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Cores)
+        {
+            <tr>
+                <td>@item.CoreId</td>
+                <td>@item.CoreCode</td>
+                <td>@item.CoreName</td>
+                <td>@item.SemesterCode</td>
+                <td>@item.InstructorName</td>
+                <td>@item.Schedule</td>
+                <td>@item.Room</td>
+                <td>@item.CurrentTeams / @item.MaxTeams</td>
+                <td>@(item.IsActive == true ? "Hoạt động" : "Không hoạt động")</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@item.CoreId" class="btn btn-sm btn-info">Chi tiết</a>
+                    <a asp-page="Edit" asp-route-id="@item.CoreId" class="btn btn-sm btn-warning">Sửa</a>
+                    <a asp-page="Delete" asp-route-id="@item.CoreId" class="btn btn-sm btn-danger">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

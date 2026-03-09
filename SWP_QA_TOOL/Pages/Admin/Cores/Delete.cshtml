@@ -1,0 +1,52 @@
+@page "{id:int}"
+@model SWP_QA_TOOL.Pages.Admin.Cores.DeleteModel
+
+@{
+    ViewData["Title"] = "Xóa Core";
+}
+
+<h2>Xóa Core</h2>
+
+<div class="alert alert-warning">
+    Bạn có chắc chắn muốn xóa Core này?
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">ID</dt>
+            <dd class="col-sm-9">@Model.Core.CoreId</dd>
+
+            <dt class="col-sm-3">Mã Core</dt>
+            <dd class="col-sm-9">@Model.Core.CoreCode</dd>
+
+            <dt class="col-sm-3">Tên Core</dt>
+            <dd class="col-sm-9">@Model.Core.CoreName</dd>
+
+            <dt class="col-sm-3">Học kỳ</dt>
+            <dd class="col-sm-9">@Model.Core.SemesterCode</dd>
+
+            <dt class="col-sm-3">Giảng viên phụ trách</dt>
+            <dd class="col-sm-9">@Model.Core.InstructorName</dd>
+
+            <dt class="col-sm-3">Lịch học</dt>
+            <dd class="col-sm-9">@Model.Core.Schedule</dd>
+
+            <dt class="col-sm-3">Phòng học</dt>
+            <dd class="col-sm-9">@Model.Core.Room</dd>
+
+            <dt class="col-sm-3">Số nhóm</dt>
+            <dd class="col-sm-9">@Model.Core.CurrentTeams / @Model.Core.MaxTeams</dd>
+
+            <dt class="col-sm-3">Trạng thái</dt>
+            <dd class="col-sm-9">@(Model.Core.IsActive == true ? "Hoạt động" : "Không hoạt động")</dd>
+        </dl>
+    </div>
+</div>
+
+<form method="post" class="mt-3">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Core.CoreId" />
+    <button type="submit" class="btn btn-danger">Xóa</button>
+    <a asp-page="Index" class="btn btn-secondary">Hủy</a>
+</form>

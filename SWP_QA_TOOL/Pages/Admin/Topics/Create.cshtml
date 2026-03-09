@@ -1,0 +1,75 @@
+@page
+@model SWP_QA_TOOL.Pages.Admin.Topics.CreateModel
+
+@{
+    ViewData["Title"] = "Tạo Đề tài";
+}
+
+<h2>Tạo Đề tài mới</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="text-danger">
+        @Html.ValidationSummary()
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Mã đề tài</label>
+        <input asp-for="Input.TopicCode" class="form-control" />
+        <span asp-validation-for="Input.TopicCode" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Tên đề tài</label>
+        <input asp-for="Input.TopicName" class="form-control" />
+        <span asp-validation-for="Input.TopicName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Mô tả</label>
+        <textarea asp-for="Input.Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Input.Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Học kỳ</label>
+        <select asp-for="Input.SemesterId" class="form-select" asp-items="Model.SemesterList"></select>
+        <span asp-validation-for="Input.SemesterId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Danh mục</label>
+        <input asp-for="Input.Category" class="form-control" />
+        <span asp-validation-for="Input.Category" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Độ khó</label>
+        <select asp-for="Input.Difficulty" class="form-select">
+            <option value="">-- Chọn độ khó --</option>
+            <option value="Easy">Dễ</option>
+            <option value="Medium">Trung bình</option>
+            <option value="Hard">Khó</option>
+        </select>
+        <span asp-validation-for="Input.Difficulty" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Số nhóm tối đa</label>
+        <input asp-for="Input.MaxTeams" type="number" class="form-control" />
+        <span asp-validation-for="Input.MaxTeams" class="text-danger"></span>
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="Input.IsActive" class="form-check-input" />
+        <label class="form-check-label">Hoạt động</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Tạo</button>
+    <a asp-page="Index" class="btn btn-secondary">Quay lại</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

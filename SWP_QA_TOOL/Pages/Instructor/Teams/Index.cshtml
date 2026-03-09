@@ -12,140 +12,72 @@
         </div>
     </div>
 
-    <div class="row mb-3">
+    <form method="get" class="row mb-3">
         <div class="col-md-4">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Tìm kiếm nhóm...">
-                <button class="btn btn-outline-primary" type="button">
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm nhóm..." value="@Model.SearchTerm">
+                <button class="btn btn-outline-primary" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </div>
         <div class="col-md-3">
-            <select class="form-select">
-                <option selected>-- Chọn lớp --</option>
-                <option>SE1234 - Lớp A Sáng</option>
-                <option>SE1235 - Lớp B Chiều</option>
-                <option>SE1236 - Lớp C Tối</option>
+            <select name="coreId" class="form-select" onchange="this.form.submit()">
+                <option value="">-- Tất cả Lớp --</option>
+                @foreach (var core in Model.Cores)
+                {
+                    <option value="@core.CoreId" selected="@(Model.SelectedCoreId == core.CoreId)">
+                        @core.CoreName
+                    </option>
+                }
             </select>
         </div>
-        <div class="col-md-3">
-            <select class="form-select">
-                <option selected>-- Trạng thái --</option>
-                <option>Hoạt động</option>
-                <option>Đã hoàn thành</option>
-                <option>Tạm dừng</option>
-            </select>
-        </div>
-    </div>
+    </form>
 
     <div class="card">
         <div class="card-body">
-            <table class="table table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Tên nhóm</th>
-                        <th>Mã lớp</th>
-                        <th>Đề tài</th>
-                        <th>Số thành viên</th>
-                        <th>Câu hỏi</th>
-                        <th>Tiến độ</th>
-                        <th>Trạng thái</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Nhóm 1</td>
-                        <td>SE1234</td>
-                        <td>SWP391 - Q&A Tool</td>
-                        <td><span class="badge bg-info">5</span></td>
-                        <td><span class="badge bg-warning">3</span></td>
-                        <td>
-                            <div class="progress" style="width: 100px;">
-                                <div class="progress-bar bg-success" style="width: 85%">85%</div>
-                            </div>
-                        </td>
-                        <td><span class="badge bg-success">Hoạt động</span></td>
-                        <td>
-                            <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="/Instructor/Questions/Index" class="btn btn-sm btn-outline-warning">
-                                <i class="bi bi-chat-dots"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Nhóm 2</td>
-                        <td>SE1234</td>
-                        <td>SWP391 - E-commerce</td>
-                        <td><span class="badge bg-info">4</span></td>
-                        <td><span class="badge bg-warning">5</span></td>
-                        <td>
-                            <div class="progress" style="width: 100px;">
-                                <div class="progress-bar bg-info" style="width: 70%">70%</div>
-                            </div>
-                        </td>
-                        <td><span class="badge bg-success">Hoạt động</span></td>
-                        <td>
-                            <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="/Instructor/Questions/Index" class="btn btn-sm btn-outline-warning">
-                                <i class="bi bi-chat-dots"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Nhóm 3</td>
-                        <td>SE1235</td>
-                        <td>PRN231 - REST API</td>
-                        <td><span class="badge bg-info">5</span></td>
-                        <td><span class="badge bg-warning">2</span></td>
-                        <td>
-                            <div class="progress" style="width: 100px;">
-                                <div class="progress-bar bg-warning" style="width: 50%">50%</div>
-                            </div>
-                        </td>
-                        <td><span class="badge bg-success">Hoạt động</span></td>
-                        <td>
-                            <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="/Instructor/Questions/Index" class="btn btn-sm btn-outline-warning">
-                                <i class="bi bi-chat-dots"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Nhóm 4</td>
-                        <td>SE1235</td>
-                        <td>PRN231 - Microservices</td>
-                        <td><span class="badge bg-info">6</span></td>
-                        <td><span class="badge bg-danger">8</span></td>
-                        <td>
-                            <div class="progress" style="width: 100px;">
-                                <div class="progress-bar bg-danger" style="width: 30%">30%</div>
-                            </div>
-                        </td>
-                        <td><span class="badge bg-warning">Cần hỗ trợ</span></td>
-                        <td>
-                            <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="/Instructor/Questions/Index" class="btn btn-sm btn-outline-warning">
-                                <i class="bi bi-chat-dots"></i>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            @if (Model.Teams.Any())
+            {
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Tên nhóm</th>
+                            <th>Lớp</th>
+                            <th>Trưởng nhóm</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ var index = 0; }
+                        @foreach (var team in Model.Teams)
+                        {
+                            index++;
+                            <tr>
+                                <td>@index</td>
+                                <td><strong>@team.TeamName</strong></td>
+                                <td><span class="badge bg-info">@(team.CoreName ?? "Chưa xác định")</span></td>
+                                <td>@(team.LeaderName ?? "Chưa có")</td>
+                                <td>
+                                    <a asp-page="Details" asp-route-id="@team.TeamId" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i> Chi tiết
+                                    </a>
+                                    <a asp-page="/Instructor/Questions/Index" asp-route-teamId="@team.TeamId" class="btn btn-sm btn-outline-warning">
+                                        <i class="bi bi-chat-dots"></i> Câu hỏi
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="bi bi-people" style="font-size: 3rem; color: #6c757d;"></i>
+                    <p class="text-muted mt-3">Không có nhóm nào</p>
+                </div>
+            }
         </div>
     </div>
 </div>

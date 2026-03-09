@@ -1,4 +1,4 @@
-@page "{id:int?}"
+@page "{id:int}"
 @model SWP_QA_TOOL.Pages.Instructor.Questions.AnswerModel
 @{
     ViewData["Title"] = "Trả lời câu hỏi";
@@ -9,130 +9,234 @@
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/Instructor/Questions/Index">Câu hỏi</a></li>
-                    <li class="breadcrumb-item"><a href="/Instructor/Questions/Pending">Chờ trả lời</a></li>
+                    <li class="breadcrumb-item"><a asp-page="Index">Câu hỏi</a></li>
                     <li class="breadcrumb-item active">Trả lời</li>
                 </ol>
             </nav>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-8">
-            <!-- Nội dung câu hỏi -->
-            <div class="card mb-4">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0"><i class="bi bi-question-circle"></i> Câu hỏi về Use Case Diagram</h5>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <span class="badge bg-info">Nhóm 1</span>
-                        <span class="badge bg-secondary">Core A</span>
-                        <span class="badge bg-primary">SWP391</span>
-                    </div>
-                    <p class="text-muted">
-                        <i class="bi bi-person"></i> Hỏi bởi: <strong>Nguyễn Văn A</strong> - 
-                        <i class="bi bi-clock"></i> 10 phút trước
-                    </p>
-                    <hr>
-                    <div class="question-content">
-                        <p>Kính gửi Thầy/Cô,</p>
-                        <p>Em muốn hỏi về cách vẽ Use Case Diagram cho chức năng đăng nhập, đăng ký trong dự án. Cụ thể:</p>
-                        <ol>
-                            <li>Actor "User" có nên được chia thành "Guest" và "Member" không?</li>
-                            <li>Chức năng "Quên mật khẩu" nên được đặt là extend hay include của "Đăng nhập"?</li>
-                            <li>Có cần vẽ riêng Use Case cho validate form không?</li>
-                        </ol>
-                        <p>Em xin cảm ơn Thầy/Cô!</p>
-                    </div>
-                </div>
-            </div>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            <i class="bi bi-check-circle"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
 
-            <!-- Form trả lời -->
-            <div class="card">
-                <div class="card-header bg-success text-white">
-                    <h5 class="mb-0"><i class="bi bi-reply"></i> Câu trả lời của bạn</h5>
+    @if (Model.Question != null)
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Nội dung câu hỏi -->
+                <div class="card mb-4">
+                    <div class="card-header @(Model.Question.Status == "Open" ? "bg-warning text-dark" : Model.Question.Status == "Answered" ? "bg-info text-white" : "bg-success text-white")">
+                        <h5 class="mb-0"><i class="bi bi-question-circle"></i> @Model.Question.Title</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            @if (Model.Team != null)
+                            {
+                                <span class="badge bg-info">@Model.Team.TeamName</span>
+                                <span class="badge bg-secondary">@(Model.Team.CoreName ?? "Lớp")</span>
+                            }
+                            @if (Model.Question.Status == "Open")
+                            {
+                                <span class="badge bg-warning">Chờ trả lời</span>
+                            }
+                            else if (Model.Question.Status == "Answered")
+                            {
+                                <span class="badge bg-info">Đã trả lời</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">Đã giải quyết</span>
+                            }
+                        </div>
+                        <p class="text-muted">
+                            <i class="bi bi-person"></i> Hỏi bởi: <strong>@(Model.Question.AuthorName ?? "Ẩn danh")</strong> -
+                            <i class="bi bi-clock"></i>
+                            @if (Model.Question.CreatedAt.HasValue)
+                            {
+                                @Model.Question.CreatedAt.Value.ToString("dd/MM/yyyy HH:mm")
+                            }
+                        </p>
+                        <hr>
+                        <div class="question-content">
+                            @Html.Raw(Model.Question.Body?.Replace("\n", "<br/>") ?? "Không có nội dung")
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form method="post">
-                        <div class="mb-3">
-                            <label class="form-label">Nội dung trả lời <span class="text-danger">*</span></label>
-                            <textarea class="form-control" rows="8" placeholder="Nhập câu trả lời của bạn..." required></textarea>
-                            <div class="form-text">Hỗ trợ định dạng Markdown</div>
+
+                <!-- Existing Answers -->
+                @if (Model.Answers.Any())
+                {
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0"><i class="bi bi-chat-left-quote"></i> Các câu trả lời (@Model.Answers.Count())</h6>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Đính kèm file (tùy chọn)</label>
-                            <input type="file" class="form-control" multiple>
-                            <div class="form-text">Cho phép: .pdf, .doc, .docx, .zip, .png, .jpg (tối đa 10MB)</div>
+                        <div class="card-body">
+                            @foreach (var answer in Model.Answers.OrderByDescending(a => a.CreatedAt))
+                            {
+                                <div class="border rounded p-3 mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <strong><i class="bi bi-person-check"></i> @(answer.AuthorName ?? "Giảng viên")</strong>
+                                        <small class="text-muted">
+                                            @if (answer.CreatedAt.HasValue)
+                                            {
+                                                @answer.CreatedAt.Value.ToString("dd/MM/yyyy HH:mm")
+                                            }
+                                        </small>
+                                    </div>
+                                    <p class="mb-0">@Html.Raw(answer.Body?.Replace("\n", "<br/>"))</p>
+                                </div>
+                            }
                         </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="markResolved">
-                            <label class="form-check-label" for="markResolved">Đánh dấu câu hỏi đã được giải quyết</label>
+                    </div>
+                }
+
+                <!-- Form trả lời -->
+                @if (Model.Question.Status != "Resolved")
+                {
+                    <div class="card">
+                        <div class="card-header bg-success text-white">
+                            <h5 class="mb-0"><i class="bi bi-reply"></i> @(Model.Answers.Any() ? "Thêm trả lời" : "Câu trả lời của bạn")</h5>
                         </div>
-                        <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-success">
-                                <i class="bi bi-send"></i> Gửi trả lời
-                            </button>
-                            <a href="/Instructor/Questions/Pending" class="btn btn-outline-secondary">
-                                <i class="bi bi-x-circle"></i> Hủy
+                        <div class="card-body">
+                            <form method="post" asp-route-id="@Model.Question.QuestionId">
+                                <div class="mb-3">
+                                    <label asp-for="Input.Content" class="form-label">Nội dung trả lời <span class="text-danger">*</span></label>
+                                    <textarea asp-for="Input.Content" class="form-control" rows="8" placeholder="Nhập câu trả lời của bạn..."></textarea>
+                                    <span asp-validation-for="Input.Content" class="text-danger"></span>
+                                    <div class="form-text">Hỗ trợ định dạng văn bản thông thường</div>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input asp-for="Input.MarkResolved" type="checkbox" class="form-check-input" id="markResolved">
+                                    <label asp-for="Input.MarkResolved" class="form-check-label" for="markResolved">Đánh dấu câu hỏi đã được giải quyết</label>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="bi bi-send"></i> Gửi trả lời
+                                    </button>
+                                    <a asp-page="Index" class="btn btn-outline-secondary">
+                                        <i class="bi bi-arrow-left"></i> Quay lại
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-check-circle text-success" style="font-size: 2rem;"></i>
+                            <p class="mt-2 text-success">Câu hỏi này đã được giải quyết</p>
+                            <a asp-page="Index" class="btn btn-outline-primary">
+                                <i class="bi bi-arrow-left"></i> Quay lại danh sách
                             </a>
                         </div>
-                    </form>
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-4">
+                <!-- Thông tin nhóm -->
+                @if (Model.Team != null)
+                {
+                    <div class="card mb-3">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0"><i class="bi bi-people"></i> Thông tin nhóm</h6>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Tên nhóm:</strong> @Model.Team.TeamName</p>
+                            <p><strong>Lớp:</strong> @(Model.Team.CoreName ?? "Chưa xác định")</p>
+                            <p><strong>Trưởng nhóm:</strong> @(Model.Team.LeaderName ?? "Chưa có")</p>
+                            <a asp-page="/Instructor/Teams/Details" asp-route-id="@Model.Team.TeamId" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye"></i> Xem nhóm
+                            </a>
+                        </div>
+                    </div>
+                }
+
+                <!-- Quick Actions -->
+                @if (Model.Question.Status == "Answered")
+                {
+                    <div class="card mb-3">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0"><i class="bi bi-lightning"></i> Thao tác nhanh</h6>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" asp-page-handler="MarkResolved" asp-route-id="@Model.Question.QuestionId">
+                                <button type="submit" class="btn btn-success w-100">
+                                    <i class="bi bi-check-circle"></i> Đánh dấu đã giải quyết
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+                <!-- Câu hỏi khác của nhóm -->
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <h6 class="mb-0"><i class="bi bi-clock-history"></i> Câu hỏi khác của nhóm</h6>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        @if (Model.OtherTeamQuestions.Any())
+                        {
+                            @foreach (var q in Model.OtherTeamQuestions)
+                            {
+                                <a asp-page="Answer" asp-route-id="@q.QuestionId" class="list-group-item list-group-item-action">
+                                    <div class="d-flex justify-content-between">
+                                        <small class="text-truncate" style="max-width: 150px;">@q.Title</small>
+                                        @if (q.Status == "Open")
+                                        {
+                                            <span class="badge bg-warning">Mở</span>
+                                        }
+                                        else if (q.Status == "Answered")
+                                        {
+                                            <span class="badge bg-info">TL</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">OK</span>
+                                        }
+                                    </div>
+                                    <small class="text-muted">
+                                        @if (q.CreatedAt.HasValue)
+                                        {
+                                            var timeAgo = DateTime.Now - q.CreatedAt.Value;
+                                            if (timeAgo.TotalDays < 1)
+                                            {
+                                                @($"{(int)timeAgo.TotalHours} giờ trước")
+                                            }
+                                            else
+                                            {
+                                                @($"{(int)timeAgo.TotalDays} ngày trước")
+                                            }
+                                        }
+                                    </small>
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <div class="list-group-item text-center text-muted">
+                                <small>Không có câu hỏi khác</small>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-4">
-            <!-- Thông tin nhóm -->
-            <div class="card mb-3">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0"><i class="bi bi-people"></i> Thông tin nhóm</h6>
-                </div>
-                <div class="card-body">
-                    <p><strong>Tên nhóm:</strong> Nhóm 1</p>
-                    <p><strong>Core:</strong> Core A - Morning</p>
-                    <p><strong>Đề tài:</strong> SWP391 - Q&A Tool</p>
-                    <p><strong>Số thành viên:</strong> 5</p>
-                    <p><strong>Tiến độ:</strong> 
-                        <div class="progress">
-                            <div class="progress-bar bg-success" style="width: 85%">85%</div>
-                        </div>
-                    </p>
-                    <a href="/Instructor/Teams/Details" class="btn btn-sm btn-outline-primary">
-                        <i class="bi bi-eye"></i> Xem nhóm
-                    </a>
-                </div>
-            </div>
-
-            <!-- Lịch sử hỏi đáp -->
-            <div class="card">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0"><i class="bi bi-clock-history"></i> Câu hỏi khác của nhóm</h6>
-                </div>
-                <div class="list-group list-group-flush">
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between">
-                            <small>Hỏi về Database Design</small>
-                            <span class="badge bg-success">Đã TL</span>
-                        </div>
-                        <small class="text-muted">2 ngày trước</small>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between">
-                            <small>Cách validate form</small>
-                            <span class="badge bg-primary">Giải quyết</span>
-                        </div>
-                        <small class="text-muted">1 tuần trước</small>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between">
-                            <small>Hỏi về requirement</small>
-                            <span class="badge bg-primary">Giải quyết</span>
-                        </div>
-                        <small class="text-muted">2 tuần trước</small>
-                    </a>
-                </div>
-            </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i> Không tìm thấy câu hỏi
         </div>
-    </div>
+        <a asp-page="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    }
 </div>

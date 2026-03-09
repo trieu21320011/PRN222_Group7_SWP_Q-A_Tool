@@ -1,0 +1,128 @@
+@page "{id:int}"
+@model SWP_QA_TOOL.Pages.Instructor.Semesters.DetailsModel
+@{
+    ViewData["Title"] = "Chi tiết Học kỳ";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="/Instructor/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a asp-page="Index">Học kỳ</a></li>
+                    <li class="breadcrumb-item active">Chi tiết</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    @if (Model.Semester != null)
+    {
+        var isActive = Model.Semester.StartDate <= DateOnly.FromDateTime(DateTime.Now)
+                    && Model.Semester.EndDate >= DateOnly.FromDateTime(DateTime.Now);
+
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">
+                            <i class="bi bi-calendar-check"></i> @Model.Semester.SemesterName
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Ngày bắt đầu:</strong> @Model.Semester.StartDate.ToString("dd/MM/yyyy")</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Ngày kết thúc:</strong> @Model.Semester.EndDate.ToString("dd/MM/yyyy")</p>
+                            </div>
+                        </div>
+                        <p>
+                            <strong>Trạng thái:</strong>
+                            @if (isActive)
+                            {
+                                <span class="badge bg-success">Đang diễn ra</span>
+                            }
+                            else if (Model.Semester.EndDate < DateOnly.FromDateTime(DateTime.Now))
+                            {
+                                <span class="badge bg-secondary">Đã kết thúc</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-info">Sắp diễn ra</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-light">
+                    <div class="card-body text-center">
+                        <h5>Số đề tài của bạn</h5>
+                        <h2 class="text-primary">@Model.Topics.Count()</h2>
+                        <small class="text-muted">trong học kỳ này</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-white">
+                <h5 class="mb-0"><i class="bi bi-journal-bookmark"></i> Đề tài của bạn trong học kỳ này</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Topics.Any())
+                {
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>Tên đề tài</th>
+                                <th>Mô tả</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ var index = 0; }
+                            @foreach (var topic in Model.Topics)
+                            {
+                                index++;
+                                <tr>
+                                    <td>@index</td>
+                                    <td>@topic.TopicName</td>
+                                    <td>@(topic.Description ?? "Không có mô tả")</td>
+                                    <td>
+                                        <a asp-page="/Instructor/Topics/Details" asp-route-id="@topic.TopicId" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div class="text-center py-4 text-muted">
+                        <i class="bi bi-folder2-open" style="font-size: 2rem;"></i>
+                        <p class="mt-2">Bạn chưa có đề tài nào trong học kỳ này</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle"></i> Không tìm thấy học kỳ
+        </div>
+    }
+
+    <div class="mt-4">
+        <a asp-page="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+</div>

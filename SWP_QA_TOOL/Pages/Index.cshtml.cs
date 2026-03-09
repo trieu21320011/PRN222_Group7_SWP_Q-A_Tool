@@ -12,9 +12,29 @@ namespace SWP_QA_TOOL.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            // Redirect to login if not authenticated
+            if (!User.Identity?.IsAuthenticated ?? true)
+            {
+                return RedirectToPage("/Account/Login");
+            }
 
+            // Redirect based on role
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToPage("/Admin/Index");
+            }
+            else if (User.IsInRole("Instructor") || User.IsInRole("Mentor"))
+            {
+                return RedirectToPage("/Instructor/Index");
+            }
+            else if (User.IsInRole("Student"))
+            {
+                return RedirectToPage("/Student/Index");
+            }
+
+            return Page();
         }
     }
 }

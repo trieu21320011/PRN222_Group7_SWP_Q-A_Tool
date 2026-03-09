@@ -12,70 +12,82 @@
         </div>
     </div>
 
-    <div class="row mb-3">
-        <div class="col-md-4">
+    <form method="get" class="row mb-3">
+        <div class="col-md-3">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Tìm kiếm câu hỏi...">
-                <button class="btn btn-outline-primary" type="button">
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm câu hỏi..." value="@Model.SearchTerm">
+                <button class="btn btn-outline-primary" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </div>
         <div class="col-md-2">
-            <select class="form-select">
-                <option selected>-- Lớp --</option>
-                <option>SE1234</option>
-                <option>SE1235</option>
+            <select name="coreId" class="form-select" onchange="this.form.submit()">
+                <option value="">-- Lớp --</option>
+                @foreach (var core in Model.Cores)
+                {
+                    <option value="@core.CoreId" selected="@(Model.SelectedCoreId == core.CoreId)">
+                        @core.CoreName
+                    </option>
+                }
             </select>
         </div>
         <div class="col-md-2">
-            <select class="form-select">
-                <option selected>-- Nhóm --</option>
-                <option>Nhóm 1</option>
-                <option>Nhóm 2</option>
-                <option>Nhóm 3</option>
+            <select name="teamName" class="form-select" onchange="this.form.submit()">
+                <option value="">-- Nhóm --</option>
+                @foreach (var team in Model.Teams)
+                {
+                    <option value="@team.TeamName" selected="@(Model.SelectedTeamName == team.TeamName)">
+                        @team.TeamName
+                    </option>
+                }
             </select>
         </div>
         <div class="col-md-2">
-            <select class="form-select">
-                <option selected>-- Trạng thái --</option>
-                <option>Chờ trả lời</option>
-                <option>Đã trả lời</option>
-                <option>Đã giải quyết</option>
+            <select name="status" class="form-select" onchange="this.form.submit()">
+                <option value="">-- Trạng thái --</option>
+                <option value="Open" selected="@(Model.SelectedStatus == "Open")">Chờ trả lời</option>
+                <option value="Answered" selected="@(Model.SelectedStatus == "Answered")">Đã trả lời</option>
+                <option value="Resolved" selected="@(Model.SelectedStatus == "Resolved")">Đã giải quyết</option>
             </select>
         </div>
-    </div>
+        <div class="col-md-2">
+            <a asp-page="Index" class="btn btn-outline-secondary w-100">
+                <i class="bi bi-x-circle"></i> Xóa bộ lọc
+            </a>
+        </div>
+    </form>
 
     <!-- Thống kê nhanh -->
     <div class="row mb-4">
         <div class="col-md-3">
             <div class="card border-warning">
                 <div class="card-body text-center">
-                    <h3 class="text-warning">8</h3>
+                    <h3 class="text-warning">@Model.OpenCount</h3>
                     <small>Chờ trả lời</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card border-success">
-                <div class="card-body text-center">
-                    <h3 class="text-success">25</h3>
-                    <small>Đã trả lời</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card border-primary">
-                <div class="card-body text-center">
-                    <h3 class="text-primary">18</h3>
-                    <small>Đã giải quyết</small>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card border-info">
                 <div class="card-body text-center">
-                    <h3 class="text-info">51</h3>
+                    <h3 class="text-info">@Model.AnsweredCount</h3>
+                    <small>Đã trả lời</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-success">
+                <div class="card-body text-center">
+                    <h3 class="text-success">@Model.ResolvedCount</h3>
+                    <small>Đã giải quyết</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-primary">
+                <div class="card-body text-center">
+                    <h3 class="text-primary">@Model.Questions.Count()</h3>
                     <small>Tổng câu hỏi</small>
                 </div>
             </div>
@@ -84,123 +96,93 @@
 
     <div class="card">
         <div class="card-body">
-            <table class="table table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Tiêu đề</th>
-                        <th>Nhóm</th>
-                        <th>Mã lớp</th>
-                        <th>Người hỏi</th>
-                        <th>Thời gian</th>
-                        <th>Trạng thái</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="table-warning">
-                        <td>1</td>
-                        <td>
-                            <a href="/Instructor/Questions/Details" class="text-decoration-none">
-                                Câu hỏi về Use Case Diagram
-                            </a>
-                        </td>
-                        <td>Nhóm 1</td>
-                        <td>SE1234</td>
-                        <td>Nguyễn Văn A</td>
-                        <td>10 phút trước</td>
-                        <td><span class="badge bg-warning">Chờ trả lời</span></td>
-                        <td>
-                            <a href="/Instructor/Questions/Answer" class="btn btn-sm btn-success">
-                                <i class="bi bi-reply"></i> Trả lời
-                            </a>
-                        </td>
-                    </tr>
-                    <tr class="table-warning">
-                        <td>2</td>
-                        <td>
-                            <a href="/Instructor/Questions/Details" class="text-decoration-none">
-                                Hỏi về Database Design
-                            </a>
-                        </td>
-                        <td>Nhóm 3</td>
-                        <td>SE1234</td>
-                        <td>Trần Thị B</td>
-                        <td>30 phút trước</td>
-                        <td><span class="badge bg-warning">Chờ trả lời</span></td>
-                        <td>
-                            <a href="/Instructor/Questions/Answer" class="btn btn-sm btn-success">
-                                <i class="bi bi-reply"></i> Trả lời
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>
-                            <a href="/Instructor/Questions/Details" class="text-decoration-none">
-                                Xác nhận requirement
-                            </a>
-                        </td>
-                        <td>Nhóm 2</td>
-                        <td>SE1234</td>
-                        <td>Lê Văn C</td>
-                        <td>1 giờ trước</td>
-                        <td><span class="badge bg-success">Đã trả lời</span></td>
-                        <td>
-                            <a href="/Instructor/Questions/Details" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i> Xem
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>
-                            <a href="/Instructor/Questions/Details" class="text-decoration-none">
-                                Hướng dẫn deploy ứng dụng
-                            </a>
-                        </td>
-                        <td>Nhóm 5</td>
-                        <td>SE1235</td>
-                        <td>Phạm Văn D</td>
-                        <td>2 giờ trước</td>
-                        <td><span class="badge bg-primary">Đã giải quyết</span></td>
-                        <td>
-                            <a href="/Instructor/Questions/Details" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i> Xem
-                            </a>
-                        </td>
-                    </tr>
-                    <tr class="table-warning">
-                        <td>5</td>
-                        <td>
-                            <a href="/Instructor/Questions/Details" class="text-decoration-none">
-                                Cách implement Repository Pattern
-                            </a>
-                        </td>
-                        <td>Nhóm 4</td>
-                        <td>SE1235</td>
-                        <td>Hoàng Thị E</td>
-                        <td>3 giờ trước</td>
-                        <td><span class="badge bg-warning">Chờ trả lời</span></td>
-                        <td>
-                            <a href="/Instructor/Questions/Answer" class="btn btn-sm btn-success">
-                                <i class="bi bi-reply"></i> Trả lời
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="card-footer bg-white">
-            <nav>
-                <ul class="pagination pagination-sm mb-0 justify-content-end">
-                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                </ul>
-            </nav>
+            @if (Model.Questions.Any())
+            {
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>#</th>
+                            <th>Tiêu đề</th>
+                            <th>Nhóm</th>
+                            <th>Người hỏi</th>
+                            <th>Thời gian</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ var index = 0; }
+                        @foreach (var question in Model.Questions)
+                        {
+                            index++;
+                            var rowClass = question.Status == "Open" ? "table-warning" : "";
+                            <tr class="@rowClass">
+                                <td>@index</td>
+                                <td>
+                                    <a asp-page="Answer" asp-route-id="@question.QuestionId" class="text-decoration-none">
+                                        @question.Title
+                                    </a>
+                                </td>
+                                <td><span class="badge bg-secondary">@(question.TeamName ?? "Chưa xác định")</span></td>
+                                <td>@(question.AuthorName ?? "Ẩn danh")</td>
+                                <td>
+                                    @if (question.CreatedAt.HasValue)
+                                    {
+                                        var timeAgo = DateTime.Now - question.CreatedAt.Value;
+                                        if (timeAgo.TotalMinutes < 60)
+                                        {
+                                            @($"{(int)timeAgo.TotalMinutes} phút trước")
+                                        }
+                                        else if (timeAgo.TotalHours < 24)
+                                        {
+                                            @($"{(int)timeAgo.TotalHours} giờ trước")
+                                        }
+                                        else
+                                        {
+                                            @($"{(int)timeAgo.TotalDays} ngày trước")
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @if (question.Status == "Open")
+                                    {
+                                        <span class="badge bg-warning">Chờ trả lời</span>
+                                    }
+                                    else if (question.Status == "Answered")
+                                    {
+                                        <span class="badge bg-info">Đã trả lời</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-success">Đã giải quyết</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (question.Status == "Open")
+                                    {
+                                        <a asp-page="Answer" asp-route-id="@question.QuestionId" class="btn btn-sm btn-success">
+                                            <i class="bi bi-reply"></i> Trả lời
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-page="Answer" asp-route-id="@question.QuestionId" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i> Xem
+                                        </a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox" style="font-size: 3rem; color: #6c757d;"></i>
+                    <p class="text-muted mt-3">Không có câu hỏi nào</p>
+                </div>
+            }
         </div>
     </div>
 </div>

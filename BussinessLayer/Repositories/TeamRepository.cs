@@ -145,13 +145,32 @@ namespace BussinessLayer.Repositories
                 .Include(x => x.Leader)
                 .Include(x => x.Mentor)
                 .Include(x => x.Core)
-                    .ThenInclude(c => c.Instructor)
                 .Include(x => x.Topic)
-                .Include(x => x.SemesterNavigation)
-                .Include(x => x.TeamMembers)
-                    .ThenInclude(tm => tm.User)
-                .Where(x => x.TeamMembers.Any(tm => tm.UserId == userId))
+                .Where(x => x.TeamMembers.Any(tm => tm.UserId == userId) || x.LeaderId == userId)
                 .ToListAsync();
+        }
+
+        public async Task<bool> AddMemberToTeamAsync(int teamId, int userId, string role)
+        {
+            // Check if user is already a member of this team
+            var existingMember = await _dbContext.TeamMembers
+                .FirstOrDefaultAsync(tm => tm.TeamId == teamId && tm.UserId == userId);
+
+            if (existingMember != null)
+            {
+                return false; // User is already a member
+            }
+
+            var teamMember = new TeamMember
+            {
+                TeamId = teamId,
+                UserId = userId,
+                Role = role,
+                JoinedAt = DateTime.UtcNow
+            };
+
+            await _dbContext.TeamMembers.AddAsync(teamMember);
+            return await _dbContext.SaveChangesAsync() > 0;
         }
     }
 }

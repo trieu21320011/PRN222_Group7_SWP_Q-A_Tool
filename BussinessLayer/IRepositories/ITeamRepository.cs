@@ -21,5 +21,6 @@ namespace BussinessLayer.IRepositories
         Task<Team?> GetTeamWithQuestionsAsync(int teamId);
         Task<Team?> GetTeamProgressAsync(int teamId);
         Task<IEnumerable<Team>> GetTeamsByUserAsync(int userId);
+        Task<bool> AddMemberToTeamAsync(int teamId, int userId, string role);
     }
 }
