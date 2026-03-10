@@ -55,37 +55,44 @@ namespace BussinessLayer.Service
         {
             try
             {
-                var comment = _mapper.Map<Comment>(createCommentDTO);
-                comment.CreatedAt = DateTime.UtcNow;
-                comment.IsEdited = false;
+                // Create comment entity manually to avoid navigation property issues
+                var comment = new Comment
+                {
+                    Body = createCommentDTO.Body,
+                    AuthorId = createCommentDTO.AuthorId,
+                    QuestionId = createCommentDTO.QuestionId,
+                    AnswerId = createCommentDTO.AnswerId,
+                    ParentCommentId = createCommentDTO.ParentCommentId,
+                    CreatedAt = DateTime.UtcNow,
+                    IsEdited = false
+                };
 
                 await _unitOfWork.CommentRepo.AddAsync(comment);
-
-                // Update comment count on question or answer
-                if (createCommentDTO.QuestionId.HasValue)
-                {
-                    var question = await _unitOfWork.QuestionRepo.GetByIdAsync(createCommentDTO.QuestionId.Value);
-                    if (question != null)
-                    {
-                        question.CommentCount = (question.CommentCount ?? 0) + 1;
-                        question.LastActivityAt = DateTime.UtcNow;
-                        _unitOfWork.QuestionRepo.Update(question);
-                    }
-                }
-                else if (createCommentDTO.AnswerId.HasValue)
-                {
-                    var answer = await _unitOfWork.AnswerRepo.GetByIdAsync(createCommentDTO.AnswerId.Value);
-                    if (answer != null)
-                    {
-                        answer.CommentCount = (answer.CommentCount ?? 0) + 1;
-                        _unitOfWork.AnswerRepo.Update(answer);
-                    }
-                }
-
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
+                // Update comment count after successful insert
                 if (isSuccess)
                 {
+                    if (createCommentDTO.QuestionId.HasValue)
+                    {
+                        var question = await _unitOfWork.QuestionRepo.GetByIdAsync(createCommentDTO.QuestionId.Value);
+                        if (question != null)
+                        {
+                            question.CommentCount = (question.CommentCount ?? 0) + 1;
+                            question.LastActivityAt = DateTime.UtcNow;
+                            await _unitOfWork.SaveChangeAsync();
+                        }
+                    }
+                    else if (createCommentDTO.AnswerId.HasValue)
+                    {
+                        var answer = await _unitOfWork.AnswerRepo.GetByIdAsync(createCommentDTO.AnswerId.Value);
+                        if (answer != null)
+                        {
+                            answer.CommentCount = (answer.CommentCount ?? 0) + 1;
+                            await _unitOfWork.SaveChangeAsync();
+                        }
+                    }
+
                     return _mapper.Map<CommentDTO>(comment);
                 }
                 else
@@ -95,7 +102,8 @@ namespace BussinessLayer.Service
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                // Preserve inner exception for better debugging
+                throw;
             }
         }
 
@@ -142,13 +150,13 @@ namespace BussinessLayer.Service
                 }
 
                 // Update comment count on question or answer
+                // Entity is already tracked - changes auto-detected on SaveChanges
                 if (comment.QuestionId.HasValue)
                 {
                     var question = await _unitOfWork.QuestionRepo.GetByIdAsync(comment.QuestionId.Value);
                     if (question != null)
                     {
                         question.CommentCount = Math.Max((question.CommentCount ?? 0) - 1, 0);
-                        _unitOfWork.QuestionRepo.Update(question);
                     }
                 }
                 else if (comment.AnswerId.HasValue)
@@ -157,7 +165,6 @@ namespace BussinessLayer.Service
                     if (answer != null)
                     {
                         answer.CommentCount = Math.Max((answer.CommentCount ?? 0) - 1, 0);
-                        _unitOfWork.AnswerRepo.Update(answer);
                     }
                 }
 

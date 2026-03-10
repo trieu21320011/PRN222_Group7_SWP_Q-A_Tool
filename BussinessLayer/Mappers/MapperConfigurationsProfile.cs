@@ -30,7 +30,6 @@ namespace BussinessLayer.Mappers
                 .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
                 .ForMember(dest => dest.TeamName, opt => opt.MapFrom(src => src.Team != null ? src.Team.TeamName : null))
                 .ForMember(dest => dest.CoreName, opt => opt.MapFrom(src => src.Core != null ? src.Core.CoreName : null))
-                .ForMember(dest => dest.SemesterCode, opt => opt.MapFrom(src => src.Core != null && src.Core.Semester != null ? src.Core.Semester.SemesterCode : null))
                 .ForMember(dest => dest.TopicName, opt => opt.MapFrom(src => src.Topic != null ? src.Topic.TopicName : null))
                 .ForMember(dest => dest.AssignedInstructorName, opt => opt.MapFrom(src => src.AssignedInstructor != null ? src.AssignedInstructor.FullName : null))
                 .ReverseMap();
@@ -40,29 +39,8 @@ namespace BussinessLayer.Mappers
                 .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
                 .ForMember(dest => dest.TeamName, opt => opt.MapFrom(src => src.Team != null ? src.Team.TeamName : null))
                 .ForMember(dest => dest.CoreName, opt => opt.MapFrom(src => src.Core != null ? src.Core.CoreName : null))
-                .ForMember(dest => dest.SemesterCode, opt => opt.MapFrom(src => src.Core != null && src.Core.Semester != null ? src.Core.Semester.SemesterCode : null))
                 .ForMember(dest => dest.TopicName, opt => opt.MapFrom(src => src.Topic != null ? src.Topic.TopicName : null))
                 .ForMember(dest => dest.AssignedInstructorName, opt => opt.MapFrom(src => src.AssignedInstructor != null ? src.AssignedInstructor.FullName : null))
-                .ReverseMap();
-            CreateMap<Question, QuestionDetailDTO>()
-                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
-                .ForMember(dest => dest.TeamName, opt => opt.MapFrom(src => src.Team != null ? src.Team.TeamName : null))
-                .ForMember(dest => dest.CoreName, opt => opt.MapFrom(src => src.Core != null ? src.Core.CoreName : null))
-                .ForMember(dest => dest.TopicName, opt => opt.MapFrom(src => src.Topic != null ? src.Topic.TopicName : null))
-                .ForMember(dest => dest.AssignedInstructorName, opt => opt.MapFrom(src => src.AssignedInstructor != null ? src.AssignedInstructor.FullName : null))
-                .ForMember(dest => dest.Answers, opt => opt.MapFrom(src => src.Answers))
-                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments))
-                .ReverseMap();
-
-            // Answer related mappings
-            CreateMap<Answer, QuestionAnswerDTO>()
-                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
-                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments))
-                .ReverseMap();
-
-            // Comment related mappings
-            CreateMap<Comment, QuestionCommentDTO>()
-                .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
                 .ReverseMap();
 
             // Team mappings

@@ -31,7 +31,7 @@ namespace BussinessLayer.ViewModels.TeamDTOs
     public class CreateTeamDTO
     {
         public string TeamName { get; set; } = null!;
-        public string TeamCode { get; set; } = null!;
+        public string? TeamCode { get; set; }
         public string? Description { get; set; }
         public string? ProjectName { get; set; }
         public int? LeaderId { get; set; }

@@ -7,104 +7,74 @@
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="/Student/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item active">Lớp của tôi</li>
+                </ol>
+            </nav>
             <h3><i class="bi bi-collection"></i> Lớp của tôi</h3>
-            <p class="text-muted">Xem thông tin lớp mà bạn thuộc về</p>
+            <p class="text-muted">Danh sách các lớp bạn đang tham gia trong học kỳ hiện tại</p>
         </div>
     </div>
 
+    <div class="alert alert-info">
+        <i class="bi bi-info-circle"></i> Bạn đang tham gia <strong>@Model.MyCores.Count()</strong> lớp
+    </div>
+
     <div class="row">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="bi bi-collection-fill"></i> SE1234 - Lớp A Sáng</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong><i class="bi bi-journal-bookmark"></i> Đề tài:</strong></p>
-                            <p class="ms-3">SWP391 - Phát triển phần mềm</p>
-                            
-                            <p><strong><i class="bi bi-calendar"></i> Học kỳ:</strong></p>
-                            <p class="ms-3">Fall 2024 (01/09/2024 - 31/12/2024)</p>
-                            
-                            <p><strong><i class="bi bi-person-badge"></i> Giảng viên hướng dẫn:</strong></p>
-                            <p class="ms-3">ThS. Nguyễn Văn Instructor</p>
+        @if (Model.MyCores.Any())
+        {
+            @foreach (var core in Model.MyCores)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0"><i class="bi bi-collection-fill"></i> @core.CoreCode - @core.CoreName</h5>
                         </div>
-                        <div class="col-md-6">
-                            <p><strong><i class="bi bi-hash"></i> Mã lớp:</strong></p>
-                            <p class="ms-3">SE1234</p>
-                            
-                            <p><strong><i class="bi bi-people"></i> Số nhóm trong lớp:</strong></p>
-                            <p class="ms-3">4 nhóm</p>
-                            
-                            <p><strong><i class="bi bi-clock"></i> Lịch họp:</strong></p>
-                            <p class="ms-3">Thứ 2, 4, 6 - 7:00 - 9:30</p>
-                            
-                            <p><strong><i class="bi bi-geo-alt"></i> Phòng học:</strong></p>
-                            <p class="ms-3">DE-C303</p>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong><i class="bi bi-person-badge"></i> Giảng viên:</strong></p>
+                                    <p class="ms-3">@(core.InstructorName ?? "Chưa xác định")</p>
+                                    
+                                    <p><strong><i class="bi bi-calendar"></i> Học kỳ:</strong></p>
+                                    <p class="ms-3">@(core.SemesterCode ?? "N/A")</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong><i class="bi bi-clock"></i> Lịch học:</strong></p>
+                                    <p class="ms-3">@(core.Schedule ?? "Chưa xác định")</p>
+                                    
+                                    <p><strong><i class="bi bi-geo-alt"></i> Phòng học:</strong></p>
+                                    <p class="ms-3">@(core.Room ?? "Chưa xác định")</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-light">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge @(core.IsActive == true ? "bg-success" : "bg-secondary")">
+                                    @(core.IsActive == true ? "Đang hoạt động" : "Đã kết thúc")
+                                </span>
+                                <a asp-page="/Student/Teams/MyTeam" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-people"></i> Xem nhóm
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0"><i class="bi bi-info-circle"></i> Thông tin nhanh</h6>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Số câu hỏi đã gửi:</span>
-                        <span class="badge bg-info">5</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Đã được trả lời:</span>
-                        <span class="badge bg-success">3</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Đang chờ:</span>
-                        <span class="badge bg-warning">2</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between mb-2">
-                        <span>Tiến độ nhóm:</span>
-                        <span class="badge bg-success">85%</span>
-                    </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-warning text-center">
+                    <i class="bi bi-exclamation-triangle"></i> Bạn chưa tham gia lớp nào trong học kỳ hiện tại.
+                    <br>
+                    <a asp-page="/Student/Teams/Create" class="btn btn-success mt-3">
+                        <i class="bi bi-plus-circle"></i> Tạo nhóm và đăng ký lớp
+                    </a>
                 </div>
             </div>
-
-            <div class="card mt-3">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0"><i class="bi bi-people"></i> Các nhóm khác trong lớp</h6>
-                </div>
-                <div class="list-group list-group-flush">
-                    <div class="list-group-item">
-                        <div class="d-flex justify-content-between">
-                            <span>Nhóm 1 (Nhóm của tôi)</span>
-                            <span class="badge bg-success">85%</span>
-                        </div>
-                    </div>
-                    <div class="list-group-item">
-                        <div class="d-flex justify-content-between">
-                            <span>Nhóm 2</span>
-                            <span class="badge bg-info">70%</span>
-                        </div>
-                    </div>
-                    <div class="list-group-item">
-                        <div class="d-flex justify-content-between">
-                            <span>Nhóm 3</span>
-                            <span class="badge bg-warning">60%</span>
-                        </div>
-                    </div>
-                    <div class="list-group-item">
-                        <div class="d-flex justify-content-between">
-                            <span>Nhóm 4</span>
-                            <span class="badge bg-warning">55%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </div>

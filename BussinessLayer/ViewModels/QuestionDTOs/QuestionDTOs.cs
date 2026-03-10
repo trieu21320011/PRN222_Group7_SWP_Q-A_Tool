@@ -20,7 +20,6 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public string? CoreName { get; set; }
         public int? TopicId { get; set; }
         public string? TopicName { get; set; }
-        public string? SemesterCode { get; set; }
         public int? AssignedInstructorId { get; set; }
         public string? AssignedInstructorName { get; set; }
         public string? Status { get; set; }
@@ -51,7 +50,7 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public int? TopicId { get; set; }
         public string? Category { get; set; }
         public string? Difficulty { get; set; }
-        public bool? IsPrivate { get; set; }
+        public bool IsPrivate { get; set; } = false;
     }
 
     public class UpdateQuestionDTO
@@ -68,7 +67,7 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public string? Category { get; set; }
         public string? Difficulty { get; set; }
         public bool? IsPinned { get; set; }
-        public bool? IsPrivate { get; set; }
+        public bool IsPrivate { get; set; } = false;
         public bool? IsClosed { get; set; }
         public string? ClosedReason { get; set; }
         public int? ClosedById { get; set; }
@@ -84,7 +83,6 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public string? TeamName { get; set; }
         public string? CoreName { get; set; }
         public string? TopicName { get; set; }
-        public string? SemesterCode { get; set; }
         public string? AssignedInstructorName { get; set; }
         public string? Status { get; set; }
         public string? Category { get; set; }
@@ -97,44 +95,5 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public bool? IsClosed { get; set; }
         public DateTime? LastActivityAt { get; set; }
         public DateTime? CreatedAt { get; set; }
-    }
-
-    public class QuestionDetailDTO : GetQuestionDTO
-    {
-        public int AuthorId { get; set; }
-        public int? AcceptedAnswerId { get; set; }
-        public string? ClosedReason { get; set; }
-        public int? ClosedById { get; set; }
-        public DateTime? ClosedAt { get; set; }
-        public List<QuestionAnswerDTO> Answers { get; set; } = new List<QuestionAnswerDTO>();
-        public List<QuestionCommentDTO> Comments { get; set; } = new List<QuestionCommentDTO>();
-        public bool CanEdit { get; set; } // Can current user edit?
-    }
-
-    public class QuestionAnswerDTO
-    {
-        public int AnswerId { get; set; }
-        public int AuthorId { get; set; }
-        public string? AuthorName { get; set; }
-        public string Body { get; set; } = null!;
-        public bool? IsAccepted { get; set; }
-        public bool? IsMentorAnswer { get; set; }
-        public int? CommentCount { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public List<QuestionCommentDTO> Comments { get; set; } = new List<QuestionCommentDTO>();
-    }
-
-    public class QuestionCommentDTO
-    {
-        public int CommentId { get; set; }
-        public int AuthorId { get; set; }
-        public string? AuthorName { get; set; }
-        public string Body { get; set; } = null!;
-        public DateTime? CreatedAt { get; set; }
-    }
-
-    public class MarkAsUnderstoodDTO
-    {
-        public int QuestionId { get; set; }
     }
 }

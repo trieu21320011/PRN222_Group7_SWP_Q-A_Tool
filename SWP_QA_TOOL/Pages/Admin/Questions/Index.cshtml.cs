@@ -56,8 +56,9 @@ namespace SWP_QA_TOOL.Pages.Admin.Questions
         {
             var questions = await _questionService.GetAllQuestionsAsync();
 
-            // Populate filter dropdowns from existing data for simplicity
-            Semesters = questions.Where(q => !string.IsNullOrEmpty(q.SemesterCode)).Select(q => q.SemesterCode!).Distinct().OrderBy(s => s);
+            // Populate filter dropdowns
+            var allSemesters = await _semesterService.GetAllSemestersAsync();
+            Semesters = allSemesters.Select(s => s.SemesterCode ?? s.SemesterName ?? "").Where(s => !string.IsNullOrEmpty(s)).Distinct().OrderBy(s => s);
             Cores = questions.Where(q => !string.IsNullOrEmpty(q.CoreName)).Select(q => q.CoreName!).Distinct().OrderBy(c => c);
             Teams = questions.Where(q => !string.IsNullOrEmpty(q.TeamName)).Select(q => q.TeamName!).Distinct().OrderBy(t => t);
             Instructors = questions.Where(q => !string.IsNullOrEmpty(q.AssignedInstructorName)).Select(q => q.AssignedInstructorName!).Distinct().OrderBy(i => i);

@@ -9,14 +9,22 @@
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/Student/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Student/Index">Trang chủ</a></li>
                     <li class="breadcrumb-item active">Tạo nhóm mới</li>
                 </ol>
             </nav>
             <h3><i class="bi bi-plus-circle"></i> Tạo nhóm mới</h3>
-            <p class="text-muted">Tạo nhóm và đăng ký vào Core</p>
+            <p class="text-muted">Tạo nhóm và đăng ký vào Lớp</p>
         </div>
     </div>
+
+    @if (TempData["SuccessMessage"] is string successMessage)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @successMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
     <div class="row">
         <div class="col-md-8">
@@ -26,54 +34,55 @@
                 </div>
                 <div class="card-body">
                     <form method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        
                         <div class="mb-3">
-                            <label class="form-label">Tên nhóm <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Nhập tên nhóm..." required>
+                            <label asp-for="Team.TeamName" class="form-label">Tên nhóm <span class="text-danger">*</span></label>
+                            <input asp-for="Team.TeamName" class="form-control" placeholder="Nhập tên nhóm..." required />
+                            <span asp-validation-for="Team.TeamName" class="text-danger"></span>
                             <div class="form-text">Ví dụ: Nhóm 1, Team Alpha, v.v.</div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Chọn Core <span class="text-danger">*</span></label>
-                            <select class="form-select" required>
-                                <option value="">-- Chọn Core --</option>
-                                <option>Core A - Morning (SWP391) - GV: ThS. Nguyễn Văn Instructor</option>
-                                <option>Core B - Afternoon (PRN231) - GV: ThS. Trần Thị Lecturer</option>
-                                <option>Core C - Evening (PRN222) - GV: TS. Lê Văn Professor</option>
+                            <label asp-for="Team.CoreId" class="form-label">Chọn Lớp <span class="text-danger">*</span></label>
+                            <select asp-for="Team.CoreId" asp-items="Model.Cores" class="form-select" required>
+                                <option value="">-- Chọn Lớp --</option>
                             </select>
-                            <div class="form-text">Chọn Core bạn muốn đăng ký vào</div>
+                            <span asp-validation-for="Team.CoreId" class="text-danger"></span>
+                            <div class="form-text">Chọn Lớp bạn muốn đăng ký vào</div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Mô tả đề tài</label>
-                            <textarea class="form-control" rows="4" placeholder="Mô tả ngắn gọn về đề tài nhóm của bạn..."></textarea>
+                            <label asp-for="Team.TopicId" class="form-label">Chọn đề tài</label>
+                            <select asp-for="Team.TopicId" asp-items="Model.Topics" class="form-select">
+                                <option value="">-- Chọn đề tài --</option>
+                            </select>
+                            <span asp-validation-for="Team.TopicId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Team.ProjectName" class="form-label">Tên dự án</label>
+                            <input asp-for="Team.ProjectName" class="form-control" placeholder="Nhập tên dự án..." />
+                            <span asp-validation-for="Team.ProjectName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Team.Description" class="form-label">Mô tả</label>
+                            <textarea asp-for="Team.Description" class="form-control" rows="4" placeholder="Mô tả ngắn gọn về nhóm/dự án của bạn..."></textarea>
+                            <span asp-validation-for="Team.Description" class="text-danger"></span>
                         </div>
 
                         <hr>
 
-                        <h6><i class="bi bi-person-plus"></i> Thêm thành viên</h6>
                         <div class="alert alert-info">
                             <i class="bi bi-info-circle"></i> Bạn sẽ tự động trở thành nhóm trưởng. Có thể thêm thành viên sau khi tạo nhóm.
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Thành viên 1 (Nhóm trưởng)</label>
-                            <input type="text" class="form-control" value="Nguyễn Văn A - SE150001" disabled>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Thêm thành viên (tùy chọn)</label>
-                            <input type="text" class="form-control mb-2" placeholder="Nhập MSSV hoặc email sinh viên...">
-                            <input type="text" class="form-control mb-2" placeholder="Nhập MSSV hoặc email sinh viên...">
-                            <button type="button" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-plus"></i> Thêm thành viên khác
-                            </button>
                         </div>
 
                         <div class="d-flex gap-2 mt-4">
                             <button type="submit" class="btn btn-success">
                                 <i class="bi bi-check-circle"></i> Tạo nhóm
                             </button>
-                            <a href="/Student/Index" class="btn btn-outline-secondary">
+                            <a asp-page="/Student/Index" class="btn btn-outline-secondary">
                                 <i class="bi bi-x-circle"></i> Hủy
                             </a>
                         </div>
@@ -90,9 +99,9 @@
                 <div class="card-body">
                     <ol class="small">
                         <li class="mb-2">Đặt tên nhóm dễ nhớ và ngắn gọn</li>
-                        <li class="mb-2">Chọn Core phù hợp với lịch học của bạn</li>
+                        <li class="mb-2">Chọn Lớp phù hợp với lịch học của bạn</li>
                         <li class="mb-2">Mô tả đề tài để GV nắm được hướng đi của nhóm</li>
-                        <li class="mb-2">Có thể thêm thành viên ngay hoặc sau khi tạo nhóm</li>
+                        <li class="mb-2">Có thể thêm thành viên sau khi tạo nhóm</li>
                         <li class="mb-2">Số thành viên tối đa: 5-6 người</li>
                     </ol>
                 </div>
@@ -104,8 +113,8 @@
                 </div>
                 <div class="card-body">
                     <ul class="small mb-0">
-                        <li>Mỗi sinh viên chỉ được tham gia 1 nhóm trong 1 Core</li>
-                        <li>Không thể thay đổi Core sau khi đã tạo nhóm</li>
+                        <li>Mỗi sinh viên chỉ được tham gia 1 nhóm trong 1 Lớp</li>
+                        <li>Không thể thay đổi Lớp sau khi đã tạo nhóm</li>
                         <li>Nhóm trưởng có thể mời/xóa thành viên</li>
                     </ul>
                 </div>
@@ -113,3 +122,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

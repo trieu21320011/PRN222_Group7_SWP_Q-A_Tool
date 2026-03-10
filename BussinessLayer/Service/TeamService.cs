@@ -292,5 +292,57 @@ namespace BussinessLayer.Service
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<IEnumerable<TeamMemberDTO>> GetTeamMembersAsync(int teamId)
+        {
+            try
+            {
+                var members = await _unitOfWork.TeamMemberRepo.GetMembersByTeamAsync(teamId);
+                return _mapper.Map<IEnumerable<TeamMemberDTO>>(members);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> RemoveMemberFromTeamAsync(int teamId, int userId)
+        {
+            try
+            {
+                var membership = await _unitOfWork.TeamMemberRepo.GetMembershipAsync(teamId, userId);
+                if (membership == null)
+                {
+                    return false;
+                }
+
+                _unitOfWork.TeamMemberRepo.Delete(membership);
+                return await _unitOfWork.SaveChangeAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> UpdateMemberRoleAsync(int teamMemberId, string role)
+        {
+            try
+            {
+                var member = await _unitOfWork.TeamMemberRepo.GetByIdAsync(teamMemberId);
+                if (member == null)
+                {
+                    return false;
+                }
+
+                member.Role = role;
+                _unitOfWork.TeamMemberRepo.Update(member);
+                return await _unitOfWork.SaveChangeAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 using BussinessLayer.IServices;
 using BussinessLayer.ViewModels.AnswerDTOs;
+using BussinessLayer.ViewModels.CommentDTOs;
 using BussinessLayer.ViewModels.QuestionDTOs;
 using BussinessLayer.ViewModels.TeamDTOs;
 using Microsoft.AspNetCore.Authorization;
@@ -16,21 +17,28 @@ namespace SWP_QA_TOOL.Pages.Instructor.Questions
         private readonly IQuestionService _questionService;
         private readonly IAnswerService _answerService;
         private readonly ITeamService _teamService;
+        private readonly ICommentService _commentService;
 
-        public AnswerModel(IQuestionService questionService, IAnswerService answerService, ITeamService teamService)
+        public AnswerModel(IQuestionService questionService, IAnswerService answerService, ITeamService teamService, ICommentService commentService)
         {
             _questionService = questionService;
             _answerService = answerService;
             _teamService = teamService;
+            _commentService = commentService;
         }
 
         public GetQuestionDTO? Question { get; set; }
         public GetTeamDTO? Team { get; set; }
         public IEnumerable<GetAnswerDTO> Answers { get; set; } = new List<GetAnswerDTO>();
         public IEnumerable<GetQuestionDTO> OtherTeamQuestions { get; set; } = new List<GetQuestionDTO>();
+        public IList<GetCommentDTO> QuestionComments { get; set; } = new List<GetCommentDTO>();
+        public Dictionary<int, IList<GetCommentDTO>> AnswerComments { get; set; } = new Dictionary<int, IList<GetCommentDTO>>();
 
         [BindProperty]
         public AnswerInput Input { get; set; } = new();
+
+        [BindProperty]
+        public string? NewComment { get; set; }
 
         public class AnswerInput
         {
@@ -60,7 +68,19 @@ namespace SWP_QA_TOOL.Pages.Instructor.Questions
             }
 
             // Get existing answers
-            Answers = await _answerService.GetAnswersByQuestionAsync(id.Value) ?? new List<GetAnswerDTO>();
+            var answersResult = await _answerService.GetAnswersByQuestionAsync(id.Value);
+            Answers = answersResult ?? new List<GetAnswerDTO>();
+
+            // Get comments for question (follow-up questions)
+            var questionComments = await _commentService.GetCommentsByQuestionAsync(id.Value);
+            QuestionComments = questionComments?.ToList() ?? new List<GetCommentDTO>();
+
+            // Get comments for each answer
+            foreach (var answer in Answers)
+            {
+                var answerComments = await _commentService.GetCommentsByAnswerAsync(answer.AnswerId);
+                AnswerComments[answer.AnswerId] = answerComments?.ToList() ?? new List<GetCommentDTO>();
+            }
 
             return Page();
         }
@@ -107,6 +127,76 @@ namespace SWP_QA_TOOL.Pages.Instructor.Questions
             await _questionService.MarkAsResolvedAsync(id, userId);
             TempData["SuccessMessage"] = "Đã đánh dấu giải quyết!";
             return RedirectToPage("Answer", new { id = id });
+        }
+
+        public async Task<IActionResult> OnPostAddQuestionCommentAsync(int questionId, string commentBody)
+        {
+            if (string.IsNullOrWhiteSpace(commentBody))
+            {
+                TempData["ErrorMessage"] = "Vui lòng nhập nội dung phản hồi.";
+                return RedirectToPage(new { id = questionId });
+            }
+
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return RedirectToPage("/Account/Login");
+            }
+
+            try
+            {
+                var createComment = new CreateCommentDTO
+                {
+                    Body = commentBody,
+                    AuthorId = userId,
+                    QuestionId = questionId,
+                    AnswerId = null
+                };
+
+                await _commentService.CreateCommentAsync(createComment);
+                TempData["SuccessMessage"] = "Đã gửi phản hồi thành công!";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Lỗi: {ex.InnerException?.Message ?? ex.Message}";
+            }
+
+            return RedirectToPage(new { id = questionId });
+        }
+
+        public async Task<IActionResult> OnPostAddAnswerCommentAsync(int questionId, int answerId, string commentBody)
+        {
+            if (string.IsNullOrWhiteSpace(commentBody))
+            {
+                TempData["ErrorMessage"] = "Vui lòng nhập nội dung phản hồi.";
+                return RedirectToPage(new { id = questionId });
+            }
+
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userIdClaim, out int userId))
+            {
+                return RedirectToPage("/Account/Login");
+            }
+
+            try
+            {
+                var createComment = new CreateCommentDTO
+                {
+                    Body = commentBody,
+                    AuthorId = userId,
+                    QuestionId = null,
+                    AnswerId = answerId
+                };
+
+                await _commentService.CreateCommentAsync(createComment);
+                TempData["SuccessMessage"] = "Đã gửi phản hồi thành công!";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Lỗi: {ex.InnerException?.Message ?? ex.Message}";
+            }
+
+            return RedirectToPage(new { id = questionId });
         }
     }
 }

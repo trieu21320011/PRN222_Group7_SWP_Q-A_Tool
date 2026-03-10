@@ -7,82 +7,82 @@
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="/Student/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Student/Questions/Index">Câu hỏi</a></li>
+                    <li class="breadcrumb-item active">Chờ trả lời</li>
+                </ol>
+            </nav>
             <h3><i class="bi bi-hourglass-split text-warning"></i> Câu hỏi chờ trả lời</h3>
             <p class="text-muted">Các câu hỏi đang chờ phản hồi từ giảng viên</p>
         </div>
     </div>
 
     <div class="alert alert-warning">
-        <i class="bi bi-hourglass-split"></i> Có <strong>2</strong> câu hỏi đang chờ trả lời
+        <i class="bi bi-hourglass-split"></i> Có <strong>@Model.Questions.Count()</strong> câu hỏi đang chờ trả lời
     </div>
 
     <div class="row">
         <div class="col-12">
-            <div class="card mb-3 border-warning">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h5 class="card-title mb-1">
-                                <a href="/Student/Questions/Details" class="text-decoration-none">
-                                    Câu hỏi về Use Case Diagram
-                                </a>
-                                <span class="badge bg-warning">Chờ trả lời</span>
-                            </h5>
-                            <p class="text-muted mb-2">
-                                <i class="bi bi-person"></i> Hỏi bởi: Nguyễn Văn A
-                                <small class="ms-2">| 10 phút trước</small>
-                            </p>
-                            <p class="card-text">
-                                Em muốn hỏi về cách vẽ Use Case Diagram cho chức năng đăng nhập, đăng ký...
-                            </p>
-                        </div>
-                        <div>
-                            <a href="/Student/Questions/Details" class="btn btn-outline-primary">
-                                <i class="bi bi-eye"></i> Xem
-                            </a>
-                            <a href="/Student/Questions/Edit" class="btn btn-outline-secondary">
-                                <i class="bi bi-pencil"></i> Sửa
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-3 border-warning">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h5 class="card-title mb-1">
-                                <a href="/Student/Questions/Details" class="text-decoration-none">
-                                    Thắc mắc về API authentication
-                                </a>
-                                <span class="badge bg-warning">Chờ trả lời</span>
-                            </h5>
-                            <p class="text-muted mb-2">
-                                <i class="bi bi-person"></i> Hỏi bởi: Trần Thị B
-                                <small class="ms-2">| 2 giờ trước</small>
-                            </p>
-                            <p class="card-text">
-                                Nhóm em đang gặp khó khăn trong việc implement JWT authentication...
-                            </p>
-                        </div>
-                        <div>
-                            <a href="/Student/Questions/Details" class="btn btn-outline-primary">
-                                <i class="bi bi-eye"></i> Xem
-                            </a>
-                            <a href="/Student/Questions/Edit" class="btn btn-outline-secondary">
-                                <i class="bi bi-pencil"></i> Sửa
-                            </a>
+            @if (Model.Questions.Any())
+            {
+                @foreach (var question in Model.Questions)
+                {
+                    <div class="card mb-3 border-warning">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h5 class="card-title mb-1">
+                                        <a asp-page="/Student/Questions/Details" asp-route-id="@question.QuestionId" class="text-decoration-none">
+                                            @question.Title
+                                        </a>
+                                        <span class="badge bg-warning">Chờ trả lời</span>
+                                    </h5>
+                                    <p class="text-muted mb-2">
+                                        <i class="bi bi-person"></i> Hỏi bởi: @question.AuthorName
+                                        <small class="ms-2">| @question.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</small>
+                                    </p>
+                                    <p class="card-text">
+                                        @(question.Body?.Length > 100 ? question.Body.Substring(0, 100) + "..." : question.Body)
+                                    </p>
+                                    @if (!string.IsNullOrEmpty(question.TeamName))
+                                    {
+                                        <span class="badge bg-info me-1"><i class="bi bi-people"></i> @question.TeamName</span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(question.CoreName))
+                                    {
+                                        <span class="badge bg-secondary"><i class="bi bi-building"></i> @question.CoreName</span>
+                                    }
+                                </div>
+                                <div class="d-flex gap-1">
+                                    <a asp-page="/Student/Questions/Details" asp-route-id="@question.QuestionId" class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-eye"></i> Xem
+                                    </a>
+                                    <a asp-page="/Student/Questions/Edit" asp-route-id="@question.QuestionId" class="btn btn-outline-secondary btn-sm">
+                                        <i class="bi bi-pencil"></i> Sửa
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info text-center">
+                    <i class="bi bi-info-circle"></i> Không có câu hỏi nào đang chờ trả lời
                 </div>
-            </div>
+            }
         </div>
     </div>
 
     <div class="text-center mt-4">
-        <a href="/Student/Questions/Create" class="btn btn-success">
+        <a asp-page="/Student/Questions/Create" class="btn btn-success">
             <i class="bi bi-plus-circle"></i> Tạo câu hỏi mới
+        </a>
+        <a asp-page="/Student/Questions/Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Quay lại danh sách
         </a>
     </div>
 </div>

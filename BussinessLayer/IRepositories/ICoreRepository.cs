@@ -16,5 +16,6 @@ namespace BussinessLayer.IRepositories
         Task<IEnumerable<Core>> GetActiveCoresAsync();
         Task<IEnumerable<Core>> GetCoresByTopicAsync(int topicId);
         Task<Core?> GetCoreWithTeamsAsync(int coreId);
+        Task<IEnumerable<Core>> GetCoresByUserAsync(int userId);
     }
 }

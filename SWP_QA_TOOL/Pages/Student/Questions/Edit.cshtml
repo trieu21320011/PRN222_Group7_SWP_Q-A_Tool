@@ -1,4 +1,4 @@
-@page "{id:int?}"
+@page "{id:int}"
 @model SWP_QA_TOOL.Pages.Student.Questions.EditModel
 @{
     ViewData["Title"] = "Chỉnh sửa câu hỏi";
@@ -9,8 +9,8 @@
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/Student/Index">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a href="/Student/Questions/Index">Câu hỏi</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Student/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Student/Questions/Index">Câu hỏi</a></li>
                     <li class="breadcrumb-item active">Chỉnh sửa</li>
                 </ol>
             </nav>
@@ -18,6 +18,14 @@
             <p class="text-muted">Cập nhật nội dung câu hỏi</p>
         </div>
     </div>
+
+    @if (TempData["ErrorMessage"] is string errorMessage)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @errorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
     <div class="row">
         <div class="col-md-8">
@@ -27,76 +35,76 @@
                 </div>
                 <div class="card-body">
                     <form method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <input type="hidden" asp-for="Question.QuestionId" />
+
                         <div class="mb-3">
-                            <label class="form-label">Tiêu đề câu hỏi <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" value="Câu hỏi về Use Case Diagram" required>
+                            <label asp-for="Question.Title" class="form-label">Tiêu đề câu hỏi <span class="text-danger">*</span></label>
+                            <input asp-for="Question.Title" class="form-control" required />
+                            <span asp-validation-for="Question.Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Question.TeamId" class="form-label">Nhóm</label>
+                                    <select asp-for="Question.TeamId" asp-items="Model.Teams" class="form-select">
+                                        <option value="">-- Chọn nhóm --</option>
+                                    </select>
+                                    <span asp-validation-for="Question.TeamId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Question.CoreId" class="form-label">Lớp</label>
+                                    <select asp-for="Question.CoreId" asp-items="Model.Cores" class="form-select">
+                                        <option value="">-- Chọn lớp --</option>
+                                    </select>
+                                    <span asp-validation-for="Question.CoreId" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Phân loại câu hỏi</label>
-                            <select class="form-select">
-                                <option>-- Chọn phân loại --</option>
-                                <option selected>Yêu cầu (Requirements)</option>
-                                <option>Thiết kế (Design)</option>
-                                <option>Database</option>
-                                <option>Coding</option>
-                                <option>Testing</option>
-                                <option>Deployment</option>
-                                <option>Khác</option>
+                            <label asp-for="Question.Category" class="form-label">Phân loại câu hỏi</label>
+                            <select asp-for="Question.Category" class="form-select">
+                                <option value="">-- Chọn phân loại --</option>
+                                <option value="Requirements">Yêu cầu (Requirements)</option>
+                                <option value="Design">Thiết kế (Design)</option>
+                                <option value="Database">Database</option>
+                                <option value="Coding">Coding</option>
+                                <option value="Testing">Testing</option>
+                                <option value="Deployment">Deployment</option>
+                                <option value="Other">Khác</option>
                             </select>
+                            <span asp-validation-for="Question.Category" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Nội dung chi tiết <span class="text-danger">*</span></label>
-                            <textarea class="form-control" rows="10" required>Kính gửi Thầy/Cô,
-
-Em muốn hỏi về cách vẽ Use Case Diagram cho chức năng đăng nhập, đăng ký trong dự án. Cụ thể:
-
-1. Actor "User" có nên được chia thành "Guest" và "Member" không?
-2. Chức năng "Quên mật khẩu" nên được đặt là extend hay include của "Đăng nhập"?
-3. Có cần vẽ riêng Use Case cho validate form không?
-
-Em xin cảm ơn Thầy/Cô!</textarea>
+                            <label asp-for="Question.Body" class="form-label">Nội dung chi tiết <span class="text-danger">*</span></label>
+                            <textarea asp-for="Question.Body" class="form-control" rows="10" required></textarea>
+                            <span asp-validation-for="Question.Body" class="text-danger"></span>
                             <div class="form-text">
                                 <i class="bi bi-markdown"></i> Hỗ trợ định dạng Markdown
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">File đính kèm hiện tại</label>
-                            <div class="list-group">
-                                <div class="list-group-item d-flex justify-content-between align-items-center">
-                                    <span><i class="bi bi-file-earmark-image"></i> use_case_draft.png (256 KB)</span>
-                                    <button type="button" class="btn btn-sm btn-outline-danger">
-                                        <i class="bi bi-x"></i> Xóa
-                                    </button>
-                                </div>
-                            </div>
+                            <label asp-for="Question.Difficulty" class="form-label">Mức độ khó</label>
+                            <select asp-for="Question.Difficulty" class="form-select">
+                                <option value="">-- Chọn mức độ --</option>
+                                <option value="Easy">Dễ</option>
+                                <option value="Medium">Trung bình</option>
+                                <option value="Hard">Khó</option>
+                            </select>
+                            <span asp-validation-for="Question.Difficulty" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Thêm file mới</label>
-                            <input type="file" class="form-control" multiple>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Mức độ ưu tiên</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priority" id="priorityNormal" checked>
-                                <label class="form-check-label" for="priorityNormal">
-                                    <span class="badge bg-secondary">Bình thường</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priority" id="priorityHigh">
-                                <label class="form-check-label" for="priorityHigh">
-                                    <span class="badge bg-warning">Quan trọng</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priority" id="priorityUrgent">
-                                <label class="form-check-label" for="priorityUrgent">
-                                    <span class="badge bg-danger">Khẩn cấp</span>
+                                <input asp-for="Question.IsPrivate" class="form-check-input" type="checkbox" />
+                                <label asp-for="Question.IsPrivate" class="form-check-label">
+                                    Câu hỏi riêng tư (chỉ GV và nhóm của bạn xem được)
                                 </label>
                             </div>
                         </div>
@@ -105,7 +113,7 @@ Em xin cảm ơn Thầy/Cô!</textarea>
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-check-circle"></i> Lưu thay đổi
                             </button>
-                            <a href="/Student/Questions/Details" class="btn btn-outline-secondary">
+                            <a asp-page="/Student/Questions/Details" asp-route-id="@Model.Question.QuestionId" class="btn btn-outline-secondary">
                                 <i class="bi bi-x-circle"></i> Hủy
                             </a>
                         </div>
@@ -120,10 +128,7 @@ Em xin cảm ơn Thầy/Cô!</textarea>
                     <h6 class="mb-0"><i class="bi bi-info-circle"></i> Thông tin câu hỏi</h6>
                 </div>
                 <div class="card-body">
-                    <p><strong>Mã:</strong> #Q001</p>
-                    <p><strong>Trạng thái:</strong> <span class="badge bg-warning">Chờ trả lời</span></p>
-                    <p><strong>Ngày tạo:</strong> 20/10/2024, 10:30</p>
-                    <p><strong>Người tạo:</strong> Nguyễn Văn A</p>
+                    <p><strong>Mã:</strong> #Q@Model.Question.QuestionId</p>
                 </div>
             </div>
 
@@ -133,11 +138,14 @@ Em xin cảm ơn Thầy/Cô!</textarea>
                 </div>
                 <div class="card-body">
                     <ul class="small mb-0">
-                        <li>Chỉ có thể chỉnh sửa câu hỏi khi chưa được trả lời</li>
-                        <li>Sau khi GV trả lời, câu hỏi sẽ bị khóa chỉnh sửa</li>
+                        <li>Câu hỏi đã được giải quyết không thể chỉnh sửa</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

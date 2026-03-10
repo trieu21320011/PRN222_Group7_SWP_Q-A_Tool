@@ -1,7 +1,10 @@
-@page "{id:int?}"
+@page "{id:int}"
 @model SWP_QA_TOOL.Pages.Student.Questions.DetailsModel
 @{
-    ViewData["Title"] = "Chi tiết câu hỏi";
+    ViewData["Title"] = Model.Question?.Title ?? "Chi tiết câu hỏi";
+    var isPending = Model.Question?.Status == "Open" || Model.Question?.Status == "Pending";
+    var isAnswered = Model.Answers.Any();
+    var isResolved = Model.Question?.IsClosed ?? false;
 }
 
 <div class="container-fluid">
@@ -9,149 +12,296 @@
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/Student/Index">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a href="/Student/Questions/Index">Câu hỏi</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Student/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Student/Questions/Index">Câu hỏi</a></li>
                     <li class="breadcrumb-item active">Chi tiết</li>
                 </ol>
             </nav>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-8">
-            <!-- Câu hỏi -->
-            <div class="card mb-4">
-                <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="bi bi-question-circle"></i> Câu hỏi về Use Case Diagram</h5>
-                    <span class="badge bg-warning text-dark">Chờ trả lời</span>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <span class="badge bg-info">Nhóm 1</span>
-                        <span class="badge bg-secondary">Core A</span>
-                        <span class="badge bg-primary">Requirements</span>
-                    </div>
-                    <p class="text-muted">
-                        <i class="bi bi-person"></i> Hỏi bởi: <strong>Nguyễn Văn A</strong> - 
-                        <i class="bi bi-clock"></i> 10 phút trước
-                    </p>
-                    <hr>
-                    <div class="question-content">
-                        <p>Kính gửi Thầy/Cô,</p>
-                        <p>Em muốn hỏi về cách vẽ Use Case Diagram cho chức năng đăng nhập, đăng ký trong dự án. Cụ thể:</p>
-                        <ol>
-                            <li>Actor "User" có nên được chia thành "Guest" và "Member" không?</li>
-                            <li>Chức năng "Quên mật khẩu" nên được đặt là extend hay include của "Đăng nhập"?</li>
-                            <li>Có cần vẽ riêng Use Case cho validate form không?</li>
-                        </ol>
-                        <p>Em xin cảm ơn Thầy/Cô!</p>
-                    </div>
-                </div>
-                <div class="card-footer bg-white">
-                    <a href="/Student/Questions/Edit" class="btn btn-sm btn-outline-secondary">
-                        <i class="bi bi-pencil"></i> Chỉnh sửa
-                    </a>
-                    <button class="btn btn-sm btn-outline-danger">
-                        <i class="bi bi-trash"></i> Xóa
-                    </button>
-                </div>
-            </div>
+    @if (TempData["SuccessMessage"] is string successMessage)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @successMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
-            <!-- Câu trả lời (nếu có) -->
-            <div class="card mb-4 border-success">
-                <div class="card-header bg-success text-white">
-                    <h6 class="mb-0"><i class="bi bi-chat-right-quote"></i> Câu trả lời từ Giảng viên</h6>
-                </div>
-                <div class="card-body">
-                    <p class="text-muted mb-2">
-                        <i class="bi bi-person-badge"></i> <strong>ThS. Nguyễn Văn Instructor</strong> - 
-                        <i class="bi bi-clock"></i> 30 phút trước
-                    </p>
-                    <hr>
-                    <div class="answer-content">
-                        <p>Chào em,</p>
-                        <p>Về các câu hỏi của em:</p>
-                        <ol>
-                            <li><strong>Chia Actor:</strong> Đúng rồi em, nên chia thành Guest (chưa đăng nhập) và Member (đã đăng nhập) để phân biệt rõ quyền truy cập.</li>
-                            <li><strong>Quên mật khẩu:</strong> Nên dùng EXTEND vì đây là chức năng tùy chọn, chỉ xảy ra khi user cần.</li>
-                            <li><strong>Validate form:</strong> Không cần vẽ riêng, validation được hiểu là một phần của mỗi use case có form input.</li>
-                        </ol>
-                        <p>Chúc em làm bài tốt!</p>
-                    </div>
-                </div>
-                <div class="card-footer bg-white">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <small class="text-muted">Câu trả lời có hữu ích không?</small>
-                        <div>
-                            <button class="btn btn-sm btn-outline-success">
-                                <i class="bi bi-check-circle"></i> Đánh dấu đã giải quyết
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    @if (TempData["ErrorMessage"] is string errorMessage)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @errorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
-            <!-- Bình luận thêm -->
-            <div class="card">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0"><i class="bi bi-chat-dots"></i> Bình luận / Hỏi thêm</h6>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3 p-3 bg-light rounded">
-                        <p class="mb-1"><strong>Nguyễn Văn A</strong> <small class="text-muted">- 5 phút trước</small></p>
-                        <p class="mb-0">Em cảm ơn Thầy ạ. Em có thêm một thắc mắc nữa về System Boundary...</p>
+    @if (Model.Question == null)
+    {
+        <div class="alert alert-warning">Không tìm thấy câu hỏi.</div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Câu hỏi -->
+                <div class="card mb-4">
+                    <div class="card-header @(isPending ? "bg-warning text-dark" : isResolved ? "bg-primary text-white" : "bg-success text-white") d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="bi bi-question-circle"></i> @Model.Question.Title</h5>
+                        @if (isResolved)
+                        {
+                            <span class="badge bg-white text-primary">Đã giải quyết</span>
+                        }
+                        else if (isAnswered)
+                        {
+                            <span class="badge bg-white text-success">Đã trả lời</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-dark">Chờ trả lời</span>
+                        }
                     </div>
-
-                    <form method="post">
+                    <div class="card-body">
                         <div class="mb-3">
-                            <label class="form-label">Thêm bình luận</label>
-                            <textarea class="form-control" rows="3" placeholder="Nhập bình luận hoặc câu hỏi thêm..."></textarea>
+                            @if (!string.IsNullOrEmpty(Model.Question.TeamName))
+                            {
+                                <span class="badge bg-info">@Model.Question.TeamName</span>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Question.CoreName))
+                            {
+                                <span class="badge bg-secondary">@Model.Question.CoreName</span>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.Question.Category))
+                            {
+                                <span class="badge bg-primary">@Model.Question.Category</span>
+                            }
                         </div>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-send"></i> Gửi bình luận
-                        </button>
-                    </form>
+                        <p class="text-muted">
+                            <i class="bi bi-person"></i> Hỏi bởi: <strong>@(Model.Question.AuthorName ?? "Ẩn danh")</strong> - 
+                            <i class="bi bi-clock"></i> @(Model.Question.CreatedAt?.ToString("dd/MM/yyyy HH:mm") ?? "-")
+                        </p>
+                        <hr>
+                        <div class="question-content">
+                            @Html.Raw(Model.Question.Body?.Replace("\n", "<br>"))
+                        </div>
+                    </div>
+                    @if (!isResolved)
+                    {
+                        <div class="card-footer bg-white">
+                            <a asp-page="/Student/Questions/Edit" asp-route-id="@Model.Question.QuestionId" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-pencil"></i> Chỉnh sửa
+                            </a>
+                        </div>
+                    }
+                </div>
+
+                <!-- Comments on Question (Follow-up questions) -->
+                @if (Model.QuestionComments.Any())
+                {
+                    <div class="card mb-4 border-info">
+                        <div class="card-header bg-info text-white">
+                            <h6 class="mb-0"><i class="bi bi-chat-dots"></i> Hỏi thêm (@Model.QuestionComments.Count)</h6>
+                        </div>
+                        <div class="card-body">
+                            @foreach (var comment in Model.QuestionComments.OrderBy(c => c.CreatedAt))
+                            {
+                                <div class="border-start border-info border-3 ps-3 mb-3">
+                                    <p class="mb-1">@comment.Body</p>
+                                    <small class="text-muted">
+                                        <i class="bi bi-person"></i> @(comment.AuthorName ?? "Ẩn danh") - 
+                                        <i class="bi bi-clock"></i> @(comment.CreatedAt?.ToString("dd/MM/yyyy HH:mm") ?? "-")
+                                        @if (comment.IsEdited == true)
+                                        {
+                                            <span class="text-warning">(đã chỉnh sửa)</span>
+                                        }
+                                    </small>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Form to add follow-up question -->
+                @if (!isResolved)
+                {
+                    <div class="card mb-4 border-secondary">
+                        <div class="card-header bg-secondary text-white">
+                            <h6 class="mb-0"><i class="bi bi-plus-circle"></i> Hỏi thêm về câu hỏi này</h6>
+                        </div>
+                        <div class="card-body">
+                            <form method="post" asp-page-handler="AddQuestionComment" asp-route-id="@Model.Question.QuestionId">
+                                <div class="mb-3">
+                                    <textarea asp-for="NewComment" class="form-control" rows="3" placeholder="Nhập câu hỏi thêm của bạn..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-info">
+                                    <i class="bi bi-send"></i> Gửi câu hỏi thêm
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+
+                <!-- Câu trả lời -->
+                @if (Model.Answers.Any())
+                {
+                    @foreach (var answer in Model.Answers)
+                    {
+                        var isMentorAns = answer.IsMentorAnswer ?? false;
+                        var isAcceptedAns = answer.IsAccepted ?? false;
+                        <div class="card mb-4 @(isMentorAns ? "border-success" : "")">
+                            <div class="card-header @(isMentorAns ? "bg-success text-white" : "bg-light")">
+                                <h6 class="mb-0">
+                                    <i class="bi bi-chat-right-quote"></i>
+                                    @if (isMentorAns)
+                                    {
+                                        <span>Câu trả lời từ Giảng viên</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Câu trả lời</span>
+                                    }
+                                    @if (isAcceptedAns)
+                                    {
+                                        <span class="badge bg-success ms-2"><i class="bi bi-check-circle"></i> Accepted</span>
+                                    }
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted mb-2">
+                                    <i class="bi bi-person-badge"></i> <strong>@(answer.AuthorName ?? "Ẩn danh")</strong> - 
+                                    <i class="bi bi-clock"></i> @(answer.CreatedAt?.ToString("dd/MM/yyyy HH:mm") ?? "-")
+                                </p>
+                                <hr>
+                                <div class="answer-content">
+                                    @Html.Raw(answer.Body?.Replace("\n", "<br>"))
+                                </div>
+
+                                <!-- Comments on this answer -->
+                                @if (Model.AnswerComments.ContainsKey(answer.AnswerId) && Model.AnswerComments[answer.AnswerId].Any())
+                                {
+                                    <hr>
+                                    <div class="mt-3">
+                                        <h6 class="text-info"><i class="bi bi-chat-dots"></i> Hỏi thêm (@Model.AnswerComments[answer.AnswerId].Count)</h6>
+                                        @foreach (var comment in Model.AnswerComments[answer.AnswerId].OrderBy(c => c.CreatedAt))
+                                        {
+                                            <div class="border-start border-info border-3 ps-3 mb-2 ms-3">
+                                                <p class="mb-1">@comment.Body</p>
+                                                <small class="text-muted">
+                                                    <i class="bi bi-person"></i> @(comment.AuthorName ?? "Ẩn danh") - 
+                                                    <i class="bi bi-clock"></i> @(comment.CreatedAt?.ToString("dd/MM/yyyy HH:mm") ?? "-")
+                                                </small>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                            @if (!isResolved && isMentorAns)
+                            {
+                                <div class="card-footer bg-white">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">Câu trả lời có hữu ích không?</small>
+                                        <form method="post" asp-page-handler="MarkAsResolved" asp-route-id="@Model.Question.QuestionId">
+                                            <button type="submit" class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-check-circle"></i> Đánh dấu đã hiểu
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            }
+
+                            <!-- Form to add comment to this answer -->
+                            @if (!isResolved)
+                            {
+                                <div class="card-footer bg-light">
+                                    <form method="post" asp-page-handler="AddAnswerComment" asp-route-id="@Model.Question.QuestionId" asp-route-answerId="@answer.AnswerId">
+                                        <div class="input-group">
+                                            <input type="text" asp-for="NewComment" class="form-control form-control-sm" placeholder="Hỏi thêm về câu trả lời này..." />
+                                            <button type="submit" class="btn btn-sm btn-info">
+                                                <i class="bi bi-send"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="card mb-4">
+                        <div class="card-body text-center text-muted py-5">
+                            <i class="bi bi-chat-left-dots" style="font-size: 3rem;"></i>
+                            <p class="mt-3">Chưa có câu trả lời nào. Giảng viên sẽ phản hồi sớm nhất có thể.</p>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-header bg-light">
+                        <h6 class="mb-0"><i class="bi bi-info-circle"></i> Thông tin câu hỏi</h6>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Mã câu hỏi:</strong> #Q@Model.Question.QuestionId</p>
+                        <p><strong>Trạng thái:</strong> 
+                            @if (isResolved)
+                            {
+                                <span class="badge bg-primary">Đã giải quyết</span>
+                            }
+                            else if (isAnswered)
+                            {
+                                <span class="badge bg-success">Đã trả lời</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning">Chờ trả lời</span>
+                            }
+                        </p>
+                        @if (!string.IsNullOrEmpty(Model.Question.Category))
+                        {
+                            <p><strong>Phân loại:</strong> @Model.Question.Category</p>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Question.Difficulty))
+                        {
+                            <p><strong>Độ khó:</strong> @Model.Question.Difficulty</p>
+                        }
+                        <p><strong>Ngày tạo:</strong> @(Model.Question.CreatedAt?.ToString("dd/MM/yyyy HH:mm") ?? "-")</p>
+                        @if (Model.Question.ViewCount > 0)
+                        {
+                            <p><strong>Lượt xem:</strong> @Model.Question.ViewCount</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="card mb-3">
+                    <div class="card-header bg-light">
+                        <h6 class="mb-0"><i class="bi bi-people"></i> Thông tin liên quan</h6>
+                    </div>
+                    <div class="card-body">
+                        @if (!string.IsNullOrEmpty(Model.Question.TeamName))
+                        {
+                            <p><strong>Nhóm:</strong> @Model.Question.TeamName</p>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Question.CoreName))
+                        {
+                            <p><strong>Lớp:</strong> @Model.Question.CoreName</p>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.Question.AssignedInstructorName))
+                        {
+                            <p><strong>GV phụ trách:</strong> @Model.Question.AssignedInstructorName</p>
+                        }
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <a asp-page="/Student/Questions/Index" class="btn btn-outline-secondary w-100">
+                            <i class="bi bi-arrow-left"></i> Quay lại danh sách
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-md-4">
-            <div class="card mb-3">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0"><i class="bi bi-info-circle"></i> Thông tin câu hỏi</h6>
-                </div>
-                <div class="card-body">
-                    <p><strong>Mã câu hỏi:</strong> #Q001</p>
-                    <p><strong>Trạng thái:</strong> <span class="badge bg-warning">Chờ trả lời</span></p>
-                    <p><strong>Phân loại:</strong> Requirements</p>
-                    <p><strong>Ưu tiên:</strong> <span class="badge bg-secondary">Bình thường</span></p>
-                    <p><strong>Ngày tạo:</strong> 20/10/2024, 10:30</p>
-                    <p><strong>Cập nhật:</strong> 20/10/2024, 11:00</p>
-                </div>
-            </div>
-
-            <div class="card mb-3">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0"><i class="bi bi-people"></i> Thông tin nhóm</h6>
-                </div>
-                <div class="card-body">
-                    <p><strong>Nhóm:</strong> Nhóm 1</p>
-                    <p><strong>Core:</strong> Core A - Morning</p>
-                    <p><strong>GV hướng dẫn:</strong> ThS. Nguyễn Văn Instructor</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0"><i class="bi bi-paperclip"></i> File đính kèm</h6>
-                </div>
-                <div class="list-group list-group-flush">
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <i class="bi bi-file-earmark-image text-primary"></i> use_case_draft.png
-                        <small class="text-muted">(256 KB)</small>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+    }
 </div>

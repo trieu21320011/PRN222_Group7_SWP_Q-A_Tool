@@ -7,103 +7,81 @@
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="/Student/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Student/Questions/Index">Câu hỏi</a></li>
+                    <li class="breadcrumb-item active">Đã trả lời</li>
+                </ol>
+            </nav>
             <h3><i class="bi bi-check-circle text-success"></i> Câu hỏi đã được trả lời</h3>
             <p class="text-muted">Các câu hỏi đã nhận được phản hồi từ giảng viên</p>
         </div>
     </div>
 
     <div class="alert alert-success">
-        <i class="bi bi-check-circle"></i> Có <strong>3</strong> câu hỏi đã được trả lời
+        <i class="bi bi-check-circle"></i> Có <strong>@Model.Questions.Count()</strong> câu hỏi đã được trả lời
     </div>
 
     <div class="row">
         <div class="col-12">
-            <div class="card mb-3 border-success">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h5 class="card-title mb-1">
-                                <a href="/Student/Questions/Details" class="text-decoration-none">
-                                    Hỏi về Database Design
-                                </a>
-                                <span class="badge bg-success ms-2">Đã trả lời</span>
-                            </h5>
-                            <p class="text-muted mb-2">
-                                <i class="bi bi-person"></i> Hỏi bởi: Nguyễn Văn A
-                                <small class="ms-2">| Trả lời: 2 ngày trước</small>
-                            </p>
-                            <p class="card-text">
-                                <i class="bi bi-chat-right-quote text-success"></i> 
-                                <em>"Database design cần chú ý đến normalization, đảm bảo ít nhất 3NF..."</em>
-                            </p>
-                        </div>
-                        <div>
-                            <a href="/Student/Questions/Details" class="btn btn-outline-primary">
-                                <i class="bi bi-eye"></i> Xem chi tiết
-                            </a>
-                            <button class="btn btn-success">
-                                <i class="bi bi-check-circle"></i> Đánh dấu giải quyết
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-3 border-primary">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h5 class="card-title mb-1">
-                                <a href="/Student/Questions/Details" class="text-decoration-none">
-                                    Xác nhận requirement
-                                </a>
-                                <span class="badge bg-primary ms-2">Đã giải quyết</span>
-                            </h5>
-                            <p class="text-muted mb-2">
-                                <i class="bi bi-person"></i> Hỏi bởi: Lê Văn C
-                                <small class="ms-2">| Trả lời: 1 tuần trước</small>
-                            </p>
-                            <p class="card-text">
-                                <i class="bi bi-chat-right-quote text-success"></i> 
-                                <em>"Requirement đã được xác nhận, nhóm có thể tiến hành implement..."</em>
-                            </p>
-                        </div>
-                        <div>
-                            <a href="/Student/Questions/Details" class="btn btn-outline-primary">
-                                <i class="bi bi-eye"></i> Xem chi tiết
-                            </a>
+            @if (Model.Questions.Any())
+            {
+                @foreach (var question in Model.Questions)
+                {
+                    <div class="card mb-3 border-success">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <h5 class="card-title mb-1">
+                                        <a asp-page="/Student/Questions/Details" asp-route-id="@question.QuestionId" class="text-decoration-none">
+                                            @question.Title
+                                        </a>
+                                        <span class="badge bg-success ms-2">Đã trả lời (@question.AnswerCount)</span>
+                                    </h5>
+                                    <p class="text-muted mb-2">
+                                        <i class="bi bi-person"></i> Hỏi bởi: @question.AuthorName
+                                        <small class="ms-2">| @question.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</small>
+                                    </p>
+                                    <p class="card-text">
+                                        @(question.Body?.Length > 150 ? question.Body.Substring(0, 150) + "..." : question.Body)
+                                    </p>
+                                    @if (!string.IsNullOrEmpty(question.TeamName))
+                                    {
+                                        <span class="badge bg-info me-1"><i class="bi bi-people"></i> @question.TeamName</span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(question.CoreName))
+                                    {
+                                        <span class="badge bg-secondary"><i class="bi bi-building"></i> @question.CoreName</span>
+                                    }
+                                </div>
+                                <div class="d-flex flex-column gap-1">
+                                    <a asp-page="/Student/Questions/Details" asp-route-id="@question.QuestionId" class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-eye"></i> Xem chi tiết
+                                    </a>
+                                    <form method="post" asp-page="/Student/Questions/Details" asp-page-handler="MarkAsResolved" asp-route-id="@question.QuestionId" class="d-inline">
+                                        <button type="submit" class="btn btn-success btn-sm w-100">
+                                            <i class="bi bi-check-circle"></i> Đã giải quyết
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info text-center">
+                    <i class="bi bi-info-circle"></i> Chưa có câu hỏi nào được trả lời
                 </div>
-            </div>
-
-            <div class="card mb-3 border-primary">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div>
-                            <h5 class="card-title mb-1">
-                                <a href="/Student/Questions/Details" class="text-decoration-none">
-                                    Cách validate form input
-                                </a>
-                                <span class="badge bg-primary ms-2">Đã giải quyết</span>
-                            </h5>
-                            <p class="text-muted mb-2">
-                                <i class="bi bi-person"></i> Hỏi bởi: Phạm Thị D
-                                <small class="ms-2">| Trả lời: 2 tuần trước</small>
-                            </p>
-                            <p class="card-text">
-                                <i class="bi bi-chat-right-quote text-success"></i> 
-                                <em>"Validate nên được thực hiện cả ở client và server side..."</em>
-                            </p>
-                        </div>
-                        <div>
-                            <a href="/Student/Questions/Details" class="btn btn-outline-primary">
-                                <i class="bi bi-eye"></i> Xem chi tiết
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-page="/Student/Questions/Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Quay lại danh sách
+        </a>
     </div>
 </div>

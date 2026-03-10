@@ -9,8 +9,8 @@
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/Student/Index">Trang chủ</a></li>
-                    <li class="breadcrumb-item"><a href="/Student/Questions/Index">Câu hỏi</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Student/Index">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a asp-page="/Student/Questions/Index">Câu hỏi</a></li>
                     <li class="breadcrumb-item active">Tạo câu hỏi</li>
                 </ol>
             </nav>
@@ -27,58 +27,76 @@
                 </div>
                 <div class="card-body">
                     <form method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
                         <div class="mb-3">
-                            <label class="form-label">Tiêu đề câu hỏi <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" placeholder="Nhập tiêu đề ngắn gọn cho câu hỏi..." required>
+                            <label asp-for="Question.Title" class="form-label">Tiêu đề câu hỏi <span class="text-danger">*</span></label>
+                            <input asp-for="Question.Title" class="form-control" placeholder="Nhập tiêu đề ngắn gọn cho câu hỏi..." required />
+                            <span asp-validation-for="Question.Title" class="text-danger"></span>
                             <div class="form-text">Tiêu đề nên ngắn gọn, súc tích (tối đa 200 ký tự)</div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Phân loại câu hỏi</label>
-                            <select class="form-select">
-                                <option selected>-- Chọn phân loại --</option>
-                                <option>Yêu cầu (Requirements)</option>
-                                <option>Thiết kế (Design)</option>
-                                <option>Database</option>
-                                <option>Coding</option>
-                                <option>Testing</option>
-                                <option>Deployment</option>
-                                <option>Khác</option>
-                            </select>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Question.TeamId" class="form-label">Nhóm</label>
+                                    <select asp-for="Question.TeamId" asp-items="Model.Teams" class="form-select">
+                                        <option value="">-- Chọn nhóm --</option>
+                                    </select>
+                                    <span asp-validation-for="Question.TeamId" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Question.CoreId" class="form-label">Lớp</label>
+                                    <select asp-for="Question.CoreId" asp-items="Model.Cores" class="form-select">
+                                        <option value="">-- Chọn lớp --</option>
+                                    </select>
+                                    <span asp-validation-for="Question.CoreId" class="text-danger"></span>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Nội dung chi tiết <span class="text-danger">*</span></label>
-                            <textarea class="form-control" rows="10" placeholder="Mô tả chi tiết câu hỏi của bạn..." required></textarea>
+                            <label asp-for="Question.Category" class="form-label">Phân loại câu hỏi</label>
+                            <select asp-for="Question.Category" class="form-select">
+                                <option value="">-- Chọn phân loại --</option>
+                                <option value="Requirements">Yêu cầu (Requirements)</option>
+                                <option value="Design">Thiết kế (Design)</option>
+                                <option value="Database">Database</option>
+                                <option value="Coding">Coding</option>
+                                <option value="Testing">Testing</option>
+                                <option value="Deployment">Deployment</option>
+                                <option value="Other">Khác</option>
+                            </select>
+                            <span asp-validation-for="Question.Category" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Question.Body" class="form-label">Nội dung chi tiết <span class="text-danger">*</span></label>
+                            <textarea asp-for="Question.Body" class="form-control" rows="10" placeholder="Mô tả chi tiết câu hỏi của bạn..." required></textarea>
+                            <span asp-validation-for="Question.Body" class="text-danger"></span>
                             <div class="form-text">
                                 <i class="bi bi-markdown"></i> Hỗ trợ định dạng Markdown
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Đính kèm file (tùy chọn)</label>
-                            <input type="file" class="form-control" multiple>
-                            <div class="form-text">Cho phép: .pdf, .doc, .docx, .zip, .png, .jpg (tối đa 10MB mỗi file)</div>
+                            <label asp-for="Question.Difficulty" class="form-label">Mức độ khó</label>
+                            <select asp-for="Question.Difficulty" class="form-select">
+                                <option value="">-- Chọn mức độ --</option>
+                                <option value="Easy">Dễ</option>
+                                <option value="Medium">Trung bình</option>
+                                <option value="Hard">Khó</option>
+                            </select>
+                            <span asp-validation-for="Question.Difficulty" class="text-danger"></span>
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Mức độ ưu tiên</label>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priority" id="priorityNormal" checked>
-                                <label class="form-check-label" for="priorityNormal">
-                                    <span class="badge bg-secondary">Bình thường</span>
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priority" id="priorityHigh">
-                                <label class="form-check-label" for="priorityHigh">
-                                    <span class="badge bg-warning">Quan trọng</span> - Cần phản hồi sớm
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priority" id="priorityUrgent">
-                                <label class="form-check-label" for="priorityUrgent">
-                                    <span class="badge bg-danger">Khẩn cấp</span> - Đang bị block
+                                <input asp-for="Question.IsPrivate" class="form-check-input" type="checkbox" />
+                                <label asp-for="Question.IsPrivate" class="form-check-label">
+                                    Câu hỏi riêng tư (chỉ GV và nhóm của bạn xem được)
                                 </label>
                             </div>
                         </div>
@@ -87,10 +105,7 @@
                             <button type="submit" class="btn btn-success">
                                 <i class="bi bi-send"></i> Gửi câu hỏi
                             </button>
-                            <button type="button" class="btn btn-outline-secondary">
-                                <i class="bi bi-save"></i> Lưu nháp
-                            </button>
-                            <a href="/Student/Questions/Index" class="btn btn-outline-danger">
+                            <a asp-page="/Student/Questions/Index" class="btn btn-outline-danger">
                                 <i class="bi bi-x-circle"></i> Hủy
                             </a>
                         </div>
@@ -108,45 +123,28 @@
                     <ol class="small">
                         <li class="mb-2">Đặt tiêu đề rõ ràng, ngắn gọn</li>
                         <li class="mb-2">Mô tả chi tiết vấn đề bạn gặp phải</li>
-                        <li class="mb-2">Đính kèm hình ảnh/file nếu cần thiết</li>
-                        <li class="mb-2">Chọn đúng mức độ ưu tiên</li>
+                        <li class="mb-2">Chọn nhóm và lớp liên quan</li>
+                        <li class="mb-2">Chọn phân loại phù hợp</li>
                         <li class="mb-2">Kiểm tra lại trước khi gửi</li>
                     </ol>
                 </div>
             </div>
 
-            <div class="card mb-3">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0"><i class="bi bi-people"></i> Thông tin nhóm</h6>
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Lưu ý</h6>
                 </div>
                 <div class="card-body">
-                    <p class="mb-1"><strong>Nhóm:</strong> Nhóm 1</p>
-                    <p class="mb-1"><strong>Core:</strong> Core A - Morning</p>
-                    <p class="mb-1"><strong>GV hướng dẫn:</strong> ThS. Nguyễn Văn Instructor</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header bg-light">
-                    <h6 class="mb-0"><i class="bi bi-clock-history"></i> Câu hỏi gần đây</h6>
-                </div>
-                <div class="list-group list-group-flush">
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between">
-                            <small>Câu hỏi về Use Case</small>
-                            <span class="badge bg-warning">Chờ</span>
-                        </div>
-                        <small class="text-muted">10 phút trước</small>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between">
-                            <small>Database Design</small>
-                            <span class="badge bg-success">TL</span>
-                        </div>
-                        <small class="text-muted">2 ngày trước</small>
-                    </a>
+                    <ul class="small mb-0">
+                        <li>Kiểm tra kỹ câu hỏi tương tự trước khi đặt câu hỏi mới</li>
+                        <li>Câu hỏi sau khi gửi có thể chỉnh sửa cho đến khi được trả lời</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
