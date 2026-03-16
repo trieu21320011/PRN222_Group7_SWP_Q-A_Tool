@@ -5,56 +5,108 @@
     ViewData["Title"] = "Quản lý Đề tài";
 }
 
-<h2>Quản lý Đề tài</h2>
+<div class="container-fluid">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="bi bi-journal-bookmark"></i> Quản lý Đề tài</h4>
+            <a asp-page="Create" class="btn btn-light">
+                <i class="bi bi-plus-circle"></i> Tạo Đề tài mới
+            </a>
+        </div>
+        <div class="card-body">
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
 
-<p>
-    <a asp-page="Create" class="btn btn-primary">Tạo Đề tài mới</a>
-</p>
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle"></i> @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Mã đề tài</th>
+                            <th>Tên đề tài</th>
+                            <th>Học kỳ</th>
+                            <th>Danh mục</th>
+                            <th>Độ khó</th>
+                            <th class="text-center">Số nhóm tối đa</th>
+                            <th class="text-center">Số nhóm hiện tại</th>
+                            <th class="text-center">Trạng thái</th>
+                            <th class="text-center" style="width:180px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Topics)
+                        {
+                            <tr>
+                                <td>@item.TopicId</td>
+                                <td><strong>@item.TopicCode</strong></td>
+                                <td>@item.TopicName</td>
+                                <td>@item.SemesterCode</td>
+                                <td>@item.Category</td>
+                                <td>
+                                    @if (item.Difficulty == "Easy")
+                                    {
+                                        <span class="badge bg-success">Dễ</span>
+                                    }
+                                    else if (item.Difficulty == "Medium")
+                                    {
+                                        <span class="badge bg-warning text-dark">Trung bình</span>
+                                    }
+                                    else if (item.Difficulty == "Hard")
+                                    {
+                                        <span class="badge bg-danger">Khó</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@item.Difficulty</span>
+                                    }
+                                </td>
+                                <td class="text-center">@item.MaxTeams</td>
+                                <td class="text-center">@item.CurrentTeams</td>
+                                <td class="text-center">
+                                    @if (item.IsActive == true)
+                                    {
+                                        <span class="badge bg-success"><i class="bi bi-check-circle"></i> Hoạt động</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary"><i class="bi bi-x-circle"></i> Không hoạt động</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a asp-page="Details" asp-route-id="@item.TopicId" class="btn btn-sm btn-outline-info" title="Chi tiết">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-page="Edit" asp-route-id="@item.TopicId" class="btn btn-sm btn-outline-warning" title="Sửa">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-page="Delete" asp-route-id="@item.TopicId" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Mã đề tài</th>
-            <th>Tên đề tài</th>
-            <th>Học kỳ</th>
-            <th>Danh mục</th>
-            <th>Độ khó</th>
-            <th>Số nhóm tối đa</th>
-            <th>Số nhóm hiện tại</th>
-            <th>Trạng thái</th>
-            <th style="width:220px;">Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Topics)
-        {
-            <tr>
-                <td>@item.TopicId</td>
-                <td>@item.TopicCode</td>
-                <td>@item.TopicName</td>
-                <td>@item.SemesterCode</td>
-                <td>@item.Category</td>
-                <td>@item.Difficulty</td>
-                <td>@item.MaxTeams</td>
-                <td>@item.CurrentTeams</td>
-                <td>@(item.IsActive == true ? "Hoạt động" : "Không hoạt động")</td>
-                <td>
-                    <a asp-page="Details" asp-route-id="@item.TopicId" class="btn btn-sm btn-info">Chi tiết</a>
-                    <a asp-page="Edit" asp-route-id="@item.TopicId" class="btn btn-sm btn-warning">Sửa</a>
-                    <a asp-page="Delete" asp-route-id="@item.TopicId" class="btn btn-sm btn-danger">Xóa</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <div class="text-muted mt-3">
+                <small><i class="bi bi-info-circle"></i> Tổng số: <strong>@Model.Topics.Count()</strong> đề tài</small>
+            </div>
+        </div>
+    </div>
+</div>

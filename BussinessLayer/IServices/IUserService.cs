@@ -17,6 +17,5 @@ namespace BussinessLayer.IServices
         Task<bool> DeleteUserAsync(int id);
         Task<IEnumerable<GetUserDTO>> GetUsersByRoleAsync(int roleId);
         Task<IEnumerable<GetUserDTO>> GetActiveUsersAsync();
-        Task<IEnumerable<DataLayer.DataLayer.Role>> GetAllRolesAsync();
     }
 }

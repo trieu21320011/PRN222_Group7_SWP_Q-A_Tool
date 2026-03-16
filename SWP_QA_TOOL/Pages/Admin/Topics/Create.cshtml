@@ -5,70 +5,110 @@
     ViewData["Title"] = "Tạo Đề tài";
 }
 
-<h2>Tạo Đề tài mới</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-plus-circle"></i> Tạo Đề tài mới</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        @Html.AntiForgeryToken()
 
-<form method="post">
-    @Html.AntiForgeryToken()
+                        <div class="text-danger mb-3">
+                            @Html.ValidationSummary()
+                        </div>
 
-    <div class="text-danger">
-        @Html.ValidationSummary()
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Mã đề tài <span class="text-danger">*</span></label>
+                                <input asp-for="Input.TopicCode" class="form-control" placeholder="VD: PRN222" />
+                                <span asp-validation-for="Input.TopicCode" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Tên đề tài <span class="text-danger">*</span></label>
+                                <input asp-for="Input.TopicName" class="form-control" placeholder="Tên đề tài" />
+                                <span asp-validation-for="Input.TopicName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Mô tả</label>
+                            <textarea asp-for="Input.Description" class="form-control" rows="3" placeholder="Mô tả chi tiết đề tài..."></textarea>
+                            <span asp-validation-for="Input.Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Học kỳ <span class="text-danger">*</span></label>
+                                <select asp-for="Input.SemesterId" class="form-select" asp-items="Model.SemesterList">
+                                    <option value="">-- Chọn học kỳ --</option>
+                                </select>
+                                <span asp-validation-for="Input.SemesterId" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Danh mục</label>
+                                <input asp-for="Input.Category" class="form-control" placeholder="VD: Web Development" />
+                                <span asp-validation-for="Input.Category" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Độ khó</label>
+                                <select asp-for="Input.Difficulty" class="form-select">
+                                    <option value="">-- Chọn độ khó --</option>
+                                    <option value="Easy">Dễ</option>
+                                    <option value="Medium">Trung bình</option>
+                                    <option value="Hard">Khó</option>
+                                </select>
+                                <span asp-validation-for="Input.Difficulty" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Số nhóm tối đa</label>
+                                <input asp-for="Input.MaxTeams" type="number" class="form-control" placeholder="VD: 5" />
+                                <span asp-validation-for="Input.MaxTeams" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Trạng thái</label>
+                            <div class="d-flex gap-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="Input.IsActive" id="isActiveTrue" value="true" checked />
+                                    <label class="form-check-label text-success" for="isActiveTrue">
+                                        <i class="bi bi-check-circle"></i> Hoạt động
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="Input.IsActive" id="isActiveFalse" value="false" />
+                                    <label class="form-check-label text-secondary" for="isActiveFalse">
+                                        <i class="bi bi-x-circle"></i> Không hoạt động
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-page="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Quay lại
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-lg"></i> Tạo Đề tài
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label class="form-label">Mã đề tài</label>
-        <input asp-for="Input.TopicCode" class="form-control" />
-        <span asp-validation-for="Input.TopicCode" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Tên đề tài</label>
-        <input asp-for="Input.TopicName" class="form-control" />
-        <span asp-validation-for="Input.TopicName" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Mô tả</label>
-        <textarea asp-for="Input.Description" class="form-control" rows="3"></textarea>
-        <span asp-validation-for="Input.Description" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Học kỳ</label>
-        <select asp-for="Input.SemesterId" class="form-select" asp-items="Model.SemesterList"></select>
-        <span asp-validation-for="Input.SemesterId" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Danh mục</label>
-        <input asp-for="Input.Category" class="form-control" />
-        <span asp-validation-for="Input.Category" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Độ khó</label>
-        <select asp-for="Input.Difficulty" class="form-select">
-            <option value="">-- Chọn độ khó --</option>
-            <option value="Easy">Dễ</option>
-            <option value="Medium">Trung bình</option>
-            <option value="Hard">Khó</option>
-        </select>
-        <span asp-validation-for="Input.Difficulty" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Số nhóm tối đa</label>
-        <input asp-for="Input.MaxTeams" type="number" class="form-control" />
-        <span asp-validation-for="Input.MaxTeams" class="text-danger"></span>
-    </div>
-
-    <div class="form-check mb-3">
-        <input asp-for="Input.IsActive" class="form-check-input" />
-        <label class="form-check-label">Hoạt động</label>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Tạo</button>
-    <a asp-page="Index" class="btn btn-secondary">Quay lại</a>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -2,13 +2,13 @@
 @model SWP_QA_TOOL.Pages.Admin.Cores.DeleteModel
 
 @{
-    ViewData["Title"] = "Xóa Core";
+    ViewData["Title"] = "Xóa Lớp học";
 }
 
-<h2>Xóa Core</h2>
+<h2>Xóa Lớp học</h2>
 
 <div class="alert alert-warning">
-    Bạn có chắc chắn muốn xóa Core này?
+    <i class="bi bi-exclamation-triangle"></i> Bạn có chắc chắn muốn xóa Lớp học này?
 </div>
 
 <div class="card">
@@ -17,10 +17,10 @@
             <dt class="col-sm-3">ID</dt>
             <dd class="col-sm-9">@Model.Core.CoreId</dd>
 
-            <dt class="col-sm-3">Mã Core</dt>
+            <dt class="col-sm-3">Mã Lớp</dt>
             <dd class="col-sm-9">@Model.Core.CoreCode</dd>
 
-            <dt class="col-sm-3">Tên Core</dt>
+            <dt class="col-sm-3">Tên Lớp</dt>
             <dd class="col-sm-9">@Model.Core.CoreName</dd>
 
             <dt class="col-sm-3">Học kỳ</dt>

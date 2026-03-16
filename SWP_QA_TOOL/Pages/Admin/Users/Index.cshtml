@@ -12,24 +12,25 @@
                     <h3><i class="bi bi-people"></i> Quản lý người dùng</h3>
                     <p class="text-muted mb-0">Danh sách tất cả người dùng trong hệ thống</p>
                 </div>
-                <a href="/Admin/Users/Create" class="btn btn-admin-primary">
+                <a asp-page="Create" class="btn btn-primary">
                     <i class="bi bi-person-plus"></i> Thêm người dùng
                 </a>
             </div>
         </div>
     </div>
 
-    @if (TempData["SuccessMessage"] != null)
+    @if (TempData["Success"] != null)
     {
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="bi bi-check-circle-fill"></i> @TempData["SuccessMessage"]
+            <i class="bi bi-check-circle"></i> @TempData["Success"]
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     }
-    @if (TempData["ErrorMessage"] != null)
+
+    @if (TempData["Error"] != null)
     {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle-fill"></i> @TempData["ErrorMessage"]
+            <i class="bi bi-exclamation-circle"></i> @TempData["Error"]
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     }
@@ -39,27 +40,32 @@
         <div class="card-body">
             <form method="get" class="row g-3">
                 <div class="col-md-3">
-                    <input type="text" asp-for="SearchTerm" class="form-control" placeholder="Tìm kiếm theo tên, email, mssv...">
+                    <input type="text" name="SearchTerm" value="@Model.SearchTerm" class="form-control" placeholder="Tìm kiếm theo tên hoặc email...">
                 </div>
                 <div class="col-md-2">
-                    <select asp-for="RoleName" class="form-select">
-                        <option value="ALL">-- Tất cả Role --</option>
-                        <option value="Admin">Admin</option>
-                        <option value="Instructor">Instructor</option>
-                        <option value="Student">Student</option>
+                    <select name="RoleFilter" class="form-select">
+                        <option value="">-- Tất cả Role --</option>
+                        <option value="Admin" selected="@(Model.RoleFilter == "Admin")">Admin</option>
+                        <option value="Instructor" selected="@(Model.RoleFilter == "Instructor")">Instructor</option>
+                        <option value="Student" selected="@(Model.RoleFilter == "Student")">Student</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <select asp-for="Status" class="form-select">
-                        <option value="ALL">-- Trạng thái --</option>
-                        <option value="Active">Hoạt động</option>
-                        <option value="Inactive">Bị khóa</option>
+                    <select name="StatusFilter" class="form-select">
+                        <option value="">-- Trạng thái --</option>
+                        <option value="active" selected="@(Model.StatusFilter == "active")">Hoạt động</option>
+                        <option value="inactive" selected="@(Model.StatusFilter == "inactive")">Bị khóa</option>
                     </select>
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-outline-primary w-100">
                         <i class="bi bi-search"></i> Tìm kiếm
                     </button>
+                </div>
+                <div class="col-md-2">
+                    <a asp-page="Index" class="btn btn-outline-secondary w-100">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reset
+                    </a>
                 </div>
             </form>
         </div>
@@ -68,82 +74,99 @@
     <!-- Users Table -->
     <div class="card">
         <div class="card-body p-0">
-            <table class="table table-hover mb-0">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Họ tên</th>
-                        <th>Email</th>
-                        <th>MSSV</th>
-                        <th>Role</th>
-                        <th>Ngày tạo</th>
-                        <th>Trạng thái</th>
-                        <th>Thao tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Users != null && Model.Users.Any())
-                    {
-                        int index = 1;
-                        foreach (var user in Model.Users)
+            @if (Model.Users.Any())
+            {
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Họ tên</th>
+                            <th>Email</th>
+                            <th>Mã SV</th>
+                            <th>Role</th>
+                            <th>Ngày tạo</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int index = 1;
+                        }
+                        @foreach (var user in Model.Users)
                         {
                             <tr>
-                                <td>@index</td>
+                                <td>@(index++)</td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <img src="@(string.IsNullOrEmpty(user.AvatarUrl) ? $"https://ui-avatars.com/api/?name={Uri.EscapeDataString(user.FullName)}&background=random&color=fff" : user.AvatarUrl)" 
-                                             class="rounded-circle me-2" width="36" height="36">
-                                        <span>@user.FullName</span>
+                                        @if (!string.IsNullOrEmpty(user.AvatarUrl))
+                                        {
+                                            <img src="@user.AvatarUrl" class="rounded-circle me-2" width="36" height="36">
+                                        }
+                                        else
+                                        {
+                                            var bgColor = user.RoleName == "Admin" ? "8e44ad" : user.RoleName == "Instructor" ? "3498db" : "27ae60";
+                                            <img src="https://ui-avatars.com/api/?name=@Uri.EscapeDataString(user.FullName)&background=@bgColor&color=fff"
+                                                 class="rounded-circle me-2" width="36" height="36">
+                                        }
+                                        <div>
+                                            <span class="fw-bold">@user.FullName</span>
+                                            @if (!string.IsNullOrEmpty(user.DisplayName))
+                                            {
+                                                <br /><small class="text-muted">@user.DisplayName</small>
+                                            }
+                                        </div>
                                     </div>
                                 </td>
                                 <td>@user.Email</td>
                                 <td>@(user.StudentId ?? "-")</td>
                                 <td>
-                                    @if(user.RoleName == "Admin")
-                                    {
-                                        <span class="badge bg-danger">@user.RoleName</span>
+                                    @{
+                                        var badgeClass = user.RoleName switch
+                                        {
+                                            "Admin" => "bg-danger",
+                                            "Instructor" => "bg-primary",
+                                            "Student" => "bg-success",
+                                            _ => "bg-secondary"
+                                        };
                                     }
-                                    else if(user.RoleName == "Instructor")
+                                    <span class="badge @badgeClass">@user.RoleName</span>
+                                </td>
+                                <td>@user.CreatedAt?.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @if (user.IsActive == true)
                                     {
-                                        <span class="badge bg-primary">@user.RoleName</span>
+                                        <span class="badge bg-success">Hoạt động</span>
                                     }
                                     else
                                     {
-                                        <span class="badge bg-success">@user.RoleName</span>
-                                    }
-                                </td>
-                                <td>@(user.CreatedAt?.ToString("dd/MM/yyyy") ?? "-")</td>
-                                <td>
-                                    @if(user.IsActive == true)
-                                    {
-                                        <span class="badge badge-active text-bg-success">Hoạt động</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge text-bg-secondary">Bị khóa</span>
+                                        <span class="badge bg-secondary">Bị khóa</span>
                                     }
                                 </td>
                                 <td>
-                                    <a href="/Admin/Users/Details/@user.UserId" class="btn btn-sm btn-outline-primary" title="Chi tiết"><i class="bi bi-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-warning" title="Sửa"><i class="bi bi-pencil"></i></a>
-                                    <button class="btn btn-sm btn-outline-danger" title="Khóa"><i class="bi bi-lock"></i></button>
+                                    <a asp-page="Details" asp-route-id="@user.UserId" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a asp-page="Edit" asp-route-id="@user.UserId" class="btn btn-sm btn-outline-warning">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
                                 </td>
                             </tr>
-                            index++;
                         }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="8" class="text-center">Không tìm thấy người dùng nào.</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox display-1 text-muted"></i>
+                    <p class="text-muted mt-3">Không tìm thấy người dùng nào.</p>
+                </div>
+            }
         </div>
         <div class="card-footer">
             <div class="d-flex justify-content-between align-items-center">
-                <span class="text-muted">Hiển thị @Model.Users.Count() người dùng</span>
+                <span class="text-muted">Tổng cộng: @Model.Users.Count() người dùng</span>
             </div>
         </div>
     </div>

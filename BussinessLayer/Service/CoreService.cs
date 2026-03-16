@@ -25,7 +25,7 @@ namespace BussinessLayer.Service
         {
             try
             {
-                var cores = await _unitOfWork.CoreRepo.GetAllAsync();
+                var cores = await _unitOfWork.CoreRepo.GetAllCoresWithDetailsAsync();
                 return _mapper.Map<IEnumerable<GetCoreDTO>>(cores);
             }
             catch (Exception ex)

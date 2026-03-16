@@ -2,59 +2,110 @@
 @model SWP_QA_TOOL.Pages.Admin.Cores.IndexModel
 
 @{
-    ViewData["Title"] = "Quản lý Core (Lớp)";
+    ViewData["Title"] = "Quản lý Lớp học";
 }
 
-<h2>Quản lý Core (Lớp)</h2>
+<div class="container-fluid">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="bi bi-building"></i> Quản lý Lớp học</h4>
+            <div>
+                <a asp-page="AssignInstructor" class="btn btn-light me-2">
+                    <i class="bi bi-person-badge"></i> Phân công giảng viên
+                </a>
+                <a asp-page="Create" class="btn btn-light">
+                    <i class="bi bi-plus-circle"></i> Tạo Lớp mới
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
 
-<p>
-    <a asp-page="Create" class="btn btn-primary">Tạo Core mới</a>
-</p>
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle"></i> @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Mã Lớp</th>
+                            <th>Tên Lớp</th>
+                            <th>Học kỳ</th>
+                            <th>Giảng viên phụ trách</th>
+                            <th>Lịch học</th>
+                            <th>Phòng</th>
+                            <th class="text-center">Số nhóm</th>
+                            <th class="text-center">Trạng thái</th>
+                            <th class="text-center" style="width:180px;">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Cores)
+                        {
+                            <tr>
+                                <td>@item.CoreId</td>
+                                <td><strong>@item.CoreCode</strong></td>
+                                <td>@item.CoreName</td>
+                                <td>@item.SemesterCode</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(item.InstructorName))
+                                    {
+                                        <span class="text-success"><i class="bi bi-person-check"></i> @item.InstructorName</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted"><i class="bi bi-person-dash"></i> Chưa phân công</span>
+                                    }
+                                </td>
+                                <td>@item.Schedule</td>
+                                <td>@item.Room</td>
+                                <td class="text-center">
+                                    <span class="badge bg-info">@item.CurrentTeams / @item.MaxTeams</span>
+                                </td>
+                                <td class="text-center">
+                                    @if (item.IsActive == true)
+                                    {
+                                        <span class="badge bg-success"><i class="bi bi-check-circle"></i> Hoạt động</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary"><i class="bi bi-x-circle"></i> Không hoạt động</span>
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a asp-page="Details" asp-route-id="@item.CoreId" class="btn btn-sm btn-outline-info" title="Chi tiết">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-page="Edit" asp-route-id="@item.CoreId" class="btn btn-sm btn-outline-warning" title="Sửa">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-page="Delete" asp-route-id="@item.CoreId" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
-
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Mã Core</th>
-            <th>Tên Core</th>
-            <th>Học kỳ</th>
-            <th>Giảng viên phụ trách</th>
-            <th>Lịch học</th>
-            <th>Phòng</th>
-            <th>Số nhóm</th>
-            <th>Trạng thái</th>
-            <th style="width:220px;">Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Cores)
-        {
-            <tr>
-                <td>@item.CoreId</td>
-                <td>@item.CoreCode</td>
-                <td>@item.CoreName</td>
-                <td>@item.SemesterCode</td>
-                <td>@item.InstructorName</td>
-                <td>@item.Schedule</td>
-                <td>@item.Room</td>
-                <td>@item.CurrentTeams / @item.MaxTeams</td>
-                <td>@(item.IsActive == true ? "Hoạt động" : "Không hoạt động")</td>
-                <td>
-                    <a asp-page="Details" asp-route-id="@item.CoreId" class="btn btn-sm btn-info">Chi tiết</a>
-                    <a asp-page="Edit" asp-route-id="@item.CoreId" class="btn btn-sm btn-warning">Sửa</a>
-                    <a asp-page="Delete" asp-route-id="@item.CoreId" class="btn btn-sm btn-danger">Xóa</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <div class="text-muted mt-3">
+                <small><i class="bi bi-info-circle"></i> Tổng số: <strong>@Model.Cores.Count()</strong> lớp học</small>
+            </div>
+        </div>
+    </div>
+</div>

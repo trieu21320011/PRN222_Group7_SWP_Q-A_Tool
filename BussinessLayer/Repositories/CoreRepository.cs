@@ -10,6 +10,14 @@ namespace BussinessLayer.Repositories
         {
         }
 
+        public async Task<IEnumerable<Core>> GetAllCoresWithDetailsAsync()
+        {
+            return await _dbContext.Cores
+                .Include(x => x.Instructor)
+                .Include(x => x.Semester)
+                .ToListAsync();
+        }
+
         public async Task<Core?> GetCoreWithDetailsAsync(int coreId)
         {
             return await _dbContext.Cores

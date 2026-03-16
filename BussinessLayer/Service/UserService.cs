@@ -1,5 +1,4 @@
 using AutoMapper;
-using BCrypt.Net;
 using BussinessLayer.IServices;
 using BussinessLayer.ViewModels.UserDTOs;
 using DataLayer.DataLayer;
@@ -26,7 +25,7 @@ namespace BussinessLayer.Service
         {
             try
             {
-                var users = await _unitOfWork.UserRepo.GetUsersWithRoleAsync();
+                var users = await _unitOfWork.UserRepo.GetAllAsync();
                 return _mapper.Map<IEnumerable<GetUserDTO>>(users);
             }
             catch (Exception ex)
@@ -74,10 +73,7 @@ namespace BussinessLayer.Service
             try
             {
                 var user = _mapper.Map<User>(createUserDTO);
-                // Hash password before storing
-                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(createUserDTO.PasswordHash);
                 user.CreatedAt = DateTime.UtcNow;
-                user.UpdatedAt = DateTime.UtcNow;
                 user.IsActive = createUserDTO.IsActive ?? true;
                 user.IsEmailVerified = createUserDTO.IsEmailVerified ?? false;
 
@@ -179,17 +175,6 @@ namespace BussinessLayer.Service
             {
                 var users = await _unitOfWork.UserRepo.GetActiveUsersAsync();
                 return _mapper.Map<IEnumerable<GetUserDTO>>(users);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public async Task<IEnumerable<DataLayer.DataLayer.Role>> GetAllRolesAsync()
-        {
-            try
-            {
-                return await _unitOfWork.RoleRepo.GetAllAsync();
             }
             catch (Exception ex)
             {

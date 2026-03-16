@@ -9,6 +9,7 @@ namespace BussinessLayer.IRepositories
 {
     public interface ICoreRepository : IGenericRepository<Core>
     {
+        Task<IEnumerable<Core>> GetAllCoresWithDetailsAsync();
         Task<Core?> GetCoreWithDetailsAsync(int coreId);
         Task<Core?> GetCoreByCodeAsync(string coreCode, int semesterId);
         Task<IEnumerable<Core>> GetCoresBySemesterAsync(int semesterId);

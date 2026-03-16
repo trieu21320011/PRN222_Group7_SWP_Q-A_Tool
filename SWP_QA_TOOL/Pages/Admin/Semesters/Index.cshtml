@@ -2,50 +2,107 @@
 @model PresentationLayer.Areas.Admin.Pages.Semesters.IndexModel
 
 @{
-    ViewData["Title"] = "Semesters";
+    ViewData["Title"] = "Quản lý Học kỳ";
 }
 
-<h2>Semesters</h2>
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h3><i class="bi bi-calendar3"></i> Quản lý Học kỳ</h3>
+                    <p class="text-muted mb-0">Danh sách tất cả học kỳ trong hệ thống</p>
+                </div>
+                <a asp-page="Create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Tạo học kỳ mới
+                </a>
+            </div>
+        </div>
+    </div>
 
-<p>
-    <a asp-page="Create" class="btn btn-primary">Create New</a>
-</p>
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle"></i> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Code</th>
-            <th>Name</th>
-            <th>StartDate</th>
-            <th>EndDate</th>
-            <th>IsActive</th>
-            <th>IsCurrent</th>
-            <th style="width:220px;">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Semesters)
-        {
-            <tr>
-                <td>@item.SemesterId</td>
-                <td>@item.SemesterCode</td>
-                <td>@item.SemesterName</td>
-                <td>@item.StartDate.ToString("dd/MM/yyyy")</td>
-                <td>@item.EndDate.ToString("dd/MM/yyyy")</td>
-                <td>@(item.IsActive == true ? "Yes" : "No")</td>
-                <td>@(item.IsCurrent == true ? "Yes" : "No")</td>
-                <td>
-                    <a asp-page="Details" asp-route-id="@item.SemesterId" class="btn btn-sm btn-info">Details</a>
-                    <a asp-page="Edit" asp-route-id="@item.SemesterId" class="btn btn-sm btn-warning">Edit</a>
-                    <a asp-page="Delete" asp-route-id="@item.SemesterId" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <!-- Semesters Table -->
+    <div class="card">
+        <div class="card-body p-0">
+            @if (Model.Semesters.Any())
+            {
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Mã học kỳ</th>
+                            <th>Tên học kỳ</th>
+                            <th>Ngày bắt đầu</th>
+                            <th>Ngày kết thúc</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int index = 1;
+                        }
+                        @foreach (var item in Model.Semesters)
+                        {
+                            <tr>
+                                <td>@(index++)</td>
+                                <td><span class="fw-bold">@item.SemesterCode</span></td>
+                                <td>@item.SemesterName</td>
+                                <td>@item.StartDate.ToString("dd/MM/yyyy")</td>
+                                <td>@item.EndDate.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                    @if (item.IsCurrent == true)
+                                    {
+                                        <span class="badge bg-success"><i class="bi bi-check-circle"></i> Học kỳ hiện tại</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Không hoạt động</span>
+                                    }
+                                </td>
+                                <td>
+                                    <a asp-page="Details" asp-route-id="@item.SemesterId" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a asp-page="Edit" asp-route-id="@item.SemesterId" class="btn btn-sm btn-outline-warning">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-page="Delete" asp-route-id="@item.SemesterId" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="bi bi-inbox display-1 text-muted"></i>
+                    <p class="text-muted mt-3">Không có học kỳ nào.</p>
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="text-muted">Tổng cộng: @Model.Semesters.Count học kỳ</span>
+            </div>
+        </div>
+    </div>
+</div>

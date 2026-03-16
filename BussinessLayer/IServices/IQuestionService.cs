@@ -25,9 +25,5 @@ namespace BussinessLayer.IServices
         Task<IEnumerable<GetQuestionDTO>> GetQuestionsByTeamInCoreAsync(int teamId, int coreId);
         Task<IEnumerable<GetQuestionDTO>> GetQuestionsAssignedToInstructorAsync(int instructorId);
         Task<bool> MarkAsResolvedAsync(int questionId, int closedById);
-        Task<QuestionDTO?> UpdateQuestionAsAuthorAsync(int questionId, UpdateQuestionDTO updateQuestionDTO, int userId);
-        Task<QuestionDTO?> MarkAsUnderstoodAsync(int questionId, int userId);
-        Task<bool> CanEditQuestionAsync(int questionId);
-        Task<bool> DeleteQuestionAsAuthorAsync(int questionId, int userId);
     }
 }

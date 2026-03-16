@@ -2,26 +2,26 @@
 @model SWP_QA_TOOL.Pages.Admin.Cores.DetailsModel
 
 @{
-    ViewData["Title"] = "Chi tiết Core";
+    ViewData["Title"] = "Chi tiết Lớp học";
 }
 
-<h2>Chi tiết Core</h2>
+<h2>Chi tiết Lớp học</h2>
 
 <div class="row">
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h5>Thông tin Core</h5>
+                <h5>Thông tin Lớp học</h5>
             </div>
             <div class="card-body">
                 <dl class="row">
                     <dt class="col-sm-4">ID</dt>
                     <dd class="col-sm-8">@Model.Core.CoreId</dd>
 
-                    <dt class="col-sm-4">Mã Core</dt>
+                    <dt class="col-sm-4">Mã Lớp</dt>
                     <dd class="col-sm-8">@Model.Core.CoreCode</dd>
 
-                    <dt class="col-sm-4">Tên Core</dt>
+                    <dt class="col-sm-4">Tên Lớp</dt>
                     <dd class="col-sm-8">@Model.Core.CoreName</dd>
 
                     <dt class="col-sm-4">Học kỳ</dt>
@@ -56,7 +56,7 @@
             </div>
             <div class="card-body text-center">
                 <div class="display-4">@Model.Core.CurrentTeams / @Model.Core.MaxTeams</div>
-                <p class="text-muted">Số nhóm trong Core / Tối đa</p>
+                <p class="text-muted">Số nhóm trong Lớp / Tối đa</p>
                 @if (Model.Core.MaxTeams > 0)
                 {
                     var percentage = (Model.Core.CurrentTeams ?? 0) * 100 / Model.Core.MaxTeams;
@@ -75,7 +75,7 @@
 <!-- Teams in Core -->
 <div class="card mt-4">
     <div class="card-header">
-        <h5>Danh sách Nhóm trong Core</h5>
+        <h5>Danh sách Nhóm trong Lớp</h5>
     </div>
     <div class="card-body">
         @if (Model.Teams.Any())

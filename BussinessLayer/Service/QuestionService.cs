@@ -25,7 +25,7 @@ namespace BussinessLayer.Service
         {
             try
             {
-                var questions = await _unitOfWork.QuestionRepo.GetAllAsync();
+                var questions = await _unitOfWork.QuestionRepo.GetAllQuestionsWithDetailsAsync();
                 return _mapper.Map<IEnumerable<GetQuestionDTO>>(questions);
             }
             catch (Exception ex)

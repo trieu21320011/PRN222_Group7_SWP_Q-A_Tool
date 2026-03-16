@@ -1,7 +1,6 @@
 using BussinessLayer.IRepositories;
 using DataLayer.DataLayer;
 using Microsoft.EntityFrameworkCore;
-using BCrypt.Net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,21 +35,6 @@ namespace BussinessLayer.Repositories
                 var result = await _dbContext.Users
                     .Include(x => x.Role)
                     .FirstOrDefaultAsync(x => x.UserId == userId);
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public async Task<IEnumerable<User>> GetUsersWithRoleAsync()
-        {
-            try
-            {
-                var result = await _dbContext.Users
-                    .Include(x => x.Role)
-                    .ToListAsync();
                 return result;
             }
             catch (Exception ex)
@@ -100,19 +84,8 @@ namespace BussinessLayer.Repositories
                 if (user == null)
                     return null;
 
-                // Verify password: support both BCrypt hashed and legacy plain text
-                bool passwordValid = false;
-                try
-                {
-                    passwordValid = BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
-                }
-                catch
-                {
-                    // Legacy: plain text password in DB (before hashing was implemented)
-                    passwordValid = user.PasswordHash == password;
-                }
-
-                if (passwordValid)
+                // Simple password comparison (no hashing for now)
+                if (user.PasswordHash == password)
                     return user;
 
                 return null;

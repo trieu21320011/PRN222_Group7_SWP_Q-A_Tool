@@ -1,4 +1,4 @@
-using BussinessLayer.IServices;
+﻿using BussinessLayer.IServices;
 using BussinessLayer.ViewModels.UserDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,37 +22,35 @@ namespace SWP_QA_TOOL.Pages.Admin.Users
         public string? SearchTerm { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public string? RoleName { get; set; }
+        public string? RoleFilter { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public string? Status { get; set; }
+        public string? StatusFilter { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            var users = await _userService.GetAllUsersAsync();
+            var allUsers = await _userService.GetAllUsersAsync();
 
             if (!string.IsNullOrEmpty(SearchTerm))
             {
-                SearchTerm = SearchTerm.ToLower();
-                users = users.Where(u => 
-                    (u.FullName != null && u.FullName.ToLower().Contains(SearchTerm)) ||
-                    (u.Email != null && u.Email.ToLower().Contains(SearchTerm)) ||
-                    (u.StudentId != null && u.StudentId.ToLower().Contains(SearchTerm))
-                );
+                allUsers = allUsers.Where(u => 
+                    u.FullName.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                    u.Email.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase));
             }
 
-            if (!string.IsNullOrEmpty(RoleName) && RoleName != "ALL")
+            if (!string.IsNullOrEmpty(RoleFilter))
             {
-                users = users.Where(u => u.RoleName == RoleName);
+                allUsers = allUsers.Where(u => u.RoleName == RoleFilter);
             }
 
-            if (!string.IsNullOrEmpty(Status) && Status != "ALL")
+            if (!string.IsNullOrEmpty(StatusFilter))
             {
-                bool isActive = Status == "Active";
-                users = users.Where(u => u.IsActive == isActive);
+                bool isActive = StatusFilter == "active";
+                allUsers = allUsers.Where(u => u.IsActive == isActive);
             }
 
-            Users = users.OrderByDescending(u => u.CreatedAt).ToList();
+            Users = allUsers.ToList();
+            return Page();
         }
     }
 }
