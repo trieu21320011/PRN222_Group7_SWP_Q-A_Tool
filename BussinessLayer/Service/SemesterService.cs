@@ -25,7 +25,7 @@ namespace BussinessLayer.Service
         {
             try
             {
-                var semesters = await _unitOfWork.SemesterRepo.GetAllAsync();
+                var semesters = await _unitOfWork.SemesterRepo.GetActiveSemestersAsync();
                 return _mapper.Map<IEnumerable<GetSemesterDTO>>(semesters);
             }
             catch (Exception ex)
@@ -126,7 +126,7 @@ namespace BussinessLayer.Service
                 existingSemester.SemesterName = updateSemesterDTO.SemesterName;
                 existingSemester.StartDate = updateSemesterDTO.StartDate;
                 existingSemester.EndDate = updateSemesterDTO.EndDate;
-                existingSemester.IsActive = updateSemesterDTO.IsActive;
+                existingSemester.IsActive = updateSemesterDTO.IsActive ?? existingSemester.IsActive;
                 existingSemester.IsCurrent = updateSemesterDTO.IsCurrent;
                 existingSemester.UpdatedAt = DateTime.UtcNow;
 
@@ -158,7 +158,12 @@ namespace BussinessLayer.Service
                     return false;
                 }
 
-                _unitOfWork.SemesterRepo.Delete(semester);
+                // Soft delete: keep data, mark semester inactive
+                semester.IsActive = false;
+                semester.IsCurrent = false;
+                semester.UpdatedAt = DateTime.UtcNow;
+
+                _unitOfWork.SemesterRepo.Update(semester);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
                 return isSuccess;

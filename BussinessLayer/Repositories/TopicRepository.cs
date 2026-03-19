@@ -31,7 +31,7 @@ namespace BussinessLayer.Repositories
         {
             return await _dbContext.Topics
                 .Include(x => x.Semester)
-                .Where(x => x.SemesterId == semesterId)
+                .Where(x => x.SemesterId == semesterId && x.IsActive == true)
                 .ToListAsync();
         }
 
@@ -47,7 +47,7 @@ namespace BussinessLayer.Repositories
         {
             return await _dbContext.Topics
                 .Include(x => x.Semester)
-                .Where(x => x.Category == category)
+                .Where(x => x.Category == category && x.IsActive == true)
                 .ToListAsync();
         }
 
@@ -58,8 +58,9 @@ namespace BussinessLayer.Repositories
             return await _dbContext.Topics
                 .Include(x => x.Semester)
                 .Include(x => x.Teams)
-                .Where(x => x.Teams.Any(t => t.MentorId == instructorId) ||
-                           x.Teams.Any(t => t.Core != null && t.Core.InstructorId == instructorId))
+                .Where(x => x.IsActive == true &&
+                           (x.Teams.Any(t => t.MentorId == instructorId) ||
+                            x.Teams.Any(t => t.Core != null && t.Core.InstructorId == instructorId)))
                 .Distinct()
                 .ToListAsync();
         }

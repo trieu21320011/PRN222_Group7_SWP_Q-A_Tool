@@ -40,11 +40,7 @@ namespace PresentationLayer.Areas.Admin.Pages.Semesters
         {
             if (!ModelState.IsValid) return Page();
 
-            if (Input.EndDate < Input.StartDate)
-            {
-                ModelState.AddModelError(nameof(Input.EndDate), "EndDate phải >= StartDate.");
-                return Page();
-            }
+            if (!await ValidateDatesAsync()) return Page();
 
             var updated = await _semesterService.UpdateSemesterAsync(Input);
             if (updated == null)
@@ -54,6 +50,26 @@ namespace PresentationLayer.Areas.Admin.Pages.Semesters
             }
 
             return RedirectToPage("./Index");
+        }
+
+        private async Task<bool> ValidateDatesAsync()
+        {
+            if (Input.EndDate <= Input.StartDate)
+            {
+                ModelState.AddModelError(nameof(Input.EndDate), "Ngày kết thúc phải lớn hơn ngày bắt đầu.");
+            }
+
+            var semesters = await _semesterService.GetAllSemestersAsync();
+            var isOverlapped = semesters
+                .Where(s => s.SemesterId != Input.SemesterId)
+                .Any(s => Input.StartDate <= s.EndDate && Input.EndDate >= s.StartDate);
+
+            if (isOverlapped)
+            {
+                ModelState.AddModelError(string.Empty, "Khoảng thời gian học kỳ bị trùng với học kỳ đã tồn tại.");
+            }
+
+            return ModelState.IsValid;
         }
     }
 }

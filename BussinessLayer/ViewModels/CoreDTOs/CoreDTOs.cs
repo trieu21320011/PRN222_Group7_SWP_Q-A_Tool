@@ -53,6 +53,7 @@ namespace BussinessLayer.ViewModels.CoreDTOs
         public string CoreCode { get; set; } = null!;
         public string CoreName { get; set; } = null!;
         public string? SemesterCode { get; set; }
+        public int InstructorId { get; set; }
         public string? InstructorName { get; set; }
         public int? MaxTeams { get; set; }
         public int? CurrentTeams { get; set; }
