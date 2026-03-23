@@ -37,9 +37,13 @@ namespace BussinessLayer.Mappers
             CreateMap<Question, UpdateQuestionDTO>().ReverseMap();
             CreateMap<Question, GetQuestionDTO>()
                 .ForMember(dest => dest.AuthorName, opt => opt.MapFrom(src => src.Author.FullName))
+                .ForMember(dest => dest.TeamId, opt => opt.MapFrom(src => src.TeamId))
                 .ForMember(dest => dest.TeamName, opt => opt.MapFrom(src => src.Team != null ? src.Team.TeamName : null))
+                .ForMember(dest => dest.CoreId, opt => opt.MapFrom(src => src.CoreId))
                 .ForMember(dest => dest.CoreName, opt => opt.MapFrom(src => src.Core != null ? src.Core.CoreName : null))
+                .ForMember(dest => dest.TopicId, opt => opt.MapFrom(src => src.TopicId))
                 .ForMember(dest => dest.TopicName, opt => opt.MapFrom(src => src.Topic != null ? src.Topic.TopicName : null))
+                .ForMember(dest => dest.AssignedInstructorId, opt => opt.MapFrom(src => src.AssignedInstructorId))
                 .ForMember(dest => dest.AssignedInstructorName, opt => opt.MapFrom(src => src.AssignedInstructor != null ? src.AssignedInstructor.FullName : null))
                 .ReverseMap();
 
@@ -56,6 +60,7 @@ namespace BussinessLayer.Mappers
             CreateMap<Team, GetTeamDTO>()
                 .ForMember(dest => dest.LeaderName, opt => opt.MapFrom(src => src.Leader != null ? src.Leader.FullName : null))
                 .ForMember(dest => dest.MentorName, opt => opt.MapFrom(src => src.Mentor != null ? src.Mentor.FullName : null))
+                .ForMember(dest => dest.CoreId, opt => opt.MapFrom(src => src.CoreId))
                 .ForMember(dest => dest.CoreName, opt => opt.MapFrom(src => src.Core != null ? src.Core.CoreName : null))
                 .ForMember(dest => dest.TopicName, opt => opt.MapFrom(src => src.Topic != null ? src.Topic.TopicName : null))
                 .ForMember(dest => dest.SemesterCode, opt => opt.MapFrom(src =>

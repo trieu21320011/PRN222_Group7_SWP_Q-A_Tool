@@ -25,7 +25,7 @@ namespace BussinessLayer.Service
         {
             try
             {
-                var users = await _unitOfWork.UserRepo.GetAllAsync();
+                var users = await _unitOfWork.UserRepo.GetAllUsersWithRolesAsync();
                 return _mapper.Map<IEnumerable<GetUserDTO>>(users);
             }
             catch (Exception ex)

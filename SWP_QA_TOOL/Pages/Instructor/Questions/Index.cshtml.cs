@@ -30,23 +30,28 @@ namespace SWP_QA_TOOL.Pages.Instructor.Questions
         public string? SelectedTeamName { get; set; }
         public string? SelectedStatus { get; set; }
         public string? SearchTerm { get; set; }
+        public int? FilteredTeamId { get; set; }
+        public int? FilteredTopicId { get; set; }
+        public int CurrentUserId { get; set; }
 
         public int OpenCount => Questions.Count(q => q.Status == "Open");
         public int AnsweredCount => Questions.Count(q => q.Status == "Answered");
         public int ResolvedCount => Questions.Count(q => q.Status == "Resolved");
 
-        public async Task OnGetAsync(int? coreId, string? teamName, string? status, string? search)
+        public async Task OnGetAsync(int? coreId, string? teamName, string? status, string? search, int? teamId, int? topicId)
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            int instructorId = int.TryParse(userIdClaim, out var id) ? id : 0;
+            CurrentUserId = int.TryParse(userIdClaim, out var id) ? id : 0;
 
             SelectedCoreId = coreId;
             SelectedTeamName = teamName;
             SelectedStatus = status;
             SearchTerm = search;
+            FilteredTeamId = teamId;
+            FilteredTopicId = topicId;
 
-            // Get instructor's cores
-            Cores = await _coreService.GetCoresByInstructorAsync(instructorId) ?? new List<GetCoreDTO>();
+            // Get instructor's cores for filter dropdown
+            Cores = await _coreService.GetCoresByInstructorAsync(CurrentUserId) ?? new List<GetCoreDTO>();
 
             // Get teams from instructor's cores
             var allTeams = new List<GetTeamDTO>();
@@ -58,22 +63,37 @@ namespace SWP_QA_TOOL.Pages.Instructor.Questions
             }
             Teams = allTeams;
 
-            // Get questions assigned to instructor
-            var allQuestions = await _questionService.GetQuestionsAssignedToInstructorAsync(instructorId);
-            var filteredQuestions = allQuestions ?? new List<GetQuestionDTO>();
+            IEnumerable<GetQuestionDTO> filteredQuestions;
 
-            // Apply filters by team name
-            if (!string.IsNullOrEmpty(teamName))
+            // If coming from team details with a specific teamId, show all questions for that team
+            if (teamId.HasValue)
             {
-                filteredQuestions = filteredQuestions.Where(q => q.TeamName == teamName).ToList();
-            }
-            else if (coreId.HasValue)
-            {
-                var core = Cores.FirstOrDefault(c => c.CoreId == coreId.Value);
-                if (core != null)
+                filteredQuestions = await _questionService.GetQuestionsByTeamAsync(teamId.Value) ?? new List<GetQuestionDTO>();
+
+                // Further filter by topicId if provided
+                if (topicId.HasValue)
                 {
-                    var teamNamesInCore = allTeams.Where(t => t.CoreName == core.CoreName).Select(t => t.TeamName).ToHashSet();
-                    filteredQuestions = filteredQuestions.Where(q => !string.IsNullOrEmpty(q.TeamName) && teamNamesInCore.Contains(q.TeamName)).ToList();
+                    filteredQuestions = filteredQuestions.Where(q => q.TopicId == topicId.Value).ToList();
+                }
+            }
+            else
+            {
+                // Default: questions assigned to this instructor
+                filteredQuestions = await _questionService.GetQuestionsAssignedToInstructorAsync(CurrentUserId) ?? new List<GetQuestionDTO>();
+
+                // Apply filters by team name
+                if (!string.IsNullOrEmpty(teamName))
+                {
+                    filteredQuestions = filteredQuestions.Where(q => q.TeamName == teamName).ToList();
+                }
+                else if (coreId.HasValue)
+                {
+                    var core = Cores.FirstOrDefault(c => c.CoreId == coreId.Value);
+                    if (core != null)
+                    {
+                        var teamNamesInCore = allTeams.Where(t => t.CoreName == core.CoreName).Select(t => t.TeamName).ToHashSet();
+                        filteredQuestions = filteredQuestions.Where(q => !string.IsNullOrEmpty(q.TeamName) && teamNamesInCore.Contains(q.TeamName)).ToList();
+                    }
                 }
             }
 

@@ -12,6 +12,21 @@
         </div>
     </div>
 
+    @if (Model.FilteredTeamId.HasValue)
+    {
+        <div class="alert alert-info d-flex align-items-center mb-3">
+            <i class="bi bi-filter-circle me-2"></i>
+            <span>
+                Đang xem câu hỏi của <strong>nhóm</strong> đã chọn
+                @if (Model.FilteredTopicId.HasValue)
+                {
+                    <span> — lọc theo <strong>đề tài</strong></span>
+                }
+                <a asp-page="Index" class="ms-3 btn btn-sm btn-outline-secondary"><i class="bi bi-x"></i> Bỏ lọc</a>
+            </span>
+        </div>
+    }
+
     <form method="get" class="row mb-3">
         <div class="col-md-3">
             <div class="input-group">
@@ -158,7 +173,7 @@
                                     }
                                 </td>
                                 <td>
-                                    @if (question.Status == "Open")
+                                    @if (question.AssignedInstructorId == Model.CurrentUserId && question.Status == "Open")
                                     {
                                         <a asp-page="Answer" asp-route-id="@question.QuestionId" class="btn btn-sm btn-success">
                                             <i class="bi bi-reply"></i> Trả lời

@@ -33,6 +33,7 @@ namespace SWP_QA_TOOL.Pages.Instructor.Questions
         public IEnumerable<GetQuestionDTO> OtherTeamQuestions { get; set; } = new List<GetQuestionDTO>();
         public IList<GetCommentDTO> QuestionComments { get; set; } = new List<GetCommentDTO>();
         public Dictionary<int, IList<GetCommentDTO>> AnswerComments { get; set; } = new Dictionary<int, IList<GetCommentDTO>>();
+        public bool IsAssignedInstructor { get; set; }
 
         [BindProperty]
         public AnswerInput Input { get; set; } = new();
@@ -54,11 +55,18 @@ namespace SWP_QA_TOOL.Pages.Instructor.Questions
                 return NotFound();
             }
 
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            int currentUserId = int.TryParse(userIdClaim, out var uid) ? uid : 0;
+
             Question = await _questionService.GetQuestionByIdAsync(id.Value);
             if (Question == null)
             {
                 return NotFound();
             }
+
+            // Determine if current user is the assigned instructor for this question
+            IsAssignedInstructor = Question.AssignedInstructorId.HasValue &&
+                                   Question.AssignedInstructorId.Value == currentUserId;
 
             // Get team info by name if available
             if (!string.IsNullOrEmpty(Question.TeamName))
@@ -87,15 +95,25 @@ namespace SWP_QA_TOOL.Pages.Instructor.Questions
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            int userId = int.TryParse(userIdClaim, out var uid) ? uid : 0;
+
+            // Check if user is the assigned instructor for this question
+            var question = await _questionService.GetQuestionByIdAsync(id);
+            if (question == null) return NotFound();
+
+            if (question.AssignedInstructorId.HasValue && question.AssignedInstructorId.Value != userId)
+            {
+                TempData["ErrorMessage"] = "Bạn không có quyền trả lời câu hỏi này.";
+                return RedirectToPage("Answer", new { id = id });
+            }
+
             if (!ModelState.IsValid)
             {
                 // Reload data
                 await OnGetAsync(id);
                 return Page();
             }
-
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            int userId = int.TryParse(userIdClaim, out var uid) ? uid : 0;
 
             // Create answer
             var createAnswer = new CreateAnswerDTO

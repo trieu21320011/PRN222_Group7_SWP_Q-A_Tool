@@ -15,6 +15,21 @@ namespace BussinessLayer.Repositories
         {
         }
 
+        public async Task<IEnumerable<User>> GetAllUsersWithRolesAsync()
+        {
+            try
+            {
+                var result = await _dbContext.Users
+                    .Include(x => x.Role)
+                    .ToListAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<User?> GetUserByEmailAsync(string email)
         {
             try

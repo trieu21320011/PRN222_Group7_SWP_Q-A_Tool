@@ -80,9 +80,13 @@ namespace BussinessLayer.ViewModels.QuestionDTOs
         public string Body { get; set; } = null!;
         public string? Excerpt { get; set; }
         public string? AuthorName { get; set; }
+        public int? TeamId { get; set; }
         public string? TeamName { get; set; }
+        public int? CoreId { get; set; }
         public string? CoreName { get; set; }
+        public int? TopicId { get; set; }
         public string? TopicName { get; set; }
+        public int? AssignedInstructorId { get; set; }
         public string? AssignedInstructorName { get; set; }
         public string? Status { get; set; }
         public string? Category { get; set; }

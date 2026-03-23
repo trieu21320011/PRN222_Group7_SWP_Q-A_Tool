@@ -108,6 +108,8 @@ namespace BussinessLayer.Repositories
             return await _dbContext.Teams
                 .Include(x => x.Leader)
                 .Include(x => x.Mentor)
+                .Include(x => x.Core)
+                .Include(x => x.Topic)
                 .Include(x => x.TeamMembers)
                     .ThenInclude(tm => tm.User)
                         .ThenInclude(u => u.Role)
