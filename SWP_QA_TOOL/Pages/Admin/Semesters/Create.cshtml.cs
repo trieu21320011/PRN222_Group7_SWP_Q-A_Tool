@@ -22,20 +22,27 @@ namespace PresentationLayer.Areas.Admin.Pages.Semesters
             IsCurrent = false
         };
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            // just render page
+            var today = DateOnly.FromDateTime(DateTime.Today);
+            var startDate = today;
+
+            var semesters = await _semesterService.GetAllSemestersAsync();
+            var latestSemesterEndDate = semesters.OrderByDescending(s => s.EndDate).FirstOrDefault()?.EndDate;
+            if (latestSemesterEndDate.HasValue && latestSemesterEndDate.Value >= today)
+            {
+                startDate = latestSemesterEndDate.Value.AddDays(1);
+            }
+
+            Input.StartDate = startDate;
+            Input.EndDate = startDate.AddMonths(4);
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid) return Page();
 
-            if (Input.EndDate < Input.StartDate)
-            {
-                ModelState.AddModelError(nameof(Input.EndDate), "EndDate phải >= StartDate.");
-                return Page();
-            }
+            if (!await ValidateDatesAsync()) return Page();
 
             var created = await _semesterService.CreateSemesterAsync(Input);
             if (created == null || created.SemesterId <= 0)
@@ -45,6 +52,30 @@ namespace PresentationLayer.Areas.Admin.Pages.Semesters
             }
 
             return RedirectToPage("./Index");
+        }
+
+        private async Task<bool> ValidateDatesAsync()
+        {
+            var today = DateOnly.FromDateTime(DateTime.Today);
+
+            if (Input.StartDate < today)
+            {
+                ModelState.AddModelError(nameof(Input.StartDate), "Ngày bắt đầu của học kỳ mới phải từ hôm nay trở đi.");
+            }
+
+            if (Input.EndDate <= Input.StartDate)
+            {
+                ModelState.AddModelError(nameof(Input.EndDate), "Ngày kết thúc phải lớn hơn ngày bắt đầu.");
+            }
+
+            var semesters = await _semesterService.GetAllSemestersAsync();
+            var isOverlapped = semesters.Any(s => Input.StartDate <= s.EndDate && Input.EndDate >= s.StartDate);
+            if (isOverlapped)
+            {
+                ModelState.AddModelError(string.Empty, "Khoảng thời gian học kỳ bị trùng với học kỳ đã tồn tại.");
+            }
+
+            return ModelState.IsValid;
         }
     }
 }

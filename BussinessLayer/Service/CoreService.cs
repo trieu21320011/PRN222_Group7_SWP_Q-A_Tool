@@ -25,7 +25,7 @@ namespace BussinessLayer.Service
         {
             try
             {
-                var cores = await _unitOfWork.CoreRepo.GetAllCoresWithDetailsAsync();
+                var cores = await _unitOfWork.CoreRepo.GetActiveCoresAsync();
                 return _mapper.Map<IEnumerable<GetCoreDTO>>(cores);
             }
             catch (Exception ex)
@@ -111,7 +111,7 @@ namespace BussinessLayer.Service
                 existingCore.MaxTeams = updateCoreDTO.MaxTeams;
                 existingCore.Schedule = updateCoreDTO.Schedule;
                 existingCore.Room = updateCoreDTO.Room;
-                existingCore.IsActive = updateCoreDTO.IsActive;
+                existingCore.IsActive = updateCoreDTO.IsActive ?? existingCore.IsActive;
                 existingCore.UpdatedAt = DateTime.UtcNow;
 
                 _unitOfWork.CoreRepo.Update(existingCore);
@@ -142,7 +142,10 @@ namespace BussinessLayer.Service
                     return false;
                 }
 
-                _unitOfWork.CoreRepo.Delete(core);
+                core.IsActive = false;
+                core.UpdatedAt = DateTime.UtcNow;
+
+                _unitOfWork.CoreRepo.Update(core);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
                 return isSuccess;

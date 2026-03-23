@@ -25,7 +25,7 @@ namespace BussinessLayer.Service
         {
             try
             {
-                var topics = await _unitOfWork.TopicRepo.GetAllAsync();
+                var topics = await _unitOfWork.TopicRepo.GetActiveTopicsAsync();
                 return _mapper.Map<IEnumerable<GetTopicDTO>>(topics);
             }
             catch (Exception ex)
@@ -111,7 +111,7 @@ namespace BussinessLayer.Service
                 existingTopic.Category = updateTopicDTO.Category;
                 existingTopic.Difficulty = updateTopicDTO.Difficulty;
                 existingTopic.MaxTeams = updateTopicDTO.MaxTeams;
-                existingTopic.IsActive = updateTopicDTO.IsActive;
+                existingTopic.IsActive = updateTopicDTO.IsActive ?? existingTopic.IsActive;
                 existingTopic.UpdatedAt = DateTime.UtcNow;
 
                 _unitOfWork.TopicRepo.Update(existingTopic);
@@ -142,7 +142,10 @@ namespace BussinessLayer.Service
                     return false;
                 }
 
-                _unitOfWork.TopicRepo.Delete(topic);
+                topic.IsActive = false;
+                topic.UpdatedAt = DateTime.UtcNow;
+
+                _unitOfWork.TopicRepo.Update(topic);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
                 return isSuccess;

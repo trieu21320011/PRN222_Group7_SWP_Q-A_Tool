@@ -1,0 +1,251 @@
+@page
+@model SWP_QA_TOOL.Pages.Admin.Users.ImportModel
+@{
+    ViewData["Title"] = "Import người dùng";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-page="/Admin/Index">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a asp-page="Index">Người dùng</a></li>
+                    <li class="breadcrumb-item active">Import từ Excel</li>
+                </ol>
+            </nav>
+            <h3><i class="bi bi-file-earmark-excel"></i> Import người dùng từ Excel</h3>
+        </div>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Step 1: Download Template -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-info text-white">
+                    <i class="bi bi-1-circle"></i> Bước 1: Tải file mẫu
+                </div>
+                <div class="card-body">
+                    <p>Tải file Excel mẫu để biết định dạng dữ liệu cần import.</p>
+                    <a asp-page-handler="DownloadTemplate" class="btn btn-success">
+                        <i class="bi bi-download"></i> Tải file mẫu (.xlsx)
+                    </a>
+                </div>
+            </div>
+
+            <!-- Step 2: Upload File -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <i class="bi bi-2-circle"></i> Bước 2: Upload file Excel
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-page-handler="Upload" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Chọn file Excel</label>
+                            <input type="file" asp-for="ExcelFile" class="form-control" accept=".xlsx,.xls" />
+                            <span asp-validation-for="ExcelFile" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-upload"></i> Upload và kiểm tra
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Step 3: Preview & Validate -->
+            @if (Model.ShowPreview)
+            {
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-warning">
+                        <i class="bi bi-3-circle"></i> Bước 3: Xem trước và xác nhận
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="alert alert-info mb-0">
+                                    <strong>Tổng số:</strong> @Model.ImportedUsers.Count người dùng
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="alert alert-success mb-0">
+                                    <strong>Hợp lệ:</strong> @Model.ValidCount người dùng
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="alert alert-danger mb-0">
+                                    <strong>Lỗi:</strong> @Model.InvalidCount người dùng
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                            <table class="table table-bordered table-hover table-sm">
+                                <thead class="table-dark sticky-top">
+                                    <tr>
+                                        <th>Dòng</th>
+                                        <th>Trạng thái</th>
+                                        <th>Email</th>
+                                        <th>Mật khẩu</th>
+                                        <th>Họ tên</th>
+                                        <th>Tên hiển thị</th>
+                                        <th>Mã SV</th>
+                                        <th>Vai trò</th>
+                                        <th>Kích hoạt</th>
+                                        <th>Lỗi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var user in Model.ImportedUsers)
+                                    {
+                                        <tr class="@(user.IsValid ? "" : "table-danger")">
+                                            <td>@user.RowNumber</td>
+                                            <td class="text-center">
+                                                @if (user.IsValid)
+                                                {
+                                                    <span class="badge bg-success"><i class="bi bi-check-circle"></i> OK</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Lỗi</span>
+                                                }
+                                            </td>
+                                            <td>@user.Email</td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(user.Password))
+                                                {
+                                                    <span class="text-muted">••••••</span>
+                                                }
+                                            </td>
+                                            <td>@user.FullName</td>
+                                            <td>@user.DisplayName</td>
+                                            <td>@user.StudentId</td>
+                                            <td>@user.RoleName</td>
+                                            <td class="text-center">
+                                                @if (user.IsActive)
+                                                {
+                                                    <i class="bi bi-check-circle text-success"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="bi bi-x-circle text-danger"></i>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (user.Errors.Any())
+                                                {
+                                                    <ul class="mb-0 text-danger small">
+                                                        @foreach (var error in user.Errors)
+                                                        {
+                                                            <li>@error</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        @if (Model.ValidCount > 0)
+                        {
+                            <form method="post" asp-page-handler="Save" class="mt-3">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" asp-for="ImportDataJson" />
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle"></i>
+                                    <strong>Lưu ý:</strong> Chỉ những người dùng hợp lệ (@Model.ValidCount) sẽ được import.
+                                    Những người dùng có lỗi (@Model.InvalidCount) sẽ bị bỏ qua.
+                                </div>
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="bi bi-save"></i> Import @Model.ValidCount người dùng hợp lệ
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <div class="alert alert-danger mt-3">
+                                <i class="bi bi-x-circle"></i>
+                                <strong>Không thể import:</strong> Tất cả các dòng đều có lỗi. Vui lòng sửa lỗi trong file Excel và upload lại.
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="bi bi-lightbulb"></i> Hướng dẫn
+                </div>
+                <div class="card-body">
+                    <ol class="mb-0">
+                        <li class="mb-2">
+                            <strong>Tải file mẫu</strong>: Click nút "Tải file mẫu" để download file Excel mẫu.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Điền dữ liệu</strong>: Mở file mẫu và điền thông tin người dùng theo format.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Upload file</strong>: Chọn file đã điền và click "Upload và kiểm tra".
+                        </li>
+                        <li class="mb-2">
+                            <strong>Kiểm tra lỗi</strong>: Xem bảng preview, sửa lỗi nếu cần.
+                        </li>
+                        <li class="mb-2">
+                            <strong>Import</strong>: Click "Import" để lưu các người dùng hợp lệ.
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="bi bi-info-circle"></i> Các vai trò hợp lệ
+                </div>
+                <div class="card-body">
+                    <p class="text-muted small">Sử dụng đúng tên vai trò trong cột RoleName:</p>
+                    <ul class="mb-0">
+                        @foreach (var role in Model.RoleMap)
+                        {
+                            <li><code>@role.Value</code></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <a asp-page="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Quay lại danh sách
+            </a>
+            <a asp-page="Create" class="btn btn-outline-primary">
+                <i class="bi bi-person-plus"></i> Thêm người dùng thủ công
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
