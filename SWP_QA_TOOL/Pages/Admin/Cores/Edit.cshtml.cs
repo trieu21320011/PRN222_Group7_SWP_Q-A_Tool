@@ -32,14 +32,14 @@ namespace SWP_QA_TOOL.Pages.Admin.Cores
                 CoreId = core.CoreId,
                 CoreCode = core.CoreCode,
                 CoreName = core.CoreName,
-                InstructorId = core.InstructorId,
+                InstructorId = 0, // Will need to be set from the actual data
                 MaxTeams = core.MaxTeams,
                 Schedule = core.Schedule,
                 Room = core.Room,
                 IsActive = core.IsActive
             };
 
-            await LoadInstructorsAsync(Input.InstructorId);
+            await LoadInstructorsAsync();
             return Page();
         }
 
@@ -47,7 +47,7 @@ namespace SWP_QA_TOOL.Pages.Admin.Cores
         {
             if (!ModelState.IsValid)
             {
-                await LoadInstructorsAsync(Input.InstructorId);
+                await LoadInstructorsAsync();
                 return Page();
             }
 
@@ -55,7 +55,7 @@ namespace SWP_QA_TOOL.Pages.Admin.Cores
             if (updated == null)
             {
                 ModelState.AddModelError(string.Empty, "Cập nhật thất bại.");
-                await LoadInstructorsAsync(Input.InstructorId);
+                await LoadInstructorsAsync();
                 return Page();
             }
 
@@ -63,11 +63,11 @@ namespace SWP_QA_TOOL.Pages.Admin.Cores
             return RedirectToPage("./Index");
         }
 
-        private async Task LoadInstructorsAsync(int? selectedInstructorId = null)
+        private async Task LoadInstructorsAsync()
         {
             // Assuming RoleId = 2 is for Instructor/Lecturer
             var instructors = await _userService.GetUsersByRoleAsync(2);
-            InstructorList = new SelectList(instructors, "UserId", "FullName", selectedInstructorId);
+            InstructorList = new SelectList(instructors, "UserId", "FullName");
         }
     }
 }
