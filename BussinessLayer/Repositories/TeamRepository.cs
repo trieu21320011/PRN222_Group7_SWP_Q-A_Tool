@@ -147,7 +147,9 @@ namespace BussinessLayer.Repositories
                 .Include(x => x.Leader)
                 .Include(x => x.Mentor)
                 .Include(x => x.Core)
+                    .ThenInclude(c => c.Semester)
                 .Include(x => x.Topic)
+                .Include(x => x.SemesterNavigation)
                 .Where(x => x.TeamMembers.Any(tm => tm.UserId == userId) || x.LeaderId == userId)
                 .ToListAsync();
         }

@@ -76,6 +76,16 @@ namespace BussinessLayer.Service
                 team.CreatedAt = DateTime.UtcNow;
                 team.IsActive = createTeamDTO.IsActive ?? true;
 
+                // Auto-populate SemesterId from Core if not explicitly set
+                if (team.SemesterId == null && team.CoreId != null)
+                {
+                    var core = await _unitOfWork.CoreRepo.GetByIdAsync(team.CoreId.Value);
+                    if (core != null)
+                    {
+                        team.SemesterId = core.SemesterId;
+                    }
+                }
+
                 await _unitOfWork.TeamRepo.AddAsync(team);
                 var isSuccess = await _unitOfWork.SaveChangeAsync() > 0;
 
